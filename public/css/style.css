@@ -1,0 +1,45 @@
+body{
+    margin: 0;
+    padding: 0;
+}
+
+:root{
+    --banner : #555;
+    --text:#fff;
+    --delicious:#000;
+    --active:rgb(45, 229, 85);
+    --mode:#666;
+    --hover-mode:#777;
+}
+
+.banner{
+    background: var(--banner);
+    color:#fff;
+}
+
+.delicious{
+    background: var(--delicious);
+    color: var(--text);
+}
+
+.footer{
+    background: var(--banner);
+    color: #fff;
+}
+
+.active{
+    color: var(--active);
+    border-bottom: 1px solid var(--active);
+}
+
+.mode{
+    background: var(--mode);
+}
+
+.modeLists{
+    background: var(--mode);
+}
+
+.modeLists li:hover{
+    background-color: var(--hover-mode);
+}
