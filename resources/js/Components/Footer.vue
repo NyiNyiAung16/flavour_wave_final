@@ -2,7 +2,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 w-full px-8 sm:px-16 md:px-20 gap-8 py-3">
         <div>
             <div class="flex items-center mb-1">
-                <img src="/logo/logo1.png" alt="footerimg" width="60">
+                <img src="/logo/png/logo1.png" alt="logo" width="70" class="mb-2">
                 <h3 class="text-3xl font-bold">Flavorwave</h3>
             </div>
             <p>Savor Exquisite Flavors! Indulge in Culinary Delights and Refreshing Beverages.</p>

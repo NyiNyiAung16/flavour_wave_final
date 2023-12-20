@@ -15,6 +15,7 @@ use App\Http\Controllers\IngredientsController;
 use App\Http\Controllers\LogisticsController;
 use App\Http\Controllers\ReceipesController;
 use App\Http\Controllers\WarehouseController;
+use App\Models\Product;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,15 +28,16 @@ use App\Http\Controllers\WarehouseController;
 |
 */
 
+// Welcome page
 Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
+        'popularProducts' => Product::latest()->take(4)->get()
     ]);
 });
 
+//dashboard page
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -48,6 +50,13 @@ Route::middleware('auth')->group(function () {
 
 require __DIR__.'/auth.php';
 
+//about page
+Route::get('/about',function(){
+    return Inertia::render('About',[
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register')
+    ]);
+});
 
 // customer
 Route::get('customers', [UserController::class, 'show']);
@@ -62,7 +71,13 @@ Route::post('preorders/{preorder:order_id}/update', [PreorderController::class, 
 Route::get('preorders', [PreorderController::class, 'getPreordersCountFor12Months']);
 
 // product
-Route::get('/products', [ProductController::class, 'all']);
+Route::get('/products',function(){
+    return Inertia::render('Products',[
+        'canLogin' => Route::has('login'),
+        'canRegister' => Route::has('register'),
+        'products' => Product::latest()->get()
+    ]);
+});
 Route::post('/product/create', [ProductController::class, 'create']);
 
 //driver

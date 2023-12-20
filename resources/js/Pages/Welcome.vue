@@ -12,6 +12,9 @@ defineProps({
     },
     canRegister: {
         type: Boolean,
+    },
+    popularProducts:{
+        type:Array
     }
 });
 </script>
@@ -24,7 +27,7 @@ defineProps({
     </div>
     <div class="delicious py-7">
        <DeliciousSection/>
-       <PopularProducts/>
+       <PopularProducts :products="popularProducts"/>
     </div>
     <div class="footer">
         <Footer/>

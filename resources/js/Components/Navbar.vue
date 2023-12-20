@@ -1,8 +1,10 @@
 <template>
-    <div class="flex justify-between items-center px-10 py-4 container">
+    <div class="flex justify-between items-center px-10 py-3 container">
         <div class="flex items-center">
-            <img src="/logo/logo2.png" alt="logo" width="75">
-            <h3 class="text-2xl font-semibold"> Flavorwave</h3>
+            <img src="/logo/png/logo2.png" alt="logo" width="70" class="mb-2">
+            <Link href="/" class="text-3xl  font-bold">
+                <span class="text-orange-500">Flavor</span><span class="text-green-400">wave</span>
+            </Link>
         </div>
         <div class="flex gap-4 items-center text-white">
             <Link href="/" class="font-semibold hover:text-slate-200" :class="{active:$page.url == '/'}">Home</Link>
@@ -72,7 +74,7 @@ const light = () => {
     icon.value.classList.remove('fa-moon');
     icon.value.classList.add('fa-sun');
     document.documentElement.style.setProperty('--banner','#e7b318');
-    document.documentElement.style.setProperty('--delicious','white');
+    document.documentElement.style.setProperty('--delicious','#f4f4f4');
     document.documentElement.style.setProperty('--text','#000');
     document.documentElement.style.setProperty('--active','yellow');
     document.documentElement.style.setProperty('--mode','#df9f20');
@@ -82,7 +84,7 @@ const light = () => {
 const dark = () => {
     icon.value.classList.remove('fa-sun');
     icon.value.classList.add('fa-moon');
-    document.documentElement.style.setProperty('--banner','#666');
+    document.documentElement.style.setProperty('--banner','#555');
     document.documentElement.style.setProperty('--delicious','#000');
     document.documentElement.style.setProperty('--text','#fff');
     document.documentElement.style.setProperty('--active','rgb(45, 229, 85)');
