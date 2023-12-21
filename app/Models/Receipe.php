@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Receipe extends Model
 {
     use HasFactory;
+    protected $with = ['ingredient'];
 
     public function ingredient(){
         return $this->belongsTo(Ingredient::class);

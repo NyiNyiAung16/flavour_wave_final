@@ -5,7 +5,6 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use App\Http\Controllers\Api\PreorderController;
-use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\CustomerController;
 use App\Http\Controllers\Api\PreorderCountController;
 use App\Http\Controllers\Api\UserController;
@@ -13,6 +12,7 @@ use App\Http\Controllers\DriverController;
 use App\Http\Controllers\FactoryController;
 use App\Http\Controllers\IngredientsController;
 use App\Http\Controllers\LogisticsController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReceipesController;
 use App\Http\Controllers\WarehouseController;
 use App\Models\Product;
@@ -71,13 +71,8 @@ Route::post('preorders/{preorder:order_id}/update', [PreorderController::class, 
 Route::get('preorders', [PreorderController::class, 'getPreordersCountFor12Months']);
 
 // product
-Route::get('/products',function(){
-    return Inertia::render('Products',[
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'products' => Product::latest()->get()
-    ]);
-});
+Route::get('/products',[ProductController::class,'all']);
+Route::get('/products/{product}/detail',[ProductController::class,'show'])->name('products.show');
 Route::post('/product/create', [ProductController::class, 'create']);
 
 //driver

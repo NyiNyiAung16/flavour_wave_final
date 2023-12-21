@@ -12,8 +12,8 @@
                     <p>{{ product.description.substring(0,100) + '...' }}</p>
                 </div>
                 <div class="flex justify-between w-full">
-                    <button class="text-white px-3 py-2 font-semibold bg-green-600 hover:bg-green-700 duration-150 rounded"><i class="fa-solid fa-cart-shopping"></i>Add to Cart</button>
-                    <button class="text-black px-3 py-2 font-semibold bg-slate-50 hover:bg-slate-200 duration-150 rounded"><i class="fa-solid fa-circle-info"></i>View Detail</button>
+                    <button class="text-white px-3 py-2 font-semibold bg-green-600 hover:bg-green-700 duration-150 rounded" @click="addCart($event,product)" :class="{'bg-green-900 hover:bg-green-900': enableDisabled(product.id)}" :disabled="enableDisabled(product.id)"><i class="fa-solid fa-cart-shopping"></i>Add to Cart</button>
+                    <Link :href="route('products.show',product.id)" class="text-black px-3 py-2 font-semibold bg-slate-50 hover:bg-slate-200 duration-150 rounded"><i class="fa-solid fa-circle-info"></i>View Detail</Link>
                 </div>
             </div>
         </div>
@@ -21,12 +21,40 @@
 </template>
 
 <script setup>
+import { ref } from 'vue';
+import { onMounted } from 'vue';
+import addToCarts from '../composable/addToCarts'
+import { Link } from '@inertiajs/vue3';
 
 defineProps({
     products:{
         type:Array
     }
-})
+});
+
+let cartProducts = ref([]);
+
+onMounted(()=>{
+    cartProducts.value = JSON.parse(localStorage.getItem('addToCarts'));
+});
+
+const enableDisabled = (id) => {
+    if(cartProducts.value){
+        if(cartProducts.value.find((p)=> p.id === id)){
+            return true;
+        }
+    }else{
+        return false;
+    }
+}
+
+let addCart = (e,product) => {
+    e.target.classList.remove('bg-green-600');
+    e.target.classList.remove('hover:bg-green-700');
+    e.target.classList.add('bg-green-800');
+    e.target.setAttribute('disabled',true);
+    addToCarts(product);
+}
 
 </script>
 

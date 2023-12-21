@@ -22,7 +22,9 @@ defineProps({
 <template>
     <Head title="Welcome" />
     <div class="min-h-[80vh] min-w-full h-full banner">
-        <Navbar :canLogin="canLogin" :can-register="canRegister"/>
+        <div class="sticky top-0 w-full navbar">
+            <Navbar :canLogin="canLogin" :can-register="canRegister"/>
+        </div>
         <Banner/>
     </div>
     <div class="delicious py-7">

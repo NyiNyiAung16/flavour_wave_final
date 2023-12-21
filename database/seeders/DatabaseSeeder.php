@@ -24,13 +24,13 @@ class DatabaseSeeder extends Seeder
                 ->hasPreOrders(3)
                 ->create();
         Logistic::factory(5)->create();
-        Receipe::factory(5)->create();
         $this->call([
             ProductSeeder::class,
             IngredientSeeder::class,
             DriverSeeder::class,
             FactorySeeder::class,
-            WarehouseSeeder::class
+            WarehouseSeeder::class,
+            ReceipeSeeder::class
         ]);
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers;
 
 
 use App\Http\Requests\ProductsRequest;
@@ -8,9 +8,30 @@ use App\Models\Product;
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Receipe;
+use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 class ProductController extends Controller
 {
+
+    public function all(){
+        return Inertia::render('Products/All',[
+            'canLogin' => Route::has('login'),
+            'canRegister' => Route::has('register'),
+            'products' => Product::latest()->get()
+        ]);
+    }
+
+    public function show(Product $product){
+        return Inertia::render('Products/Show',[
+            'product' => $product,
+            'receipes'=> $product->receipes,
+            'products'=>Product::inRandomOrder()->limit(4)->get(),
+            'canLogin' => Route::has('login'),
+            'canRegister' => Route::has('register')
+        ]);
+    }
 
     public function create(ProductsRequest $request){
         $cleanData = $request->validated();
@@ -18,12 +39,6 @@ class ProductController extends Controller
         return response()->json([
             'message'=>'Create Product is successful.'
         ]);
-    }
-
-    // import all products to frontend
-    public function all(){
-       return Product::latest()->get();
-       
     }
 
     // import 4 random products to frontend

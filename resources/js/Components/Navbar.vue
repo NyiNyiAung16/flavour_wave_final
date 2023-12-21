@@ -1,7 +1,7 @@
 <template>
-    <div class="flex justify-between items-center px-10 py-3 container">
+    <div class="flex justify-between items-center px-10 py-2 container">
         <div class="flex items-center">
-            <img src="/logo/png/logo2.png" alt="logo" width="70" class="mb-2">
+            <img src="/logo/png/logo1.png" alt="logo" width="60" class="mb-2">
             <Link href="/" class="text-3xl  font-bold">
                 <span class="text-orange-500">Flavor</span><span class="text-green-400">wave</span>
             </Link>
@@ -33,8 +33,8 @@
                     >
                 </template>
             </div>
+            <ShoppingCart/>
             <button class="relative px-3 py-2 rounded-xl mode" ref="mode">
-                <!-- <i class="fa-regular fa-sun"></i> -->
                 <i class="fa-regular fa-moon" ref="icon"></i>
                 <ul class="hidden absolute text-start w-[120px] rounded right-0 mt-3 space-y-1 modeLists" ref="lists">
                     <li class="duration-150 rounded px-2 py-1" @click="light">Light</li>
@@ -50,6 +50,7 @@
 import { Link } from '@inertiajs/vue3';
 import { onMounted } from 'vue';
 import { ref } from 'vue';
+import ShoppingCart from './ShoppingCart.vue';
 
 defineProps({
     canLogin: {

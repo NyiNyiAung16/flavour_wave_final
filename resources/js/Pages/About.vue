@@ -1,11 +1,7 @@
 <template>
     <Head title="About" />
-    <div class="delicious">
-        <div class="min-h-[80vh] min-w-full h-full banner">
-            <Navbar :canLogin="canLogin" :can-register="canRegister"/>
-            <Banner/>
-        </div>
-        <div class=" py-5 max-w-5xl mx-auto">
+    <DefaultLayout>
+        <div class="max-w-5xl mx-auto">
             <h3 class="text-3xl text-center font-bold underline mb-6">About Our Company</h3>
             <div>
                 <h4 class="font-semibold text-2xl">Our Mission</h4>
@@ -15,7 +11,7 @@
                 <h4 class="font-semibold text-2xl">Our Goal</h4>
                 <p>"Elevate Taste Sensations: Craft unique flavor profiles that tantalize taste buds, making each FlavorWave experience a culinary journey of delight.Sustainable Sips: Develop a line of eco-friendly beverages, using locally sourced ingredients and innovative packaging to minimize environmental impact.Culinary Fusion: Blend diverse culinary traditions to create mouthwatering combinations, offering customers a fusion of global flavors in every bite."</p>
             </div>
-            <div class="flex justify-center mt-5">
+            <div class="flex items-center justify-center mt-5">
                 <p>2,300k reviews by our customers.</p>
                 <i class="fa-solid fa-star icon"></i>
                 <i class="fa-solid fa-star icon"></i>
@@ -34,12 +30,11 @@
                 </div>
             </div>
         </div>
-    </div>
+    </DefaultLayout>
 </template>
 
 <script setup>
-import Banner from '@/Components/Banner.vue';
-import Navbar from '@/Components/Navbar.vue';
+import DefaultLayout from '@/Layouts/DefaultLayout.vue';
 import { Head } from '@inertiajs/vue3';
 
 defineProps({
