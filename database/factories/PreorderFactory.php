@@ -24,7 +24,8 @@ class PreorderFactory extends Factory
     {
         return [
             'user_id' => User::factory(),
-            'location' => fake()->sentence(),
+            'latitude'=>0,
+            'longitude'=>0,
             'delivered_quantity' => 20,
             'order_quantity' => $this->faker->randomNumber(2, true)
         ];

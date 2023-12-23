@@ -1,6 +1,6 @@
 <template>
     <Head title="About" />
-    <DefaultLayout>
+    <DefaultLayout :canLogin="canLogin" :can-register="canRegister">
         <div class="max-w-5xl mx-auto">
             <h3 class="text-3xl text-center font-bold underline mb-6">About Our Company</h3>
             <div>

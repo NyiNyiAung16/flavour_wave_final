@@ -49,11 +49,7 @@ const enableDisabled = (id) => {
 }
 
 let addCart = (e,product) => {
-    e.target.classList.remove('bg-green-600');
-    e.target.classList.remove('hover:bg-green-700');
-    e.target.classList.add('bg-green-800');
-    e.target.setAttribute('disabled',true);
-    addToCarts(product);
+    addToCarts(e,product);
 }
 
 </script>

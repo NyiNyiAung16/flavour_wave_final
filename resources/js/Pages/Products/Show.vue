@@ -5,6 +5,7 @@ import SimilarProducts from '@/Components/SimilarProducts.vue';
 import { ref, onMounted } from 'vue';
 import { Head } from '@inertiajs/vue3';
 import addToCarts from './../../composable/addToCarts'
+import NoBannerLayout from '@/Layouts/NoBannerLayout.vue';
 
 defineProps({
     product:{
@@ -57,27 +58,22 @@ let addCart = (e,product) => {
 
 <template>
     <Head title="Detail" />
-    <div class="bg-black">
-        <div class="max-h-[200px]">
-            <div style="background-color: #444;" class="sticky top-0 w-full">
-                <Navbar :canLogin="canLogin" :can-register="canRegister"/>
-            </div>
-            <div class="w-full px-10 h-[100px] text-white flex items-center detailNav">
-                <p class="text-2xl font-semibold">Product Detail / {{ product.name }}</p>
-            </div>
+    <NoBannerLayout :canLogin="canLogin" :can-register="canRegister">
+        <div class="w-full px-10 h-[100px] text-white flex items-center detailNav">
+            <p class="text-2xl font-semibold">Product Detail / {{ product.name }}</p>
         </div>
         <div class="py-6">
-            <div class="max-w-4xl mx-auto text-white flex justify-between items-center">
+            <div class="max-w-4xl mx-auto  flex justify-between items-center">
                 <img :src="`/${product.image_url}`" width="300" class="rounded h-full" alt="detailimg">
                 <div class="w-3/5">
                     <h3 class="text-5xl font-semibold space-x-1 mb-3">{{ product.name }}</h3>
                     <p class="text-3xl font-semibold mb-3">$ <span class="text-red-600">{{ product.unit_price }}</span> </p>
                     <p>{{ product.description.substring(0,100) + '...' }}</p>
-                    <button class="mt-3 text-white px-4 py-3 font-semibold bg-green-600 hover:bg-green-700 rounded-3xl hover:rounded duration-200" @click="addCart($event,product)" :class="{'bg-green-900 hover:bg-green-900' :enableDisabled(product.id)}" :disabled="enableDisabled(product.id)"><i class="fa-solid fa-cart-shopping"></i>Add to Cart</button>
+                    <button class="text-white mt-3 px-4 py-3 font-semibold bg-green-600 hover:bg-green-700 rounded-3xl hover:rounded duration-200" @click="addCart($event,product)" :class="{'bg-green-900 hover:bg-green-900' :enableDisabled(product.id)}" :disabled="enableDisabled(product.id)"><i class="fa-solid fa-cart-shopping"></i>Add to Cart</button>
                 </div>
             </div>
-            <div class="text-white max-w-6xl mx-auto mt-7">
-                <div class="list p-1 gap-2 rounded text-sm">
+            <div class="max-w-6xl mx-auto mt-7">
+                <div class="list p-1 gap-2 rounded text-sm text-white">
                     <p class="cursor-pointer p-2 rounded" :class="{'bg-black':toggle === true}" @click="toggle = true">Description</p>
                     <p class="cursor-pointer p-2 rounded" :class="{'bg-black':toggle === false}" @click="toggle = false">Ingredients</p>
                 </div>
@@ -105,16 +101,8 @@ let addCart = (e,product) => {
             <div>
                 <SimilarProducts :products="products"/>
             </div>
-            <p class="text-white text-center text-xl font-semibold mt-10">
-                <i class="fa-solid fa-fan me-3" :class="{animateSpin:hover}" @mouseenter="hover = true" @mouseout="hover = false"></i>
-                    Very Thank You For Shopping With Us
-                <i class="fa-solid fa-fan ms-3" :class="{animateSpin:hover}" @mouseenter="hover = true" @mouseout="hover = false"></i>
-            </p>
         </div>
-        <div style="background-color: #333;" class="text-white mt-10">
-            <Footer/>
-        </div>
-    </div>
+    </NoBannerLayout>
 </template>
 
 

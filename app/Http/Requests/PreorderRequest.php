@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class PreorderRequest extends FormRequest
 {
@@ -11,7 +12,7 @@ class PreorderRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +23,10 @@ class PreorderRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'user_id' => ['required',Rule::exists('users','id')],
+            'order_quantity' => 'required',
+            'latitude' => 'required',
+            'longitude' => 'required'
         ];
     }
 }

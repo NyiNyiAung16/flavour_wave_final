@@ -8,13 +8,14 @@ use Illuminate\Database\Eloquent\Model;
 class Preorder extends Model
 {
     use HasFactory;
+    protected $with = ['products'];
 
     public function customer(){
         return $this->belongsTo(User::class);
     }
 
     public function products(){
-        return $this->belongsToMany(Product::class,'preorder_details','order_id','product_id');
+        return $this->belongsToMany(Product::class);
     }
 
     public function deliver(){

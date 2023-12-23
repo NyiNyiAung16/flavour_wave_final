@@ -3,6 +3,15 @@ import Navbar from '@/Components/Navbar.vue';
 import Footer from '@/Components/Footer.vue';
 import Banner from '@/Components/Banner.vue';
 
+defineProps({
+    canLogin: {
+        type: Boolean,
+    },
+    canRegister: {
+        type: Boolean,
+    }
+});
+
 </script>
 
 

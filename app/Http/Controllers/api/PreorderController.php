@@ -29,15 +29,24 @@ class PreorderController extends Controller
         $pId = request('product_id');
         if ($pId) {
             $preorderCleanData = $request->validated();
-            Preorder::create($preorderCleanData);
-            foreach ($pId as $id) {
-                Product::find($id)->orders()->attach($request->order_id);
+            if(request('is_urgent')){
+                $isUrgentData = request()->validate([
+                    'date'=>'required',
+                    'is_urgent'=>'required',
+                    'truck_number'=>'required',
+                    'capacity'=>'required',
+                    'driver_nrc'=>'required'
+                ]);
+                array_push($preorderCleanData,$isUrgentData);
             }
-            return response()->json([
-                'message' => 'create preorder is successful.'
+            $preorder = Preorder::create($preorderCleanData);
+            for($i = 0; $i < count($pId);$i++){
+                $preorder->products()->attach($pId[$i]);
+            }
+            return back()->with('message', [
+                'content' => 'create preorder is successful.',
+                'type' => 'success'
             ]);
-        } else {
-            return response()->json(['product_id' => 'products field is required']);
         }
     }
 

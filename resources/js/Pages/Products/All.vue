@@ -1,6 +1,6 @@
 <template>
     <Head title="Products"/>
-    <DefaultLayout>
+    <DefaultLayout :canLogin="canLogin" :can-register="canRegister">
         <div class="delicious">
             <h3 class="text-3xl text-center font-bold underline mb-6">Our Great Products</h3>
             <div class="flex flex-wrap gap-y-5 justify-around">
@@ -14,7 +14,7 @@
                         <p>{{ product.description.substring(0,100) + '...' }}</p>
                     </div>
                     <div class="flex justify-between w-full">
-                        <button class="text-white px-3 py-2 font-semibold bg-green-600 hover:bg-green-700 duration-150 rounded" :class="{'bg-green-900 hover:bg-green-900': enableDisabled(product.id)}" :disabled="enableDisabled(product.id)"><i class="fa-solid fa-cart-shopping"></i>Add to Cart</button>
+                        <button class="text-white px-3 py-2 font-semibold bg-green-600 hover:bg-green-700 duration-150 rounded" :class="{'bg-green-900 hover:bg-green-900': enableDisabled(product.id)}" :disabled="enableDisabled(product.id)" @click="addCart($event,product)" ><i class="fa-solid fa-cart-shopping"></i>Add to Cart</button>
                         <Link :href="route('products.show',product.id)" class="text-black px-3 py-2 font-semibold bg-slate-50 hover:bg-slate-200 duration-150 rounded"><i class="fa-solid fa-circle-info"></i>View Detail</Link>
                     </div>
                 </div>
@@ -28,6 +28,7 @@ import { Head } from '@inertiajs/vue3';
 import { onMounted, ref} from 'vue';
 import { Link } from '@inertiajs/vue3';
 import DefaultLayout from '@/Layouts/DefaultLayout.vue';
+import addToCarts from '../../composable/addToCarts'
 
 defineProps({
     'products':Array,
@@ -54,6 +55,10 @@ const enableDisabled = (id) => {
     }else{
         return false;
     }
+}
+
+let addCart = (e,product) => {
+    addToCarts(e,product);
 }
 
 </script>

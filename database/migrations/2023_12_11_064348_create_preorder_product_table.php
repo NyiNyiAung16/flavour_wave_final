@@ -14,9 +14,8 @@ return new class extends Migration {
             $table->id();
             $table->unsignedBigInteger('preorder_id');
             $table->unsignedBigInteger('product_id');
-            $table->integer('order_quantity');
-            $table->integer('total_price');
-            $table->string('preorder_date');
+            $table->timestamps();
+            $table->unique(['preorder_id','product_id']);
         });
     }
 

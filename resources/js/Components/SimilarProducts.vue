@@ -36,7 +36,7 @@ let addCart = (e,product) => {
 </script>
 
 <template>
-    <div class="text-white mt-10">
+    <div class="mt-10">
         <h3 class="text-3xl font-semibold text-center mb-7">Similar <span class="text-green-500">Products</span></h3>
         <div class="flex flex-wrap gap-x-10 justify-center">
             <div class="overflow-hidden relative p-2 sm:m-0 w-[310px] h-[420px] sm:max-h-[520px] border border-neutral-500 flex flex-col items-center justify-around rounded-md" v-for="product in products" :key="product.id">

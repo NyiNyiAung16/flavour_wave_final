@@ -26,6 +26,10 @@ body{
     color: var(--text);
 }
 
+.text{
+    color: var(--text);
+}
+
 .footer{
     background: var(--banner);
     color: #fff;

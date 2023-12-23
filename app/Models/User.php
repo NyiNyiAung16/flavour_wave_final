@@ -44,7 +44,7 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    public function preOrders(){
+    public function preorders(){
         return $this->hasMany(Preorder::class);
     }
 }

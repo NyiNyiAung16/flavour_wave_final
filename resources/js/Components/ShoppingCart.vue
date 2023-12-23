@@ -9,7 +9,7 @@
                 <p>Shopping Cart</p>
                 <p>${{totalPrice}}</p>
             </div>
-            <button class="bg-gray-500 hover:bg-gray-600 duration-150 w-full p-2 my-3 rounded"><i class="fa-solid fa-check mr-1"></i> CheckOut</button>
+            <button class="bg-gray-500 hover:bg-gray-600 duration-150 w-full p-2 my-3 rounded"><i class="fa-solid fa-check mr-1"></i> <Link href="/checkout">CheckOut</Link></button>
             <ul class="listContainer mt-3 border-t pt-3 space-y-5 overflow-y-scroll w-full  max-h-[380px]">
                 <li class="flex flex-col gap-4" v-for="product in cartProducts" :key="product.id">
                     <div class="flex gap-4 items-center">
@@ -29,15 +29,18 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
+import { Link } from '@inertiajs/vue3';
 
 const cart = ref(null);
 const cartProducts = ref([]);
 const totalPrice = ref(0);
 
 function total(product){
-    product.forEach(p => {
-        totalPrice.value += p.quantity_price;
-    });
+    if(product){
+        product.forEach(p => {
+            totalPrice.value += p.quantity_price;
+        });
+    }
 }
 
 onMounted(()=>{

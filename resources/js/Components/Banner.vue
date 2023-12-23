@@ -3,7 +3,7 @@
         <div class="col-span-2"></div>
         <div class="col-span-5">
             <h2 class="text-3xl font-medium">Savor Exquisite Flavors! Indulge in Culinary Delights and Refreshing Beverages that</h2>
-            <button class="bg-green-600 hover:bg-green-700 text-white rounded-3xl text-xl px-2 py-3 hover:rounded duration-200 mt-5"><i class="fa-solid fa-martini-glass-citrus me-1"></i>View our products</button>
+            <Link href="/products" class="inline-block bg-green-600 hover:bg-green-700 text-white rounded-3xl text-xl px-2 py-3 hover:rounded duration-200 mt-5"><i class="fa-solid fa-martini-glass-citrus me-1"></i>View our products</Link>
             <div class="mt-3">
                 <p>Reviews</p>
                 <div class="flex gap-1 mt-1">
@@ -27,6 +27,8 @@
 </template>
 
 <script setup>
+import { Link } from '@inertiajs/vue3';
+
 
 </script>
 
