@@ -17,7 +17,7 @@ defineProps({
 
 <template>
     <div class="min-h-[80vh] min-w-full h-full banner">
-        <div class="sticky top-0 w-full navbar">
+        <div class="z-20 sticky top-0 w-full navbar">
             <Navbar :canLogin="canLogin" :can-register="canRegister"/>
         </div>
         <Banner/>

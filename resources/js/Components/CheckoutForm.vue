@@ -1,30 +1,26 @@
 <script setup>
-import { ref } from 'vue';
+import { ref,onMounted } from 'vue';
 import Map from './Map.vue';
-import { Head,useForm, router } from '@inertiajs/vue3';
-
+import { Head,useForm, router, usePage } from '@inertiajs/vue3';
+import { fetchCartDetails, totalPrice, totalQuantity, productsId  } from '../composable/cartData'
+import { useToast } from 'vue-toastification';
 
 const props = defineProps({
-    totalPrice:{
-        type:Number
-    },
-    totalQuantity:{
-        type:Number
-    },
-    productsId:{
-        type:Array
-    },
     user_id:{
         type:Number
     }
 });
 
+const page = usePage();
+
+onMounted(async()=>{
+    await fetchCartDetails();
+});
 
 const pick = ref(true);
 const location = ref(null);
 const loc = ref(null);
 const delPrice = ref(null);
-const isArgent = ref(false);
 const confrim = ref(false);
 
 const getLocation = (val) => {
@@ -47,33 +43,39 @@ const removeDetail = () => {
 };
 
 const form = useForm({
-    'order_quantity':0,
+    'order_quantity':totalQuantity.value,
     'latitude':0,
     'longitude':0,
     'user_id':0,
-    'product_id':[],
+    'product_id':productsId.value,
     'date':'',
-    'is_urgent':isArgent.value,
+    'is_urgent':false,
     'truck_number':'',
     'capacity':0,
     'driver_nrc':''
 });
 
-if(props.totalQuantity && props.productsId && props.user_id){
-    console.log(props)
-    form.order_quantity = props.totalQuantity;
-    form.product_id = props.productsId;
+if(props){
     form.user_id = props.user_id;
 }
 
 const makePreorder = () => {
-    form.post('/preorders/create',{
-        onSuccess:()=>{
-            localStorage.removeItem('addToCarts');
-            router.get(route('dashboard'));
-        }
-    });
-    console.log(form)
+    if(form.product_id && form.user_id){
+        form.post('/preorders/create',{
+            onSuccess:()=>{
+                localStorage.removeItem('addToCarts');
+                router.get(route('dashboard'));
+            },
+            onError:()=>{
+                setTimeout(()=>{
+                    page.props.errors = {}
+                },2500)
+            },
+            preserveScroll:true
+        });
+    }else{
+        useToast().error('Your network is not stable!!');
+    }
 }
 
 </script>
@@ -93,28 +95,28 @@ const makePreorder = () => {
         <form @submit.prevent="makePreorder">
             <div class="text-xl text-white">
                 <div class="mb-3">
-                    <input type="checkbox" v-model="isArgent" class="rounded focus:outline-none me-3">
+                    <input type="checkbox" v-model="form.is_urgent" class="rounded focus:outline-none me-3" @click="confrim = true">
                     <span>Is Argent (or) Pick yourself!</span>
                 </div>
-                <div class="space-y-3 text-sm" v-show="isArgent">
+                <div class="space-y-3 text-sm" v-show="form.is_urgent">
                     <div>
                         <label class="mb-1 text-slate-100 font-bold block" for="DriverNRC">Driver NRC</label>
                         <input type="text" v-model="form.driver_nrc" class="input w-full bg-stone-900 p-2 rounded-md outline-none border-none" placeholder="e.g 12/MABANA(N)/134567">
-                        <p v-if="$page.props.errors.driver_nrc" class="text-sm text-red-500 my-1">{{ $page.props.errors.driver_nrc }}</p>
+                        <p v-if="page.props.errors.driver_nrc" class="text-sm text-red-500 my-1">{{ page.props.errors.driver_nrc }}</p>
                     </div>
                     <div>
                         <label class="mb-1 text-slate-100 font-bold block" for="Truckno">Truck No</label>
                         <input type="text" v-model="form.truck_number" class="input w-full bg-stone-900 p-2 rounded-md outline-none" placeholder="e.g 12/MM/224">
-                        <p v-if="$page.props.errors.truck_number" class="text-sm text-red-500 my-1">{{ $page.props.errors.truck_number }}</p>
+                        <p v-if="page.props.errors.truck_number" class="text-sm text-red-500 my-1">{{ page.props.errors.truck_number }}</p>
                     </div>
                     <div>
                         <label class="mb-1 text-slate-100 font-bold block" for="Capacity">Capacity</label>
                         <input type="number" v-model="form.capacity" class="input w-full bg-stone-900 p-2 rounded-md outline-none" placeholder="e.g 100">
-                        <p v-if="$page.props.errors.capacity" class="text-sm text-red-500 my-1">{{ $page.props.errors.capacity }}</p>
+                        <p v-if="page.props.errors.capacity" class="text-sm text-red-500 my-1">{{ page.props.errors.capacity }}</p>
                     </div>
                     <div>
                         <input type="date" v-model="form.date" class="input bg-stone-800 rounded-md">
-                        <p v-if="$page.props.errors.date" class="text-sm text-red-500 my-1">{{ $page.props.errors.date }}</p>
+                        <p v-if="page.props.errors.date" class="text-sm text-red-500 my-1">{{ page.props.errors.date }}</p>
                     </div>
                 </div>
             </div>

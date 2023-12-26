@@ -4,7 +4,7 @@
         <div class="delicious">
             <h3 class="text-3xl text-center font-bold underline mb-6">Our Great Products</h3>
             <div class="flex flex-wrap gap-y-5 justify-around">
-                <div class="overflow-hidden relative p-2 sm:m-0 w-[310px] h-[420px] sm:max-h-[520px] border border-neutral-500 flex flex-col items-center justify-around rounded-md" v-for="product in products" :key="product.id">
+                <div class="overflow-hidden relative z-0 p-2 sm:m-0 w-[310px] h-[420px] sm:max-h-[520px] border border-neutral-500 flex flex-col items-center justify-around rounded-md" v-for="product in products" :key="product.id">
                     <div class="absolute top-0 left-0 z-20 bg-white text-black w-[80px] h-[30px] m-1 rounded-2xl flex items-center justify-center">
                         <span>${{ product.unit_price }}</span>
                     </div>
@@ -25,10 +25,10 @@
 
 <script setup>
 import { Head } from '@inertiajs/vue3';
-import { onMounted, ref} from 'vue';
+import { onMounted } from 'vue';
 import { Link } from '@inertiajs/vue3';
 import DefaultLayout from '@/Layouts/DefaultLayout.vue';
-import addToCarts from '../../composable/addToCarts'
+import { fetchCartProducts, cartProducts, addToCarts } from '../../composable/cartData'
 
 defineProps({
     'products':Array,
@@ -40,10 +40,8 @@ defineProps({
     },
 });
 
-let cartProducts = ref([]);
-
-onMounted(()=>{
-    cartProducts.value = JSON.parse(localStorage.getItem('addToCarts'));
+onMounted(async()=>{
+    await fetchCartProducts();
 });
 
 

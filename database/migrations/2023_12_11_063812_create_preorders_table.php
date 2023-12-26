@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('preorders', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
-            $table->string('latitude');
-            $table->string('longitude');
+            $table->string('latitude')->nullable();
+            $table->string('longitude')->nullable();
             $table->integer('order_quantity');
             $table->timestamp('preorder_date');
             $table->boolean('is_urgent')->default(false);

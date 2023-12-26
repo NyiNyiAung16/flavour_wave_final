@@ -7,6 +7,7 @@ use App\Models\Preorder;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Validation\Rule;
 
 class PreorderController extends Controller
 {
@@ -24,20 +25,29 @@ class PreorderController extends Controller
     }
 
     // create order
-    public function createPreorder(PreorderRequest $request)
+    public function createPreorder(Request $request)
     {
         $pId = request('product_id');
         if ($pId) {
-            $preorderCleanData = $request->validated();
+            $preorderCleanData = $request->validate([
+                'user_id' => ['required',Rule::exists('users','id')],
+                'order_quantity' => 'required',
+                'latitude' => 'required',
+                'longitude' => 'required'
+            ]);
             if(request('is_urgent')){
                 $isUrgentData = request()->validate([
                     'date'=>'required',
                     'is_urgent'=>'required',
                     'truck_number'=>'required',
-                    'capacity'=>'required',
+                    'capacity'=>['required','numeric','min:1'],
                     'driver_nrc'=>'required'
                 ]);
-                array_push($preorderCleanData,$isUrgentData);
+                $preorderCleanData['is_urgent'] = $isUrgentData['is_urgent'];
+                $preorderCleanData['truck_number'] = $isUrgentData['truck_number'];
+                $preorderCleanData['capacity'] = $isUrgentData['capacity'];
+                $preorderCleanData['driver_nrc'] = $isUrgentData['driver_nrc'];
+                $preorderCleanData['date'] = $isUrgentData['date'];
             }
             $preorder = Preorder::create($preorderCleanData);
             for($i = 0; $i < count($pId);$i++){

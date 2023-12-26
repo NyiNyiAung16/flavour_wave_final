@@ -1,8 +1,8 @@
 <script setup>
-import { ref } from 'vue';
 import { onMounted } from 'vue';
 import NoBannerLayout from '../Layouts/NoBannerLayout.vue'
 import CheckoutForm from '../Components/CheckoutForm.vue'
+import { cartProducts,fetchCartProducts,increaseProduct, decreaseProduct, removeProduct } from '../composable/cartData'
 
 defineProps({
     canLogin: {
@@ -16,51 +16,21 @@ defineProps({
     }
 });
 
-const totalPrice = ref(0);
-const totalQuantity = ref(0);
-const cartProducts = ref([]);
-const productsId = ref([]);
+onMounted(async()=>{
+    await fetchCartProducts();
+})
 
-function total(product){
-    totalPrice.value = 0;
-    totalQuantity.value = 0;
-    productsId.value = [];
-    product.forEach(p => {
-        totalPrice.value+= p.quantity_price;
-        totalQuantity.value+= p.quantity;
-        productsId.value.push(p.id);
-    });
-};
-
-onMounted(()=>{
-    cartProducts.value = JSON.parse(localStorage.getItem('addToCarts'));
-    total(cartProducts.value);
-});
 
 const increase = (id) => {
-    const  product = cartProducts.value.find((p)=>p.id === id);
-    ++product.quantity;
-    product.quantity_price = product.quantity_price + product.base_price;
-    localStorage.setItem('addToCarts',JSON.stringify(cartProducts.value));
-    totalPrice.value = 0;
-    total(cartProducts.value);
+    increaseProduct(id);
 }
 
 const decrease = (id) => {
-    const  product = cartProducts.value.find((p)=>p.id === id);
-    if(product.quantity > 0){
-        --product.quantity;
-        product.quantity_price = product.quantity_price - product.base_price;
-        localStorage.setItem('addToCarts',JSON.stringify(cartProducts.value));
-        totalPrice.value = 0;
-    }
-    total(cartProducts.value);
+    decreaseProduct(id);
 };
 
 const deleteProduct = (id) => {
-    cartProducts.value = cartProducts.value.filter((p)=>{
-        return p.id !== id;
-    })
+    removeProduct(id);
 }
 
 </script>
@@ -92,7 +62,7 @@ const deleteProduct = (id) => {
                         </ul>
                     </div>
                 </div>
-                <CheckoutForm :totalPrice="totalPrice" :totalQuantity="totalQuantity" :productsId="productsId" :user_id="user_id"/>
+                <CheckoutForm :user_id="user_id"/>
             </div>
         </div>
     </NoBannerLayout>

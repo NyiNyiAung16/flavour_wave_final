@@ -11,7 +11,7 @@ defineProps({
 </script>
 
 <template>
-    <div>
+    <div v-if="preorders">
         <table class="w-full">
             <thead>
                 <tr class="text-left border-b head">
@@ -38,6 +38,9 @@ defineProps({
                 </tr>
             </tbody>
         </table>
+    </div>
+    <div v-else>
+        <p class="text-white text-center">You don't have any preorders!!</p>
     </div>
 </template>
 

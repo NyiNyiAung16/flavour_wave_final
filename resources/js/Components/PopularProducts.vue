@@ -21,9 +21,8 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
 import { onMounted } from 'vue';
-import addToCarts from '../composable/addToCarts'
+import { addToCarts,fetchCartProducts, cartProducts } from './../composable/cartData'
 import { Link } from '@inertiajs/vue3';
 
 defineProps({
@@ -32,10 +31,8 @@ defineProps({
     }
 });
 
-let cartProducts = ref([]);
-
-onMounted(()=>{
-    cartProducts.value = JSON.parse(localStorage.getItem('addToCarts'));
+onMounted(async()=>{
+    await fetchCartProducts();
 });
 
 const enableDisabled = (id) => {

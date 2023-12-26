@@ -10,6 +10,10 @@ class Preorder extends Model
     use HasFactory;
     protected $with = ['products'];
 
+    protected $casts = [
+        'is_urgent' => 'boolean'
+    ];
+
     public function customer(){
         return $this->belongsTo(User::class);
     }

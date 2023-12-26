@@ -4,7 +4,7 @@
             <i class="fa-solid fa-shopping-cart"></i>
             <span class="absolute top-[-13px] right-[-10px] bg-red-500 rounded-md px-1">{{cartProducts.length}}</span>
         </button>
-        <div class="hidden absolute top-11 right-[-70px] w-[340px] overflow-hidden bg-black px-3 py-2 rounded" ref="cart">
+        <div class="z-20 hidden absolute top-11 right-[-70px] w-[340px] overflow-hidden bg-black px-3 py-2 rounded" ref="cart">
             <div class="flex justify-between">
                 <p>Shopping Cart</p>
                 <p>${{totalPrice}}</p>
@@ -30,22 +30,12 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { Link } from '@inertiajs/vue3';
+import { cartProducts, totalPrice, fetchCartDetails, increaseProduct, decreaseProduct } from '../composable/cartData'
 
 const cart = ref(null);
-const cartProducts = ref([]);
-const totalPrice = ref(0);
 
-function total(product){
-    if(product){
-        product.forEach(p => {
-            totalPrice.value += p.quantity_price;
-        });
-    }
-}
-
-onMounted(()=>{
-    cartProducts.value = JSON.parse(localStorage.getItem('addToCarts'));
-    total(cartProducts.value)
+onMounted(async()=>{
+    await fetchCartDetails();
 });
 
 const showCart = () => {
@@ -53,23 +43,11 @@ const showCart = () => {
 };
 
 const increase = (id) => {
-    const  product = cartProducts.value.find((p)=>p.id === id);
-    ++product.quantity;
-    product.quantity_price = product.quantity_price + product.base_price;
-    localStorage.setItem('addToCarts',JSON.stringify(cartProducts.value));
-    totalPrice.value = 0;
-    total(cartProducts.value);
+    increaseProduct(id);
 }
 
 const decrease = (id) => {
-    const  product = cartProducts.value.find((p)=>p.id === id);
-    if(product.quantity > 0){
-        --product.quantity;
-        product.quantity_price = product.quantity_price - product.base_price;
-        localStorage.setItem('addToCarts',JSON.stringify(cartProducts.value));
-        totalPrice.value = 0;
-        total(cartProducts.value);
-    }
+    decreaseProduct(id);
 }
 
 
