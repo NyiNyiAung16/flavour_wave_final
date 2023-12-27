@@ -33,7 +33,8 @@ class PreorderController extends Controller
                 'user_id' => ['required',Rule::exists('users','id')],
                 'order_quantity' => 'required',
                 'latitude' => 'required',
-                'longitude' => 'required'
+                'longitude' => 'required',
+                'deliver_price'=>'required'
             ]);
             if(request('is_urgent')){
                 $isUrgentData = request()->validate([

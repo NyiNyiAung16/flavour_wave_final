@@ -9,7 +9,7 @@ import { Map, MapStyle,Marker ,config,geolocation } from '@maptiler/sdk';
 import { shallowRef, onMounted, onUnmounted, markRaw } from 'vue';
 import '@maptiler/sdk/dist/maptiler-sdk.css';
 
-const emits = defineEmits(['location']);
+const emits = defineEmits(['location','companyLocation']);
 
 const mapContainer = shallowRef(null);
 const map = shallowRef(null);
@@ -17,6 +17,7 @@ const map = shallowRef(null);
 onMounted(async() => {
   config.apiKey = '2Y8xWKR6TiKSh5wYRTkh';
   const res = await geolocation.info();
+  emits('companyLocation',{lng:res.longitude,lat:res.latitude});
 
   const initialState = { lng: res.longitude, lat:res.latitude, zoom: 8 };
 
@@ -34,11 +35,8 @@ onMounted(async() => {
         .setLngLat([lng,lat])
         .addTo(map.value);
       emits('location',{lng,lat});
+
   }
-  
-  // new Marker({color: "#FF0000"})
-  // .setLngLat([139.7525,35.6846])
-  // .addTo(map.value);
 
 }),
 onUnmounted(() => {

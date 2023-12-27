@@ -20,6 +20,7 @@ defineProps({
                     <th class="py-3">Latitude</th>
                     <th class="py-3">Longitude</th>
                     <th class="py-3">Quantity</th>
+                    <th class="py-3">Deliver-Price</th>
                     <th class="py-3">Preorder-Date</th>
                     <th class="py-3">Status</th>
                 </tr>
@@ -33,6 +34,7 @@ defineProps({
                     <td class="py-4">{{preorder.latitude}}</td>
                     <td class="py-4">{{preorder.longitude}}</td>
                     <td class="py-4 text-center">{{preorder.order_quantity}}</td>
+                    <td class="py-4 text-center">{{preorder.deliver_price}}$</td>
                     <td class="py-4">{{preorder.preorder_date}}</td>
                     <td class="py-4">{{preorder.status}}</td>
                 </tr>

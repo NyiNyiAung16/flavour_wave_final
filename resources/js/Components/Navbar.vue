@@ -33,7 +33,9 @@
                     >
                 </template>
             </div>
-            <ShoppingCart/>
+            <div v-if="$page.props.auth.user">
+                <ShoppingCart/>
+            </div>
             <button class="relative px-3 py-2 rounded-xl mode" ref="mode">
                 <i class="fa-regular fa-moon" ref="icon"></i>
                 <ul class="hidden absolute text-start w-[120px] rounded right-0 mt-3 space-y-1 modeLists" ref="lists">

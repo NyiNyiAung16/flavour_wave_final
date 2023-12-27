@@ -10,7 +10,7 @@ const productsId = ref([]);
 
 
 const addToCarts= (e,product) =>{
-    if(!page.props.auth) {
+    if(!page.props.auth.user) {
         router.get(route('login'));
     }else{
         e.target.classList.remove('bg-green-600');
@@ -36,14 +36,16 @@ const addToCarts= (e,product) =>{
 }
 
 function total(product){
-    totalPrice.value = 0;
-    totalQuantity.value = 0;
-    productsId.value = [];
-    product.forEach(p => {
-        totalPrice.value+= p.quantity_price;
-        totalQuantity.value+= p.quantity;
-        productsId.value.push(p.id);
-    });
+    if(product){
+        totalPrice.value = 0;
+        totalQuantity.value = 0;
+        productsId.value = [];
+        product.forEach(p => {
+            totalPrice.value+= p.quantity_price;
+            totalQuantity.value+= p.quantity;
+            productsId.value.push(p.id);
+        });
+    }
 };
 
 const fetchCartProducts = async() => {

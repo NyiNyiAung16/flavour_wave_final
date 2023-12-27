@@ -3,7 +3,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import Preorders from '../Components/customer/Preorders.vue'
 import Urgent from '../Components/customer/Urgent.vue'
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 
 defineProps({
     preorders:{
@@ -12,6 +12,9 @@ defineProps({
     urgents:{
         type:Array
     }
+});
+onMounted(()=>{
+    localStorage.removeItem('addToCarts');
 });
 
 const toggle = ref(true);

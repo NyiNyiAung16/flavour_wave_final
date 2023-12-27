@@ -15,6 +15,7 @@ use App\Http\Controllers\IngredientsController;
 use App\Http\Controllers\LogisticsController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReceipesController;
+use App\Http\Controllers\StripeController;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Middleware\AuthMiddleware;
 use App\Models\Preorder;
@@ -46,8 +47,8 @@ Route::get('/dashboard', [DashboardController::class,'dashboard'])->middleware([
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile/me', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::patch('/profile/me', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile/me', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
 require __DIR__.'/auth.php';

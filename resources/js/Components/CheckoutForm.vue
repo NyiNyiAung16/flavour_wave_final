@@ -4,6 +4,10 @@ import Map from './Map.vue';
 import { Head,useForm, router, usePage } from '@inertiajs/vue3';
 import { fetchCartDetails, totalPrice, totalQuantity, productsId  } from '../composable/cartData'
 import { useToast } from 'vue-toastification';
+import flatpickr from 'flatpickr';
+import 'flatpickr/dist/flatpickr.css'
+import 'flatpickr/dist/themes/dark.css'
+import { calculateDistance } from '@/composable/getDistance';
 
 const props = defineProps({
     user_id:{
@@ -11,34 +15,48 @@ const props = defineProps({
     }
 });
 
-const page = usePage();
-
-onMounted(async()=>{
-    await fetchCartDetails();
-});
 
 const pick = ref(true);
 const location = ref(null);
+const companyLocation = ref(null);
 const loc = ref(null);
 const delPrice = ref(null);
 const confrim = ref(false);
+const date = ref(null);
+const page = usePage();
+const distance = ref(0);
+
+onMounted(async()=>{
+    await fetchCartDetails();
+    flatpickr(date.value,{
+        dateFormat:"d-m-Y",
+        minDate:"today"
+    });
+});
+
+const getCompanyLocation = (val) => {
+    companyLocation.value = val;
+}
 
 const getLocation = (val) => {
     location.value = val;
     pick.value = false;
-    form.latitude = location.value.lat;
-    form.longitude = location.value.lng;
+    const res = calculateDistance(companyLocation.value.lat,companyLocation.value.lng,location.value.lat,location.value.lng);
+    distance.value = parseInt(res);
 };
 
 const showDetail = () => {
     loc.value.textContent = `${location.value.lng},${location.value.lat}`;
-    delPrice.value.textContent = '24$';
+    delPrice.value.textContent = distance.value;
     confrim.value = true;
+    form.latitude = location.value.lat;
+    form.longitude = location.value.lng;
+    form.deliver_price = distance.value;
 }
 
 const removeDetail = () => {
     loc.value.textContent = '';
-    delPrice.value.textContent = '';
+    delPrice.value.textContent = 0;
     confrim.value = false;
 };
 
@@ -46,6 +64,7 @@ const form = useForm({
     'order_quantity':totalQuantity.value,
     'latitude':0,
     'longitude':0,
+    'deliver_price':0,
     'user_id':0,
     'product_id':productsId.value,
     'date':'',
@@ -82,7 +101,7 @@ const makePreorder = () => {
 
 <template>
     <Head title="Checkout" />
-    <Map v-on:location="getLocation"/>
+    <Map v-on:location="getLocation" @companyLocation="getCompanyLocation"/>
     <div class="max-w-6xl mx-auto mt-8">
         <div class="space-x-2">
             <button class="px-3 py-2 bg-slate-200 hover:bg-slate-300 duration-200 text-black rounded-md" :class="{'bg-slate-400 hover:bg-slate-400':pick}" :disabled=pick @click="showDetail">Pick Location</button>
@@ -90,7 +109,7 @@ const makePreorder = () => {
         </div>
         <div class="text-2xl font-semibold my-3">
             <p>Location : <span ref="loc"></span></p>
-            <p>Delivery Price : <span ref="delPrice"></span></p>
+            <p>Delivery Price : <span ref="delPrice"></span>$</p>
         </div>
         <form @submit.prevent="makePreorder">
             <div class="text-xl text-white">
@@ -115,7 +134,7 @@ const makePreorder = () => {
                         <p v-if="page.props.errors.capacity" class="text-sm text-red-500 my-1">{{ page.props.errors.capacity }}</p>
                     </div>
                     <div>
-                        <input type="date" v-model="form.date" class="input bg-stone-800 rounded-md">
+                        <input ref="date" v-model="form.date" class="input bg-stone-800 rounded-md" placeholder="Select a date">
                         <p v-if="page.props.errors.date" class="text-sm text-red-500 my-1">{{ page.props.errors.date }}</p>
                     </div>
                 </div>
