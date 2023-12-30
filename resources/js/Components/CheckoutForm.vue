@@ -27,7 +27,7 @@ const page = usePage();
 const distance = ref(0);
 
 onMounted(async()=>{
-    await fetchCartDetails();
+    await fetchCartDetails(props.user_id);
     flatpickr(date.value,{
         dateFormat:"d-m-Y",
         minDate:"today"
@@ -65,6 +65,7 @@ const form = useForm({
     'latitude':0,
     'longitude':0,
     'deliver_price':0,
+    'total_price':totalPrice.value,
     'user_id':0,
     'product_id':productsId.value,
     'date':'',

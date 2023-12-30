@@ -1,5 +1,5 @@
 <template>
-    <div class="relative" v-if="cartProducts">
+    <div class="relative" v-if="cartProducts?.length > 0">
         <button class="relative px-3 py-2 rounded-md modeLists" @click="showCart">
             <i class="fa-solid fa-shopping-cart"></i>
             <span class="absolute top-[-13px] right-[-10px] bg-red-500 rounded-md px-1">{{cartProducts.length}}</span>
@@ -32,10 +32,16 @@ import { ref, onMounted } from 'vue';
 import { Link } from '@inertiajs/vue3';
 import { cartProducts, totalPrice, fetchCartDetails, increaseProduct, decreaseProduct } from '../composable/cartData'
 
+const props = defineProps({
+    user_id:{
+        type:Number
+    }
+})
+
 const cart = ref(null);
 
 onMounted(async()=>{
-    await fetchCartDetails();
+    await fetchCartDetails(props.user_id);
 });
 
 const showCart = () => {
@@ -43,11 +49,11 @@ const showCart = () => {
 };
 
 const increase = (id) => {
-    increaseProduct(id);
+    increaseProduct(id,props.user_id);
 }
 
 const decrease = (id) => {
-    decreaseProduct(id);
+    decreaseProduct(id,props.user_id);
 }
 
 

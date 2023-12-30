@@ -21,6 +21,7 @@ defineProps({
                     <th class="py-3">Truck Number</th>
                     <th class="py-3">Truck Capacity</th>
                     <th class="py-3">Pickup Date</th>
+                    <th class="py-3">Total Price</th>
                     <th class="py-3">Status</th>
                 </tr>
             </thead>
@@ -35,6 +36,7 @@ defineProps({
                     <td class="py-4 text-center">{{urgent.truck_number}}</td>
                     <td class="py-4 text-center">{{urgent.capacity}}</td>
                     <td class="py-4">{{urgent.date}}</td>
+                    <td class="py-4">{{urgent.total_price}}$</td>
                     <td class="py-4">{{urgent.status}}</td>
                 </tr>
             </tbody>

@@ -25,14 +25,17 @@ import { onMounted } from 'vue';
 import { addToCarts,fetchCartProducts, cartProducts } from './../composable/cartData'
 import { Link } from '@inertiajs/vue3';
 
-defineProps({
+const props = defineProps({
     products:{
         type:Array
+    },
+    user_id:{
+        type:Number
     }
 });
 
 onMounted(async()=>{
-    await fetchCartProducts();
+    await fetchCartProducts(props.user_id);
 });
 
 const enableDisabled = (id) => {
@@ -46,7 +49,7 @@ const enableDisabled = (id) => {
 }
 
 let addCart = (e,product) => {
-    addToCarts(e,product);
+    addToCarts(e,product,props.user_id);
 }
 
 </script>

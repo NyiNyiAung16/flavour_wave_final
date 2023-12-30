@@ -9,7 +9,7 @@ const cartProducts = ref([]);
 const productsId = ref([]);
 
 
-const addToCarts= (e,product) =>{
+const addToCarts= (e,product,userID) =>{
     if(!page.props.auth.user) {
         router.get(route('login'));
     }else{
@@ -18,7 +18,7 @@ const addToCarts= (e,product) =>{
         e.target.classList.add('bg-green-800');
         e.target.setAttribute('disabled',true);
         
-        let array = JSON.parse(localStorage.getItem('addToCarts')) ?? [];
+        let array = JSON.parse(localStorage.getItem(`addToCarts${userID}`)) ?? [];
         let data = {
             id:product.id,
             productName:product.name,
@@ -30,7 +30,7 @@ const addToCarts= (e,product) =>{
         if(!array.includes(data)){
             array.push(data);
         }
-        localStorage.setItem('addToCarts',JSON.stringify(array));
+        localStorage.setItem(`addToCarts${userID}`,JSON.stringify(array));
         cartProducts.value = array;
     }
 }
@@ -48,37 +48,38 @@ function total(product){
     }
 };
 
-const fetchCartProducts = async() => {
-    cartProducts.value = await JSON.parse(localStorage.getItem('addToCarts'));
+const fetchCartProducts = async(userID) => {
+    cartProducts.value = await JSON.parse(localStorage.getItem(`addToCarts${userID}`));
 }
 
-const fetchCartDetails = async()=>{
-    await fetchCartProducts();
+const fetchCartDetails = async(userID)=>{
+    await fetchCartProducts(userID);
     total(cartProducts.value);
 }
 
-const increaseProduct = (id) => {
+const increaseProduct = (id,userID) => {
     const  product = cartProducts.value.find((p)=>p.id === id);
     ++product.quantity;
     product.quantity_price = product.quantity_price + product.base_price;
-    localStorage.setItem('addToCarts',JSON.stringify(cartProducts.value));
+    localStorage.setItem(`addToCarts${userID}`,JSON.stringify(cartProducts.value));
     total(cartProducts.value);
 }
 
-const decreaseProduct = (id) => {
+const decreaseProduct = (id,userID) => {
     const  product = cartProducts.value.find((p)=>p.id === id);
     if(product.quantity > 0){
         --product.quantity;
         product.quantity_price = product.quantity_price - product.base_price;
-        localStorage.setItem('addToCarts',JSON.stringify(cartProducts.value));
+        localStorage.setItem(`addToCarts${userID}`,JSON.stringify(cartProducts.value));
     }
     total(cartProducts.value);
 };
 
-const removeProduct = (id) => {
+const removeProduct = (id,userID) => {
     cartProducts.value = cartProducts.value.filter((p)=>{
         return p.id !== id;
-    })
+    });
+    localStorage.setItem(`addToCarts${userID}`,JSON.stringify(cartProducts.value));
 }
 
 export { fetchCartDetails, increaseProduct, decreaseProduct, removeProduct, addToCarts, fetchCartProducts, cartProducts,totalPrice,totalQuantity,productsId };

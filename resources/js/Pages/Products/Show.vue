@@ -1,13 +1,11 @@
 <script setup>
-import Navbar from '@/Components/Navbar.vue';
-import Footer from '@/Components/Footer.vue';
 import SimilarProducts from '@/Components/SimilarProducts.vue';
 import { ref, onMounted } from 'vue';
 import { Head } from '@inertiajs/vue3';
-import addToCarts from './../../composable/addToCarts'
 import NoBannerLayout from '@/Layouts/NoBannerLayout.vue';
+import { addToCarts } from '@/composable/cartData';
 
-defineProps({
+const props = defineProps({
     product:{
         type:Object
     },
@@ -23,6 +21,9 @@ defineProps({
     canRegister: {
         type: Boolean,
     },
+    user_id:{
+        type:Number
+    }
 });
 
 const hover = ref(false);
@@ -31,7 +32,7 @@ const toggle = ref(true);
 let cartProducts = ref([]);
 
 onMounted(()=>{
-    cartProducts.value = JSON.parse(localStorage.getItem('addToCarts'));
+    cartProducts.value = JSON.parse(localStorage.getItem(`addToCarts${props.user_id}`));
 });
 
 const enableDisabled = (id) => {
@@ -49,7 +50,7 @@ let addCart = (e,product) => {
     e.target.classList.remove('hover:bg-green-700');
     e.target.classList.add('bg-green-800');
     e.target.setAttribute('disabled',true);
-    addToCarts(product);
+    addToCarts(e,product,props.user_id);
 }
 
 
@@ -58,7 +59,7 @@ let addCart = (e,product) => {
 
 <template>
     <Head title="Detail" />
-    <NoBannerLayout :canLogin="canLogin" :can-register="canRegister">
+    <NoBannerLayout :canLogin="canLogin" :can-register="canRegister" :user_id="user_id">
         <div class="w-full px-10 h-[100px] text-white flex items-center detailNav">
             <p class="text-2xl font-semibold">Product Detail / {{ product.name }}</p>
         </div>
@@ -99,7 +100,7 @@ let addCart = (e,product) => {
                 </div>
             </div>
             <div>
-                <SimilarProducts :products="products"/>
+                <SimilarProducts :products="products" :user_id="user_id"/>
             </div>
         </div>
     </NoBannerLayout>

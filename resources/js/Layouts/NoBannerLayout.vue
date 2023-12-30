@@ -9,6 +9,9 @@ defineProps({
     },
     canRegister: {
         type: Boolean,
+    },
+    user_id:{
+        type:Number
     }
 });
 
@@ -20,7 +23,7 @@ const hover = ref(false);
 <template>
     <div class="banner">
         <div class="sticky top-0 w-full navbar">
-            <Navbar :canLogin="canLogin" :can-register="canRegister"/>
+            <Navbar :canLogin="canLogin" :can-register="canRegister" :user_id="user_id"/>
         </div>
     </div>
     <div class="delicious">
@@ -38,12 +41,12 @@ const hover = ref(false);
 
 
 <style  scoped>
-.animateSpin{
+/* .animateSpin{
     animation: spin 1s linear infinite;
 }
 
 @keyframes spin {
     from{ transform: rotate(0);}
     to{ transform: rotate(360deg);}
-}
+} */
 </style>

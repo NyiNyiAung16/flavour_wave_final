@@ -1,18 +1,19 @@
 <script setup>
 import { ref , onMounted } from 'vue'
 import { Link } from '@inertiajs/vue3';
-import addToCarts from '../composable/addToCarts'
+import { addToCarts, fetchCartProducts, cartProducts } from '@/composable/cartData';
 
-defineProps({
+const props = defineProps({
     products:{
         type:Array
+    },
+    user_id:{
+        type:Number
     }
 });
 
-let cartProducts = ref([]);
-
 onMounted(()=>{
-    cartProducts.value = JSON.parse(localStorage.getItem('addToCarts'));
+    fetchCartProducts(props.user_id);
 });
 
 const enableDisabled = (id) => {
@@ -30,7 +31,7 @@ let addCart = (e,product) => {
     e.target.classList.remove('hover:bg-green-700');
     e.target.classList.add('bg-green-800');
     e.target.setAttribute('disabled',true);
-    addToCarts(product);
+    addToCarts(e,product,props.user_id);
 }
 
 </script>

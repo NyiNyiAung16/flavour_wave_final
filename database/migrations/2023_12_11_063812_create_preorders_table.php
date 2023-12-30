@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();
             $table->integer('order_quantity');
+            $table->integer('total_price')->default(0);
             $table->integer('deliver_price')->nullable()->default(0);
             $table->timestamp('preorder_date');
             $table->boolean('is_urgent')->default(false);

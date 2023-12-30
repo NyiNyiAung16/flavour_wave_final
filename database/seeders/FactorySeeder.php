@@ -40,6 +40,7 @@ class FactorySeeder extends Seeder
                 'product_id' => $product[0],
                 'expected'=>$product[1],
                 'actual'=>$product[2],
+                'created_at'=>now()
             ]);
         }
 

@@ -12,8 +12,14 @@
             <Link href="/products" class="font-semibold hover:text-slate-200" :class="{active:$page.url == '/products'}">Products</Link>
             <div v-if="canLogin">
                 <Link
-                    v-if="$page.props.auth.user"
+                    v-if="$page.props.auth.user && !$page.props.auth.user.isAdmin"
                     :href="route('dashboard')"
+                    class="font-semibold hover:text-slate-200"
+                    >Dashboard
+                </Link>
+                <Link
+                    v-if="$page.props.auth.user && $page.props.auth.user.isAdmin && $page.props.auth.user.department === 'ADMIN'"
+                    :href="route('adminDepartment.index')"
                     class="font-semibold hover:text-slate-200"
                     >Dashboard
                 </Link>
@@ -34,7 +40,7 @@
                 </template>
             </div>
             <div v-if="$page.props.auth.user">
-                <ShoppingCart/>
+                <ShoppingCart :user_id="user_id"/>
             </div>
             <button class="relative px-3 py-2 rounded-xl mode" ref="mode">
                 <i class="fa-regular fa-moon" ref="icon"></i>
@@ -60,6 +66,9 @@ defineProps({
     },
     canRegister: {
         type: Boolean,
+    },
+    user_id:{
+        type:Number
     }
 });
 

@@ -34,7 +34,8 @@ class PreorderController extends Controller
                 'order_quantity' => 'required',
                 'latitude' => 'required',
                 'longitude' => 'required',
-                'deliver_price'=>'required'
+                'deliver_price'=>'required',
+                'total_price'=>'required'
             ]);
             if(request('is_urgent')){
                 $isUrgentData = request()->validate([
@@ -42,7 +43,8 @@ class PreorderController extends Controller
                     'is_urgent'=>'required',
                     'truck_number'=>'required',
                     'capacity'=>['required','numeric','min:1'],
-                    'driver_nrc'=>'required'
+                    'driver_nrc'=>'required',
+                    'total_price'=>'required'
                 ]);
                 $preorderCleanData['is_urgent'] = $isUrgentData['is_urgent'];
                 $preorderCleanData['truck_number'] = $isUrgentData['truck_number'];

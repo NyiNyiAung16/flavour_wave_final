@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -38,7 +39,8 @@ Route::get('/', function () {
     return Inertia::render('Welcome', [
         'canLogin' => Route::has('login'),
         'canRegister' => Route::has('register'),
-        'popularProducts' => Product::latest()->take(4)->get()
+        'popularProducts' => Product::latest()->take(4)->get(),
+        'user_id' => auth()->id()
     ]);
 })->name('welcome');
 
@@ -57,7 +59,8 @@ require __DIR__.'/auth.php';
 Route::get('/about',function(){
     return Inertia::render('About',[
         'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register')
+        'canRegister' => Route::has('register'),
+        'user_id' => auth()->id()
     ]);
 });
 
@@ -107,3 +110,14 @@ Route::post('/receipe/create', [ReceipesController::class, 'create']);
 //warehouse
 Route::post('/warehouse/create', [WarehouseController::class, 'create']);
 Route::post('order/chart', [PreorderCountController::class, 'preorderCountChart']);
+
+//factory department
+Route::get('/factoryDepartment/productsDetail/{factory}/edit',[FactoryController::class,'editPage']);
+Route::get('/factoryDepartment/products/{product}/edit',[FactoryController::class,'editProduct']);
+Route::delete('/factoryDepartment/products/{product}/destroy',[FactoryController::class,'deleteProduct'])->name('product.destroy');
+Route::delete('/factoryDepartment/factories/{factory}/destroy',[FactoryController::class,'deleteFactory'])->name('factory.destroy');
+Route::post('/factoryDepartment/create',[FactoryController::class,'store'])->name('factory.store');
+Route::put('/factoryDepartment/edit',[FactoryController::class,'editFactory'])->name('factory.edit');
+
+//Admin Department
+Route::get('/adminDepartment/dashboard',[AdminController::class,'index'])->name('adminDepartment.index');

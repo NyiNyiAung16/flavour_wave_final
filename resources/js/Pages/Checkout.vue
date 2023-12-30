@@ -4,7 +4,7 @@ import NoBannerLayout from '../Layouts/NoBannerLayout.vue'
 import CheckoutForm from '../Components/CheckoutForm.vue'
 import { cartProducts,fetchCartProducts,increaseProduct, decreaseProduct, removeProduct } from '../composable/cartData'
 
-defineProps({
+const props = defineProps({
     canLogin: {
         type: Boolean,
     },
@@ -17,20 +17,20 @@ defineProps({
 });
 
 onMounted(async()=>{
-    await fetchCartProducts();
+    await fetchCartProducts(props.user_id);
 })
 
 
 const increase = (id) => {
-    increaseProduct(id);
+    increaseProduct(id,props.user_id);
 }
 
 const decrease = (id) => {
-    decreaseProduct(id);
+    decreaseProduct(id,props.user_id);
 };
 
 const deleteProduct = (id) => {
-    removeProduct(id);
+    removeProduct(id,props.user_id);
 }
 
 </script>

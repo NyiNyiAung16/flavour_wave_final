@@ -19,7 +19,8 @@ class ProductController extends Controller
         return Inertia::render('Products/All',[
             'canLogin' => Route::has('login'),
             'canRegister' => Route::has('register'),
-            'products' => Product::latest()->get()
+            'products' => Product::latest()->get(),
+            'user_id' => auth()->id()
         ]);
     }
 
@@ -29,7 +30,8 @@ class ProductController extends Controller
             'receipes'=> $product->receipes,
             'products'=>Product::inRandomOrder()->limit(4)->get(),
             'canLogin' => Route::has('login'),
-            'canRegister' => Route::has('register')
+            'canRegister' => Route::has('register'),
+            'user_id' => auth()->id()
         ]);
     }
 

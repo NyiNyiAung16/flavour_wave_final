@@ -1,6 +1,6 @@
 <template>
     <Head title="Products"/>
-    <DefaultLayout :canLogin="canLogin" :can-register="canRegister">
+    <DefaultLayout :canLogin="canLogin" :can-register="canRegister" :user_id="user_id">
         <div class="delicious">
             <h3 class="text-3xl text-center font-bold underline mb-6">Our Great Products</h3>
             <div class="flex flex-wrap gap-y-5 justify-around">
@@ -30,7 +30,7 @@ import { Link } from '@inertiajs/vue3';
 import DefaultLayout from '@/Layouts/DefaultLayout.vue';
 import { fetchCartProducts, cartProducts, addToCarts } from '../../composable/cartData'
 
-defineProps({
+const props = defineProps({
     'products':Array,
     canLogin: {
         type: Boolean,
@@ -38,10 +38,13 @@ defineProps({
     canRegister: {
         type: Boolean,
     },
+    user_id:{
+        type:Number
+    }
 });
 
 onMounted(async()=>{
-    await fetchCartProducts();
+    await fetchCartProducts(props.user_id);
 });
 
 
@@ -56,7 +59,7 @@ const enableDisabled = (id) => {
 }
 
 let addCart = (e,product) => {
-    addToCarts(e,product);
+    addToCarts(e,product,props.user_id);
 }
 
 </script>

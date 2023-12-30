@@ -1,6 +1,6 @@
 <template>
     <Head title="About" />
-    <DefaultLayout :canLogin="canLogin" :can-register="canRegister">
+    <DefaultLayout :canLogin="canLogin" :can-register="canRegister" :user_id="user_id">
         <div class="max-w-5xl mx-auto">
             <h3 class="text-3xl text-center font-bold underline mb-6">About Our Company</h3>
             <div>
@@ -43,6 +43,9 @@ defineProps({
     },
     canRegister: {
         type: Boolean,
+    },
+    user_id:{
+        type:Number
     }
 });
 </script>
