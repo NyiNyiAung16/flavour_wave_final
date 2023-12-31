@@ -100,7 +100,8 @@ class ReceipeSeeder extends Seeder
             DB::table('receipes')->insert([
                 'ingredient_id' => $receipe[0],
                 'product_id' => $receipe[1],
-                'amount_grams'=>$receipe[2]
+                'amount_grams'=>$receipe[2],
+                'created_at' => now()
             ]);
         }
     }

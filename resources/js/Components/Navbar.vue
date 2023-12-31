@@ -10,21 +10,49 @@
             <Link href="/" class="font-semibold hover:text-slate-200" :class="{active:$page.url == '/'}">Home</Link>
             <Link href="/about" class="font-semibold hover:text-slate-200" :class="{active:$page.url == '/about'}">About</Link>
             <Link href="/products" class="font-semibold hover:text-slate-200" :class="{active:$page.url == '/products'}">Products</Link>
-            <div v-if="canLogin">
-                <Link
-                    v-if="$page.props.auth.user && !$page.props.auth.user.isAdmin"
-                    :href="route('dashboard')"
-                    class="font-semibold hover:text-slate-200"
-                    >Dashboard
-                </Link>
-                <Link
-                    v-if="$page.props.auth.user && $page.props.auth.user.isAdmin && $page.props.auth.user.department === 'ADMIN'"
-                    :href="route('adminDepartment.index')"
-                    class="font-semibold hover:text-slate-200"
-                    >Dashboard
-                </Link>
+            <div>
+                <div v-if="$page.props.auth.user">
+                    <Link
+                        v-if="$page.props.auth.user && !$page.props.auth.user.isAdmin"
+                        :href="route('dashboard')"
+                        class="font-semibold hover:text-slate-200"
+                        >Dashboard
+                    </Link>
+                    <Link
+                        v-if="$page.props.auth.user && $page.props.auth.user.isAdmin && $page.props.auth.user.department === 'ADMIN'"
+                        :href="route('adminDepartment.index')"
+                        class="font-semibold hover:text-slate-200"
+                        >Dashboard
+                    </Link>
+                    
+                    <Link
+                        v-if="$page.props.auth.user && $page.props.auth.user.isAdmin && $page.props.auth.user.department === 'FACTORY'"
+                        :href="route('factoryDepartment.index')"
+                        class="font-semibold hover:text-slate-200"
+                        >Dashboard
+                    </Link>
+                    <Link
+                        v-if="$page.props.auth.user && $page.props.auth.user.isAdmin && $page.props.auth.user.department === 'WAREHOUSE'"
+                        :href="route('warehouseDepartment.index')"
+                        class="font-semibold hover:text-slate-200"
+                        >Dashboard
+                    </Link>
+                    <Link
+                        v-if="$page.props.auth.user && $page.props.auth.user.isAdmin && $page.props.auth.user.department === 'LOGISTIC'"
+                        :href="route('logisticDepartment.index')"
+                        class="font-semibold hover:text-slate-200"
+                        >Dashboard
+                    </Link>
+                    <Link
+                        v-if="$page.props.auth.user && $page.props.auth.user.isAdmin && $page.props.auth.user.department === 'SALE'"
+                        :href="route('saleDepartment.index')"
+                        class="font-semibold hover:text-slate-200"
+                        >Dashboard
+                    </Link>
+                </div>
+                
         
-                <template v-else>
+                <div v-else>
                     <Link
                         :href="route('login')"
                         class="font-semibold hover:text-slate-200"
@@ -37,7 +65,7 @@
                         class="ms-4 font-semibold hover:text-slate-200"
                         >Register</Link
                     >
-                </template>
+                </div>
             </div>
             <div v-if="$page.props.auth.user">
                 <ShoppingCart :user_id="user_id"/>
@@ -105,6 +133,3 @@ const dark = () => {
 }
 
 </script>
-
-<style scoped>
-</style>

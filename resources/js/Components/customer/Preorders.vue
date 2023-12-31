@@ -4,6 +4,9 @@
 defineProps({
     preorders:{
         type:Array
+    },
+    user:{
+        type:Object
     }
 });
 
@@ -24,6 +27,7 @@ defineProps({
                     <th class="py-3">Deliver Price</th>
                     <th class="py-3">Total Price</th>
                     <th class="py-3">Status</th>
+                    <th class="py-3 text-center" v-show="user.isAdmin && user.department === 'SALE'">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -39,6 +43,10 @@ defineProps({
                     <td class="py-4 text-center">{{preorder.deliver_price}}$</td>
                     <td class="py-4 text-center">{{preorder.total_price}}$</td>
                     <td class="py-4">{{preorder.status}}</td>
+                    <td class="py-4 text-center" v-show="user.isAdmin && user.department === 'SALE'">
+                        <button class="text-blue-500 hover:text-blue-600 hover:underline duration-200 font-semibold">confrim</button>
+                        <button class="text-red-500 hover:text-red-600 hover:underline duration-200 font-semibold ms-2">cancel</button>
+                    </td>
                 </tr>
             </tbody>
         </table>

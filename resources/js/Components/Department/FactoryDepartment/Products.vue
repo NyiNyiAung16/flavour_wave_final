@@ -20,7 +20,7 @@ const deleteProduct = ( id ) => {
             <thead>
                 <tr class="text-left border-b head">
                     <th class="py-3 pe-2">No.</th>
-                    <th class="py-3">Product Names</th>
+                    <th class="py-3">Product Name</th>
                     <th class="py-3">Description</th>
                     <th class="py-3 text-center">Image</th>
                     <th class="py-3 text-center">Price</th>

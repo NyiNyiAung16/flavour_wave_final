@@ -16,6 +16,7 @@ use App\Http\Controllers\IngredientsController;
 use App\Http\Controllers\LogisticsController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReceipesController;
+use App\Http\Controllers\SaleController;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\WarehouseController;
 use App\Http\Middleware\AuthMiddleware;
@@ -101,6 +102,7 @@ Route::post('/ingredient/create', [IngredientsController::class, 'create']);
 Route::post('/factories', [FactoryController::class, 'store']);
 
 //logistics
+Route::get('/logisticsDepartment/dashboard',[LogisticsController::class,'index'])->name('logisticsDepartment.index');
 Route::post('/deliver', [LogisticsController::class, 'make']);
 Route::get('/deliver/count', [LogisticsController::class, 'getCount']);
 
@@ -108,10 +110,13 @@ Route::get('/deliver/count', [LogisticsController::class, 'getCount']);
 Route::post('/receipe/create', [ReceipesController::class, 'create']);
 
 //warehouse
+Route::get('/warehouseDepartment/dashboard',[WarehouseController::class,'index'])->name('warehouseDepartment.index');
+Route::delete('/warehouseDepartment/{warehouse}/destroy',[WarehouseController::class,'destroy'])->name('warehouse.destroy');
 Route::post('/warehouse/create', [WarehouseController::class, 'create']);
 Route::post('order/chart', [PreorderCountController::class, 'preorderCountChart']);
 
 //factory department
+Route::get('/factoryDepartment/dashboard',[FactoryController::class,'index'])->name('factoryDepartment.index');
 Route::get('/factoryDepartment/productsDetail/{factory}/edit',[FactoryController::class,'editPage']);
 Route::get('/factoryDepartment/products/{product}/edit',[FactoryController::class,'editProduct']);
 Route::delete('/factoryDepartment/products/{product}/destroy',[FactoryController::class,'deleteProduct'])->name('product.destroy');
@@ -121,3 +126,7 @@ Route::put('/factoryDepartment/edit',[FactoryController::class,'editFactory'])->
 
 //Admin Department
 Route::get('/adminDepartment/dashboard',[AdminController::class,'index'])->name('adminDepartment.index');
+Route::post('/adminDepartment/user/store',[AdminController::class,'store'])->name('user.store');
+
+//Sale Department
+Route::get('/saleDepartment/dashboard',[SaleController::class,'index'])->name('saleDepartment.index');

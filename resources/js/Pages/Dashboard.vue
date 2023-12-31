@@ -4,7 +4,6 @@ import { Head } from '@inertiajs/vue3';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import Preorders from '../Components/customer/Preorders.vue'
 import Urgent from '../Components/customer/Urgent.vue'
-import FactoryDepartment from '../Components/Department/FactoryDepartment/Index.vue'
 
 const props = defineProps({
     preorders:{
@@ -13,23 +12,13 @@ const props = defineProps({
     urgents:{
         type:Array
     },
-    factories:{
-        type:Array
-    },
-    warehouses:{
-        type:Array
-    },
     user:{
         type:Object
-    },
-    products:{
-        type:Array
     }
 });
 
 
 const toggle = ref(true);
-const toggleChild = ref('index');
 
 </script>
 
@@ -51,20 +40,6 @@ const toggleChild = ref('index');
                     Urgents Orders
                 </h2>
             </div>
-            <div v-if="user.isAdmin && user.department === 'FACTORY'" class="flex gap-5">
-                <p class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-xl leading-tight cursor-pointer" 
-                   :class="{'underline':toggleChild === 'index'}" 
-                   @click="toggleChild = 'index'"
-                >Factory Department</p>
-                <p class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-xl leading-tight cursor-pointer" 
-                   :class="{'underline':toggleChild === 'show'}" 
-                   @click="toggleChild = 'show'"
-                >Product Detail</p>
-                <p class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-xl leading-tight cursor-pointer"
-                :class="{'underline':toggleChild === 'form'}" 
-                @click="toggleChild = 'form'"
-                >Create Record</p>
-            </div>
         </template>
         <div class="py-8">
             <div class="max-w-8xl mx-auto sm:px-6 lg:px-8 text-white">
@@ -76,9 +51,6 @@ const toggleChild = ref('index');
                         <div v-else>
                             <Urgent :urgents="urgents"/>
                         </div>
-                    </div>
-                    <div v-if="user.isAdmin && user.department === 'FACTORY'">
-                        <FactoryDepartment :factories="factories" :toggle="toggleChild" :products="products"/>
                     </div>
                 </div>
             </div>

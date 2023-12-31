@@ -3,12 +3,41 @@
 namespace App\Http\Controllers;
 
 use App\Models\Factory;
+use App\Models\Ingredient;
 use App\Models\Product;
+use App\Models\Receipe;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 class FactoryController extends Controller
 {
+    public function index(){
+        return Inertia::render('FactoryDepartment/Index',[
+            'factories' => Factory::all()->load('product')->map(function ($item){
+                return [
+                    'id'=>$item->id,
+                    'expected' => $item->expected,
+                    'actual' => $item->actual,
+                    'product_id' => $item->product['id'],
+                    'product_name' => $item->product['name'],
+                    'isStore' => $item->product['inventory'] ? true : false,
+                    'created_at'=>$item->created_at
+                ];
+            }),
+            'products' => Product::latest()->get(),
+            'ingredients' => Ingredient::latest()->get(),
+            'receipes' => Receipe::all()->load('product','ingredient')->map(function($item){
+                return [
+                    'id' => $item->id,
+                    'ingredient_name' => $item->ingredient?->name,
+                    'product_name' => $item->product?->name,
+                    'amount_grams' => $item->amount_grams,
+                    'created_at' => $item->created_at
+                ];
+            })
+        ]);
+    }
+
     public function store(Request $request){
         $productCleanData = $request->validate([
             'name' => 'required',

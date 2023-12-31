@@ -9,7 +9,7 @@ class Order extends Model
 {
     use HasFactory;
 
-    public function order(){
-        return $this->belongsTo(Preorder::class,'preorder_id');
+    public function preorder(){
+        return $this->belongsTo(Preorder::class);
     }
 }

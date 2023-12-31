@@ -44,7 +44,8 @@ class WarehouseSeeder extends Seeder
                 'availability'=>$warehouse[4],
                 'sales_return'=>$warehouse[5],
                 'damage'=>$warehouse[6],
-                'closing_balance'=>$warehouse[7]
+                'closing_balance'=>$warehouse[7],
+                'created_at' => now()
             ]);
         }
     }
