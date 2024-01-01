@@ -43,6 +43,21 @@ class ProductController extends Controller
         ]);
     }
 
+    public function storeProductEdit(Product $product,Request $request){
+        $cleanData = $request->validate([
+            'name'=>'required',
+            'description'=>'required',
+            'unit_price'=>'required|min:1',
+            'quantity_per_box'=>'required|min:1',
+            'image_url'=>'required|image',
+        ]);
+        $product->update($cleanData);
+        return redirect('factoryDepartment.index')->with('message',[
+            'content' => 'Edit Product is successful',
+            'type' => 'success'
+        ]);
+    }
+
     // import 4 random products to frontend
     public function get4Products(){
         $randomProducts = Product::inRandomOrder()->limit(4)->get();

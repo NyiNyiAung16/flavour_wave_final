@@ -114,15 +114,23 @@ Route::get('/warehouseDepartment/dashboard',[WarehouseController::class,'index']
 Route::delete('/warehouseDepartment/{warehouse}/destroy',[WarehouseController::class,'destroy'])->name('warehouse.destroy');
 Route::post('/warehouse/create', [WarehouseController::class, 'create']);
 Route::post('order/chart', [PreorderCountController::class, 'preorderCountChart']);
+Route::patch('warehouseDepartment/{warehouse}/patch',[WarehouseController::class,'storeWarehouseEdit'])->name('warehouse.patch');
 
 //factory department
 Route::get('/factoryDepartment/dashboard',[FactoryController::class,'index'])->name('factoryDepartment.index');
 Route::get('/factoryDepartment/productsDetail/{factory}/edit',[FactoryController::class,'editPage']);
-Route::get('/factoryDepartment/products/{product}/edit',[FactoryController::class,'editProduct']);
-Route::delete('/factoryDepartment/products/{product}/destroy',[FactoryController::class,'deleteProduct'])->name('product.destroy');
-Route::delete('/factoryDepartment/factories/{factory}/destroy',[FactoryController::class,'deleteFactory'])->name('factory.destroy');
+Route::get('/factoryDepartment/products/{product}/edit',[FactoryController::class,'editProduct'])->name('product.edit');
 Route::post('/factoryDepartment/create',[FactoryController::class,'store'])->name('factory.store');
 Route::put('/factoryDepartment/edit',[FactoryController::class,'editFactory'])->name('factory.edit');
+Route::patch('/factoryDepartment/ingredients/{ingredient}/patch',[FactoryController::class,'storeEditIngredient'])->name('ingredient.patch');
+Route::patch('/factoryDepartment/receipes/{receipe}/patch',[ReceipesController::class,'storeEditReceipe'])->name('receipe.patch');
+Route::patch('/factoryDepartment/productDetail/{factory}/patch',[FactoryController::class,'storeFactoryEdit'])->name('factory.patch');
+Route::patch('/factoryDepartment/products/{product}/patch',[ProductController::class,'storeProductEdit'])->name('product.patch');
+Route::delete('/factoryDepartment/products/{product}/destroy',[FactoryController::class,'deleteProduct'])->name('product.destroy');
+Route::delete('/factoryDepartment/factories/{factory}/destroy',[FactoryController::class,'deleteFactory'])->name('factory.destroy');
+Route::delete('/factoryDepartment/ingredients/{ingredient}/destroy',[FactoryController::class,'deleteIngredient'])->name('ingredient.destroy');
+Route::delete('/factoryDepartment/receipes/{receipe}/destroy',[FactoryController::class,'deleteReceipe'])->name('receipe.destroy');
+
 
 //Admin Department
 Route::get('/adminDepartment/dashboard',[AdminController::class,'index'])->name('adminDepartment.index');

@@ -38,23 +38,23 @@ const toggleChild = ref('index');
     <AuthenticatedLayout>
         <template #header>
             <div class="flex gap-5">
-                <p class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-xl leading-tight cursor-pointer" 
+                <p class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-lg leading-tight cursor-pointer" 
                    :class="{'underline':toggleChild === 'index'}" 
                    @click="toggleChild = 'index'"
-                >Factory Department</p>
-                <p class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-xl leading-tight cursor-pointer" 
+                >Products</p>
+                <p class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-lg leading-tight cursor-pointer" 
                    :class="{'underline':toggleChild === 'show'}" 
                    @click="toggleChild = 'show'"
                 >Product Detail</p>
-                <p class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-xl leading-tight cursor-pointer" 
+                <p class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-lg leading-tight cursor-pointer" 
                    :class="{'underline':toggleChild === 'ingredients'}" 
                    @click="toggleChild = 'ingredients'"
                 >Show Ingredients</p>
-                <p class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-xl leading-tight cursor-pointer" 
+                <p class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-lg leading-tight cursor-pointer" 
                    :class="{'underline':toggleChild === 'receipes'}" 
                    @click="toggleChild = 'receipes'"
                 >Show Receipes</p>
-                <p class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-xl leading-tight cursor-pointer"
+                <p class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-lg leading-tight cursor-pointer"
                 :class="{'underline':toggleChild === 'form'}" 
                 @click="toggleChild = 'form'"
                 >Create Record</p>

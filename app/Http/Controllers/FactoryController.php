@@ -7,6 +7,7 @@ use App\Models\Ingredient;
 use App\Models\Product;
 use App\Models\Receipe;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
 class FactoryController extends Controller
@@ -18,9 +19,9 @@ class FactoryController extends Controller
                     'id'=>$item->id,
                     'expected' => $item->expected,
                     'actual' => $item->actual,
-                    'product_id' => $item->product['id'],
-                    'product_name' => $item->product['name'],
-                    'isStore' => $item->product['inventory'] ? true : false,
+                    'product_id' => $item->product?->id,
+                    'product_name' => $item->product?->name,
+                    'isStore' => $item->product?->inventory ? true : false,
                     'created_at'=>$item->created_at
                 ];
             }),
@@ -29,8 +30,8 @@ class FactoryController extends Controller
             'receipes' => Receipe::all()->load('product','ingredient')->map(function($item){
                 return [
                     'id' => $item->id,
-                    'ingredient_name' => $item->ingredient?->name,
-                    'product_name' => $item->product?->name,
+                    'ingredient_id' => $item->ingredient?->id,
+                    'product_id' => $item->product?->id,
                     'amount_grams' => $item->amount_grams,
                     'created_at' => $item->created_at
                 ];
@@ -70,11 +71,9 @@ class FactoryController extends Controller
     }
 
     public function editProduct(Product $product){
-        return Inertia::render('FactoryDepartment/EditFactory',[
-            'product' => $product->load('details','inventory')
-        ]);
+        return Inertia::render('FactoryDepartment/EditFactory',compact('product'));
     }
-
+    
     public function editFactory(Request $request){
         $productCleanData = $request->validate([
             'name' => 'required',
@@ -100,9 +99,35 @@ class FactoryController extends Controller
         ]);
     }
 
+    public function storeFactoryEdit(Factory $factory,Request $request){
+        $cleanData = $request->validate([
+            'product_id' => ['required',Rule::exists('products','id')],
+            'expected'=>['required','min:1'],
+            'actual'=>['required','min:1']
+        ]);
+        $factory->update($cleanData);
+        return back()->with('message',[
+            'content' => 'Edit Factory is successful.',
+            'type' => 'success'
+        ]);
+    }
+
+    public function storeEditIngredient(Ingredient $ingredient,Request $request){
+        $cleanData = $request->validate([
+            'name'=>'required',
+            'source'=>'required',
+            'amount'=>['required','min:2'],
+            'unit_price'=>['required','min:2']
+        ]);
+        $ingredient->update($cleanData);
+        return redirect(route('factoryDepartment.index'))->with('message',[
+            'content' => 'Edit Ingredient is successful.',
+            'type' => 'success'
+        ]);
+    }
+
     public function deleteProduct(Product $product){
         $product->delete();
-        $product->details()->delete();
         return back()->with('message',[
             'content' => 'Deleting Product is successful.',
             'type' => 'success'
@@ -111,9 +136,24 @@ class FactoryController extends Controller
 
     public function deleteFactory(Factory $factory){
         $factory->delete();
-        $factory->product()->delete();
         return back()->with('message',[
             'content' => 'Deleting Factory is successful.',
+            'type' => 'success'
+        ]);
+    }
+
+    public function deleteIngredient(Ingredient $ingredient){
+        $ingredient->delete();
+        return back()->with('message',[
+            'content' => 'Deleting Ingredient is successful.',
+            'type' => 'success'
+        ]);
+    }
+
+    public function deleteReceipe(Receipe $receipe){
+        $receipe->delete();
+        return back()->with('message',[
+            'content' => 'Deleting Ingredient is successful.',
             'type' => 'success'
         ]);
     }
