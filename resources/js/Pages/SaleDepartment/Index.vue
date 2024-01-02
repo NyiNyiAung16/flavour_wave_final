@@ -5,6 +5,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import Preorders from '../../Components/customer/Preorders.vue';
 import Urgent from '../../components/customer/Urgent.vue';
 import ShowOrders from '../../Components/Department/LogisticsDepartment/ShowOrders.vue'
+import ShowUrgentOrders from '@/Components/Department/LogisticsDepartment/ShowUrgentOrders.vue'
 
 defineProps({
     preorders:{
@@ -16,7 +17,10 @@ defineProps({
     user:{
         type:Object
     },
-    orders:{
+    confrim_preorders:{
+        type:Array
+    },
+    urgent_orders:{
         type:Array
     }
 });
@@ -31,23 +35,29 @@ const toggle = ref('default');
     <AuthenticatedLayout>
         <template #header>
             <div class="flex gap-5">
-                <h2 class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-xl leading-tight cursor-pointer" 
+                <h2 class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-lg leading-tight cursor-pointer" 
                 :class="{'underline':toggle === 'default'}"
                 @click="toggle = 'default'"
                 >
-                    SaleDepartment
+                    Preorders
                 </h2>
-                <h2 class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-xl leading-tight cursor-pointer" 
+                <h2 class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-lg leading-tight cursor-pointer" 
                 :class="{'underline':toggle === 'urgents'}"
                 @click="toggle = 'urgents'"
                 >
                     Urgent Orders
                 </h2>
-                <h2 class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-xl leading-tight cursor-pointer" 
+                <h2 class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-lg leading-tight cursor-pointer" 
                 :class="{'underline':toggle === 'orders'}"
                 @click="toggle = 'orders'"
                 >
-                    Confrimed Orders
+                    Confrimed Preorders
+                </h2>
+                <h2 class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-lg leading-tight cursor-pointer" 
+                :class="{'underline':toggle === 'urgentOrders'}"
+                @click="toggle = 'urgentOrders'"
+                >
+                    Confrimed Urgent Orders
                 </h2>
             </div>
         </template>
@@ -61,8 +71,11 @@ const toggle = ref('default');
                         <Urgent :urgents="urgents" :user="user"/>
                     </div>
                     <div v-if="toggle === 'orders'">
-                        <ShowOrders :orders="orders"/>
+                        <ShowOrders :preorders="confrim_preorders"/>
                     </div>  
+                    <div v-if="toggle === 'urgentOrders'">
+                        <ShowUrgentOrders :urgents="urgent_orders"/>
+                    </div>
                 </div>
             </div>
         </div>

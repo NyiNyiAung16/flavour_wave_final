@@ -143,3 +143,5 @@ Route::post('/adminDepartment/user/store',[AdminController::class,'store'])->nam
 
 //Sale Department
 Route::get('/saleDepartment/dashboard',[SaleController::class,'index'])->name('saleDepartment.index');
+Route::post('/saleDepartment/preorders/{preorder}/store',[SaleController::class,'confrim'])->name('preorder.confrim');
+Route::patch('/saleDepartment/preorders/{preorder}/patch',[SaleController::class,'storeEditPreorder'])->name('preorder.patch');

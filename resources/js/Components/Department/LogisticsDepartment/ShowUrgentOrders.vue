@@ -1,30 +1,11 @@
 <script setup>
-import { ref } from 'vue';
-import ConfrimModal from '@/Components/Modals/ConfrimModal.vue'
-import CancelModal from '@/Components/Modals/CancelModal.vue'
 
 defineProps({
     urgents:{
         type:Array
-    },
-    user:{
-        type:Object
     }
 });
 
-const confrimation = ref(false);
-const cancelconfrimation = ref(false);
-const preorderID = ref(null);
-
-const showModal = (id) => {
-    confrimation.value = true;
-    preorderID.value = id;
-}
-
-const showCancelModal = (id) => {
-    cancelconfrimation.value = true;
-    preorderID.value = id;
-}
 
 </script>
 
@@ -43,7 +24,6 @@ const showCancelModal = (id) => {
                     <th class="py-3">Pickup Date</th>
                     <th class="py-3">Total Price</th>
                     <th class="py-3">Status</th>
-                    <th class="py-3 text-center" v-show="user.isAdmin && user.department === 'SALE'">Action</th>
                 </tr>
             </thead>
             <tbody>
@@ -59,15 +39,9 @@ const showCancelModal = (id) => {
                     <td class="py-4">{{urgent.date}}</td>
                     <td class="py-4">{{urgent.total_price}}$</td>
                     <td class="py-4">{{urgent.status}}</td>
-                    <td class="py-4 text-center" v-show="user.isAdmin && user.department === 'SALE'">
-                        <button class="text-blue-500 hover:text-blue-600 hover:underline duration-200 font-semibold" @click="showModal(urgent.id)">confrim</button>
-                        <button class="text-red-500 hover:text-red-600 hover:underline duration-200 font-semibold ms-2" @click="showCancelModal(urgent.id)">cancel</button>
-                    </td>
                 </tr>
             </tbody>
         </table>
-        <ConfrimModal :preorder_id="preorderID" :confrimation="confrimation" @hide-modal="confrimation = false"/>
-        <CancelModal :preorder_id="preorderID" :cancelconfrimation="cancelconfrimation" @cancel-modal="cancelconfrimation = false"/>
     </div>
 </template>
 

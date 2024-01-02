@@ -2,7 +2,7 @@
 
 
 defineProps({
-    orders:{
+    preorders:{
         type:Array
     }
 });
@@ -27,18 +27,18 @@ defineProps({
                 </tr>
             </thead>
             <tbody>
-                <tr class="border-b item" v-for="(order,index) in orders" :key="order.id">
+                <tr class="border-b item" v-for="(preorder,index) in preorders" :key="preorder.id">
                     <td class="py-4">{{index}}</td>
-                    <td class="py-4 flex gap-x-2">
-                        <span v-for="product in order.preorder.products" :key="product.id">{{ product.name }},</span>
+                    <td class="py-4  flex gap-x-2">
+                        <span v-for="product in preorder.products" :key="product.id">{{ product.name }},</span>
                     </td>
-                    <td class="py-4">{{order.preorder.latitude}}</td>
-                    <td class="py-4">{{order.preorder.longitude}}</td>
-                    <td class="py-4 text-center">{{order.preorder.order_quantity}}</td>
-                    <td class="py-4">{{order.preorder.preorder_date}}</td>
-                    <td class="py-4 text-center">{{order.preorder.deliver_price}}$</td>
-                    <td class="py-4 text-center">{{order.preorder.total_price}}$</td>
-                    <td class="py-4">{{order.preorder.status}}</td>
+                    <td class="py-4">{{preorder.latitude}}</td>
+                    <td class="py-4">{{preorder.longitude}}</td>
+                    <td class="py-4 text-center">{{preorder.order_quantity}}</td>
+                    <td class="py-4">{{preorder.preorder_date}}</td>
+                    <td class="py-4 text-center">{{preorder.deliver_price}}$</td>
+                    <td class="py-4 text-center">{{preorder.total_price}}$</td>
+                    <td class="py-4">{{preorder.status}}</td>
                 </tr>
             </tbody>
         </table>
