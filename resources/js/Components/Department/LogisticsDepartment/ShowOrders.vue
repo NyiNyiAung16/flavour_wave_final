@@ -29,7 +29,7 @@ defineProps({
             <tbody>
                 <tr class="border-b item" v-for="(order,index) in orders" :key="order.id">
                     <td class="py-4">{{index}}</td>
-                    <td class="py-4  flex gap-x-2">
+                    <td class="py-4 flex gap-x-2">
                         <span v-for="product in order.preorder.products" :key="product.id">{{ product.name }},</span>
                     </td>
                     <td class="py-4">{{order.preorder.latitude}}</td>

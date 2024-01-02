@@ -103,8 +103,13 @@ Route::post('/factories', [FactoryController::class, 'store']);
 
 //logistics
 Route::get('/logisticsDepartment/dashboard',[LogisticsController::class,'index'])->name('logisticsDepartment.index');
-Route::post('/deliver', [LogisticsController::class, 'make']);
+Route::post('/logisticsDepartment', [LogisticsController::class, 'store'])->name('deliver.store');
 Route::get('/deliver/count', [LogisticsController::class, 'getCount']);
+Route::post('/logisticsDepartment/driver/store',[DriverController::class,'storeDriver'])->name('driver.store');
+Route::patch('/logisticsDepartment/drivers/{driver}/patch',[DriverController::class,'storeEditData'])->name('driver.patch');
+Route::patch('/logisticsDepartment/logistics/{logistic}/patch',[LogisticsController::class,'storeEditData'])->name('logistic.patch');
+Route::delete('/logisticsDepartment/drivers/{driver}/destroy',[DriverController::class,'destroy'])->name('driver.destroy');
+Route::delete('/logisticsDepartment/logistics/{logistic}/destroy',[LogisticsController::class,'destroy'])->name('logistic.destroy');
 
 //receipe
 Route::post('/receipe/create', [ReceipesController::class, 'create']);
@@ -112,7 +117,7 @@ Route::post('/receipe/create', [ReceipesController::class, 'create']);
 //warehouse
 Route::get('/warehouseDepartment/dashboard',[WarehouseController::class,'index'])->name('warehouseDepartment.index');
 Route::delete('/warehouseDepartment/{warehouse}/destroy',[WarehouseController::class,'destroy'])->name('warehouse.destroy');
-Route::post('/warehouse/create', [WarehouseController::class, 'create']);
+Route::post('/warehouse', [WarehouseController::class, 'store'])->name('warehouse.store');
 Route::post('order/chart', [PreorderCountController::class, 'preorderCountChart']);
 Route::patch('warehouseDepartment/{warehouse}/patch',[WarehouseController::class,'storeWarehouseEdit'])->name('warehouse.patch');
 

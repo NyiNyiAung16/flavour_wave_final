@@ -12,7 +12,7 @@ class WarehouseController extends Controller
 {
     public function index(){
         return Inertia::render('WarehouseDepartment/Index',[
-            'warehouses' => Warehouse::all()->load('product')->map(function ($item){
+            'warehouses' => Warehouse::with('product')->latest()->get()->map(function ($item){
                 return [
                     'id'=>$item->id,
                     'opening_balance' => $item->opening_balance,
@@ -41,10 +41,13 @@ class WarehouseController extends Controller
         ]);
     }
 
-    public function create(WarehouseRequest $request){
+    public function store(WarehouseRequest $request){
         $cleanData = $request->validated();
         Warehouse::create($cleanData);
-        return response()->json(['message'=>'Adding product into warehouse is successful.']);
+        return back()->with('message',[
+            'content'=>'Create Warehouse is successful.',
+            'type' => 'success'
+        ]);
     }
 
     public function destroy(Warehouse $warehouse){

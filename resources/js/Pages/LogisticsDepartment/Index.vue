@@ -5,6 +5,8 @@ import AuthenticatedLayout from '../../Layouts/AuthenticatedLayout.vue'
 import ShowLogistics from '../../Components/Department/LogisticsDepartment/ShowLogistics.vue';
 import DriversInfo from './DriversInfo.vue';
 import ShowOrders from '../../Components/Department/LogisticsDepartment/ShowOrders.vue';
+import createDeliver from '../../Components/Department/LogisticsDepartment/createDeliver.vue';
+import CreateDriver from '@/Components/Department/LogisticsDepartment/CreateDriver.vue';
 
 defineProps({
     drivers:{
@@ -28,23 +30,35 @@ const toggle = ref('default');
     <AuthenticatedLayout>
         <template #header>
             <div class="flex gap-4 items-center">
-                <h2 class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-xl leading-tight cursor-pointer" 
+                <h2 class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-lg leading-tight cursor-pointer" 
                     :class="{'underline':toggle === 'default'}"
                     @click="toggle = 'default'"
                 >
-                    LogisticsDepartment
+                    Delivered Orders
                 </h2>
-                <h2 class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-xl leading-tight cursor-pointer" 
+                <h2 class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-lg leading-tight cursor-pointer" 
                     :class="{'underline':toggle === 'drivers'}"
                     @click="toggle = 'drivers'"
                 >
                     Drivers Info
                 </h2>
-                <h2 class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-xl leading-tight cursor-pointer" 
+                <h2 class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-lg leading-tight cursor-pointer" 
                     :class="{'underline':toggle === 'orders'}"
                     @click="toggle = 'orders'"
                 >
                     Orders Info
+                </h2>
+                <h2 class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-lg leading-tight cursor-pointer" 
+                    :class="{'underline':toggle === 'createDeliver'}"
+                    @click="toggle = 'createDeliver'"
+                >
+                    Create Deliver
+                </h2>
+                <h2 class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-lg leading-tight cursor-pointer" 
+                    :class="{'underline':toggle === 'createDriver'}"
+                    @click="toggle = 'createDriver'"
+                >
+                    Create Driver
                 </h2>
             </div>
         </template>
@@ -59,6 +73,12 @@ const toggle = ref('default');
                     </div>
                     <div v-if="toggle === 'orders'">
                         <ShowOrders :orders="orders"/>
+                    </div>
+                    <div v-if="toggle === 'createDeliver'">
+                        <createDeliver/>
+                    </div>
+                    <div v-if="toggle === 'createDriver'">
+                        <CreateDriver/>
                     </div>
                 </div>
             </div>

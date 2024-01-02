@@ -39,7 +39,7 @@
                     </Link>
                     <Link
                         v-if="$page.props.auth.user && $page.props.auth.user.isAdmin && $page.props.auth.user.department === 'LOGISTIC'"
-                        :href="route('logisticDepartment.index')"
+                        :href="route('logisticsDepartment.index')"
                         class="font-semibold hover:text-slate-200"
                         >Dashboard
                     </Link>
