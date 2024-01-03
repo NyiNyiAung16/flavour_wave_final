@@ -7,6 +7,7 @@ use App\Http\Requests\LogisticsStoreRequest;
 use App\Models\Driver;
 use App\Models\Logistic;
 use App\Models\Order;
+use App\Models\Preorder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -24,16 +25,18 @@ class LogisticsController extends Controller
                     'preorder_id' => $item->received_orders->id,
                     'driver_id' => $item->driver_info->id,
                     'quantity' => $item->quantity,
+                    'status'=>$item->received_orders->status,
                     'created_at' => $item->created_at
                 ];
             }),
-            'orders' => Order::with('preorder')->latest()->get()
+            'preorders' => Preorder::where('status','=','order')->get()
         ]);
     }
 
     public function store(LogisticsStoreRequest $request)
     {
         $cleanData = $request->validated();
+        Preorder::find($cleanData['preorder_id'])->update(['status'=>'deliver']);
         Logistic::create($cleanData);
         return back()->with('message',[
             'content' => 'Create Deliver is successful.',

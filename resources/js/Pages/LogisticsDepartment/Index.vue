@@ -15,7 +15,7 @@ defineProps({
     logistics:{
         type:Array
     },
-    orders:{
+    preorders:{
         type:Array
     }
 });
@@ -37,16 +37,16 @@ const toggle = ref('default');
                     Delivered Orders
                 </h2>
                 <h2 class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-lg leading-tight cursor-pointer" 
-                    :class="{'underline':toggle === 'drivers'}"
-                    @click="toggle = 'drivers'"
-                >
-                    Drivers Info
-                </h2>
-                <h2 class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-lg leading-tight cursor-pointer" 
                     :class="{'underline':toggle === 'orders'}"
                     @click="toggle = 'orders'"
                 >
                     Orders Info
+                </h2>
+                <h2 class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-lg leading-tight cursor-pointer" 
+                    :class="{'underline':toggle === 'drivers'}"
+                    @click="toggle = 'drivers'"
+                >
+                    Drivers Info
                 </h2>
                 <h2 class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-lg leading-tight cursor-pointer" 
                     :class="{'underline':toggle === 'createDeliver'}"
@@ -68,11 +68,11 @@ const toggle = ref('default');
                     <div v-if="toggle === 'default'">
                         <ShowLogistics :logistics="logistics"/>
                     </div>
+                    <div v-if="toggle === 'orders'">
+                        <ShowOrders :preorders="preorders"/>
+                    </div>
                     <div v-if="toggle === 'drivers'">
                         <DriversInfo :drivers="drivers"/>
-                    </div>
-                    <div v-if="toggle === 'orders'">
-                        <ShowOrders :orders="orders"/>
                     </div>
                     <div v-if="toggle === 'createDeliver'">
                         <createDeliver/>

@@ -8,6 +8,7 @@ import { ZiggyVue } from '../../vendor/tightenco/ziggy/dist/vue.m';
 import Toast from 'vue-toastification'
 import 'vue-toastification/dist/index.css'
 import { notify } from './Plugins/notify';
+import VueApexCharts from 'vue3-apexcharts';
 
 createInertiaApp({
     title: (title) => `Flavorwave | ${title}`,
@@ -17,6 +18,7 @@ createInertiaApp({
             .use(plugin)
             .use(Toast)
             .use(notify)
+            .use(VueApexCharts)
             .use(ZiggyVue, Ziggy)
             .mount(el);
     },

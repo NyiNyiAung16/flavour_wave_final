@@ -32,6 +32,7 @@ const confrimData = (index,logistic) => {
                     <th class="py-3 text-center">Preorder ID</th>
                     <th class="py-3 text-center">Driver ID</th>
                     <th class="py-3 text-center">Quantity</th>
+                    <th class="py-3 text-center">Status</th>
                     <th class="py-3 text-center">Deliver Date</th>
                     <th class="py-3 text-center">Action</th>
                 </tr>
@@ -51,6 +52,7 @@ const confrimData = (index,logistic) => {
                         <span :id="`quantity${index}`" class="block text-center">{{logistic.quantity}}</span>
                         <p class="text-sm hidden text-red-500 my-1" :id="`errorq${index}`" v-show="errors.quantity">{{ errors.quantity }}</p>
                     </td>
+                    <td class="py-4 text-center">{{logistic.status}}</td>
                     <td class="py-4 text-center">{{new Date(logistic.created_at).toLocaleDateString()}}</td>
                     <td class="py-4 space-x-3 text-center">
                         <button class=" text-blue-500 hover:text-blue-600 duration-150 font-bold hover:underline" @click="edit($event,logistic,index)" :id="`editBtn${index}`">Edit</button>

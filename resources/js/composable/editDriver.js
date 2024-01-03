@@ -53,7 +53,7 @@ const confrim = (index,driver) => {
         onSuccess:()=>{
             name.innerHTML = form.name;
             vehicle_number.innerHTML = form.vehicle_number;
-            isFree.innerHTML = form.isFree;
+            isFree.innerHTML = form.isFree ? 'Free' : 'Busy';
             confirmBtn.classList.toggle('hidden');
             editBtn.classList.toggle('hidden');
             errorF.classList.toggle('hidden');

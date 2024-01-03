@@ -16,8 +16,8 @@ defineProps({
             <thead>
                 <tr class="text-left border-b head">
                     <th class="py-3 pe-2">No.</th>
-                    <th class="py-3">Username</th>
-                    <th class="py-3">Email</th>
+                    <th class="py-3 text-center">Username</th>
+                    <th class="py-3 text-center">Email</th>
                     <th class="py-3 text-center">Image</th>
                     <th class="py-3 text-center">Department</th>
                     <th class="py-3 text-center">Created_at</th>
@@ -27,8 +27,8 @@ defineProps({
             <tbody>
                 <tr class="border-b item" v-for="(user,index) in users" :key="user.id">
                     <td class="py-4">{{index}}</td>
-                    <td class="py-4 w-[270px] px-2">{{ user.name }}</td>
-                    <td class="py-4 w-[370px] px-2">{{user.email}}</td>
+                    <td class="py-4 text-center w-[270px] px-2">{{ user.name }}</td>
+                    <td class="py-4 text-center w-[370px] px-2">{{user.email}}</td>
                     <td class="py-4">
                         <img :src="`/${user.image_url}`" class="mx-auto rounded" width="70" alt="userImg">
                     </td>
