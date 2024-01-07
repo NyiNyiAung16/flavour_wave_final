@@ -1,17 +1,38 @@
 <template>
     <!-- delicious section -->
-    <h3 class="text-center text-3xl font-semibold">Our Delicious Products</h3>
-    <div class="parallex text-3xl font-semibold">
-        <span>Starfruit</span>
-        <span>Sunshine</span>
-        <span>Coconut</span>
-    </div>
-    <div class="parallex text-3xl font-semibold">
-        <span>Starfruit</span>
-        <span>Sunshine</span>
-        <span>Coconut</span>
-    </div>
-
+    <h3 class="text-center text-3xl font-semibold mb-5">Our Delicious Products</h3>
+    <marquee class="text-xl font-semibold">
+        <div class="flex justify-around items-center">
+            <div class="flex flex-col items-center">
+                <img :src="`/storage/product-images/3.jpg`" class="rounded-full w-[50px] h-[50px] object-cover" alt="deliciousproductimg">
+                <i>Mango Tango Delight</i>
+            </div>
+            <div class="flex flex-col items-center">
+                <img :src="`/storage/product-images/4.jpg`" class="rounded-full w-[50px] h-[50px] object-cover" alt="deliciousproductimg">
+                <i>Rangoon Rosewater Elixir</i>
+            </div>
+            <div class="flex flex-col items-center">
+                <img :src="`/storage/product-images/8.jpg`" class="rounded-full w-[50px] h-[50px] object-cover" alt="deliciousproductimg">
+                <i>Jasmine Serenade Soda</i>
+            </div>
+        </div>
+    </marquee>
+    <marquee class="text-xl font-semibold mt-5" direction="right">
+        <div class="flex justify-around items-center">
+            <div class="flex flex-col items-center">
+                <img :src="`/storage/product-images/9.jpg`" class="rounded-full w-[50px] h-[50px] object-cover" alt="deliciousproductimg">
+                <i>Papaya Paradise Punch</i>
+            </div>
+            <div class="flex flex-col items-center">
+                <img :src="`/storage/product-images/13.jpg`" class="rounded-full w-[50px] h-[50px] object-cover" alt="deliciousproductimg">
+                <i>Starfruit Sparkling Sorbet</i>
+            </div>
+            <div class="flex flex-col items-center">
+                <img :src="`/storage/product-images/18.jpg`" class="rounded-full w-[50px] h-[50px] object-cover" alt="deliciousproductimg">
+                <i>Pineapple Pizzazz Quencher</i>
+            </div>
+        </div>
+    </marquee>
     <!-- delicious taste -->
     <h3 class="text-center text-3xl font-semibold mb-4 mt-5">Delicious Taste</h3>
     <div class="max-w-5xl mx-auto flex gap-10 mt-6">

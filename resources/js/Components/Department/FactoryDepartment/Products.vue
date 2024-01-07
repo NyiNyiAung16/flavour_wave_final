@@ -15,7 +15,7 @@ const deleteProduct = ( id ) => {
 
 
 <template>
-    <div>
+    <div v-if="products">
         <table class="w-full">
             <thead>
                 <tr class="text-left border-b head">
@@ -35,7 +35,7 @@ const deleteProduct = ( id ) => {
                     <td class="py-4">{{index}}</td>
                     <td class="py-4 text-center">{{product.id}}</td>
                     <td class="py-4 text-center w-[270px] px-2">{{ product.name }}</td>
-                    <td class="py-4 w-[370px] px-2">{{product.description.substring(0,70) + '...'}}</td>
+                    <td class="py-4 w-[370px] px-2">{{product.description?.substring(0,70) + '...'}}</td>
                     <td class="py-4">
                         <img :src="`/${product.image_url}`" class="mx-auto rounded" width="70" alt="productimg">
                     </td>

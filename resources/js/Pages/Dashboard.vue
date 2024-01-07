@@ -46,10 +46,10 @@ const toggle = ref(true);
                 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-3">
                     <div v-if="!user.isAdmin">
                         <div v-if="toggle">
-                            <Preorders :preorders="preorders"/>
+                            <Preorders :preorders="preorders" :user="user"/>
                         </div>
                         <div v-else>
-                            <Urgent :urgents="urgents"/>
+                            <Urgent :urgents="urgents" :user="user"/>
                         </div>
                     </div>
                 </div>

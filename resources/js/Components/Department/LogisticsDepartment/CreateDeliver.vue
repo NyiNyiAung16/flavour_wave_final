@@ -42,7 +42,7 @@ const createDeliver = () => {
                 <input type="number" id="driverid" v-model="form.driver_id" class="w-full bg-gray-700 border-none p-2 rounded outline-none" placeholder="eg:Burmese Bliss">
                 <p class="text-sm text-red-500 my-1" v-if="form.errors.driver_id">{{ form.errors.driver_id }}</p>
             </div>
-            <button type="submit" class="px-3 py-2 bg-blue-500 hover:bg-blue-600 duration-150 rounded font-bold">Create</button>
+            <button type="submit" class="px-3 py-2 bg-blue-500 hover:bg-blue-600 duration-150 rounded font-bold">Deliver</button>
         </form>
     </div>
 </template>

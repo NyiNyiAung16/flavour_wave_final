@@ -35,14 +35,14 @@ const showCancelModal = (id) => {
             <thead>
                 <tr class="text-left border-b head">
                     <th class="py-3 pe-2">No.</th>
-                    <th class="py-3 w-[350px]">Product Names</th>
-                    <th class="py-3">Quantity</th>
-                    <th class="py-3">Driver NRC</th>
-                    <th class="py-3">Truck Number</th>
-                    <th class="py-3">Truck Capacity</th>
-                    <th class="py-3">Pickup Date</th>
-                    <th class="py-3">Total Price</th>
-                    <th class="py-3">Status</th>
+                    <th class="py-3 w-1/6">Product Names</th>
+                    <th class="py-3 text-center">Quantity</th>
+                    <th class="py-3 text-center">Driver NRC</th>
+                    <th class="py-3 text-center">Truck Number</th>
+                    <th class="py-3 text-center">Truck Capacity</th>
+                    <th class="py-3 text-center">Pickup Date</th>
+                    <th class="py-3 text-center">Total Price</th>
+                    <th class="py-3 text-center">Status</th>
                     <th class="py-3 text-center" v-show="user.isAdmin && user.department === 'SALE'">Action</th>
                 </tr>
             </thead>
@@ -53,12 +53,12 @@ const showCancelModal = (id) => {
                         <span v-for="product in urgent.products" :key="product.id">{{ product.name }},</span>
                     </td>
                     <td class="py-4 text-center">{{urgent.order_quantity}}</td>
-                    <td class="py-4">{{urgent.driver_nrc}}</td>
+                    <td class="py-4 text-center">{{urgent.driver_nrc}}</td>
                     <td class="py-4 text-center">{{urgent.truck_number}}</td>
                     <td class="py-4 text-center">{{urgent.capacity}}</td>
-                    <td class="py-4">{{urgent.date}}</td>
-                    <td class="py-4">{{urgent.total_price}}$</td>
-                    <td class="py-4">{{urgent.status}}</td>
+                    <td class="py-4 text-center">{{urgent.date}}</td>
+                    <td class="py-4 text-center">{{urgent.total_price}}$</td>
+                    <td class="py-4 text-center">{{urgent.status}}</td>
                     <td class="py-4 text-center" v-show="user.isAdmin && user.department === 'SALE'">
                         <button class="text-blue-500 hover:text-blue-600 hover:underline duration-200 font-semibold" @click="showModal(urgent.id)">confrim</button>
                         <button class="text-red-500 hover:text-red-600 hover:underline duration-200 font-semibold ms-2" @click="showCancelModal(urgent.id)">cancel</button>

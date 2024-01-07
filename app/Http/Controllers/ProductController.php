@@ -35,14 +35,6 @@ class ProductController extends Controller
         ]);
     }
 
-    public function create(ProductsRequest $request){
-        $cleanData = $request->validated();
-        Product::create($cleanData);
-        return response()->json([
-            'message'=>'Create Product is successful.'
-        ]);
-    }
-
     public function storeProductEdit(Product $product,Request $request){
         $cleanData = $request->validate([
             'name'=>'required',
@@ -51,30 +43,12 @@ class ProductController extends Controller
             'quantity_per_box'=>'required|min:1',
             'image_url'=>'required|image',
         ]);
+        $url = request('image_url')->store('product-images');
+        $cleanData['image_url'] = 'storage/' . $url ;
         $product->update($cleanData);
-        return redirect('factoryDepartment.index')->with('message',[
+        return redirect(route('factoryDepartment.index'))->with('message',[
             'content' => 'Edit Product is successful',
             'type' => 'success'
         ]);
-    }
-
-    // import 4 random products to frontend
-    public function get4Products(){
-        $randomProducts = Product::inRandomOrder()->limit(4)->get();
-        return response()->json([
-            'randomProducts' => $randomProducts,
-            'randomProductsCount' => count($randomProducts),
-        ]);
-    }
-
-    // get product details
-    public function detailProduct($id){
-        return Product::where('product_id', $id)->first();
-        
-    }
-
-    // get trending products
-    public function trendProducts(){
-       return Warehouse::orderBy('sales_issue', 'desc')->take(3)->get();
     }
 }

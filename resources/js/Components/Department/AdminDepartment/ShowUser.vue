@@ -1,11 +1,15 @@
 <script setup>
-import { Link } from '@inertiajs/vue3';
+import { Link, router } from '@inertiajs/vue3';
 
 defineProps({
     users:{
         type:Array
     }
 });
+
+const deleteProduct = (id) => {
+    router.delete(route('user.destroy',id));
+}
 
 </script>
 
@@ -35,7 +39,7 @@ defineProps({
                     <td class="py-4 text-center">{{user.department}}</td>
                     <td class="py-4 text-center">{{ new Date(user.created_at).toLocaleDateString()}}</td>
                     <td class="py-4 space-x-3 text-center">
-                        <Link :href="`adminDepartment/users/${user.id}/edit`" class="text-blue-500 hover:text-blue-600 duration-150 font-bold underline">Edit</Link>
+                        <Link :href="`/adminDepartment/users/${user.id}/edit`" class="text-blue-500 hover:text-blue-600 duration-150 font-bold underline">Edit</Link>
                         <button class="text-red-500 hover:text-red-600 duration-150 font-bold underline" @click="deleteProduct(user.id)">Delete</button>
                     </td>
                 </tr>

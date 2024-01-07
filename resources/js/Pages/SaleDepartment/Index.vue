@@ -35,29 +35,29 @@ const toggle = ref('default');
     <AuthenticatedLayout>
         <template #header>
             <div class="flex gap-5">
-                <h2 class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-lg leading-tight cursor-pointer" 
+                <h2 class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-md leading-tight cursor-pointer" 
                 :class="{'underline':toggle === 'default'}"
                 @click="toggle = 'default'"
                 >
                     Preorders
                 </h2>
-                <h2 class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-lg leading-tight cursor-pointer" 
+                <h2 class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-md leading-tight cursor-pointer" 
                 :class="{'underline':toggle === 'urgents'}"
                 @click="toggle = 'urgents'"
                 >
                     Urgent Orders
                 </h2>
-                <h2 class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-lg leading-tight cursor-pointer" 
+                <h2 class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-md leading-tight cursor-pointer" 
                 :class="{'underline':toggle === 'orders'}"
                 @click="toggle = 'orders'"
                 >
-                    Confrimed Preorders
+                    Confrimed & Cancel Preorders
                 </h2>
-                <h2 class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-lg leading-tight cursor-pointer" 
+                <h2 class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-md leading-tight cursor-pointer" 
                 :class="{'underline':toggle === 'urgentOrders'}"
                 @click="toggle = 'urgentOrders'"
                 >
-                    Confrimed Urgent Orders
+                    Confrimed & Cancel Urgent Orders
                 </h2>
             </div>
         </template>

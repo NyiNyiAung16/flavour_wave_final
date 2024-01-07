@@ -56,22 +56,9 @@ class PreorderController extends Controller
             for($i = 0; $i < count($pId);$i++){
                 $preorder->products()->attach($pId[$i]);
             }
-            return back()->with('message', [
-                'content' => 'create preorder is successful.',
-                'type' => 'success'
-            ]);
         }
     }
 
-
-    // edit page order
-    public function getPreOrder($id)
-    {
-        $preorder = Preorder::where('order_id', $id)->get();
-        return response()->json([
-            'preorder' => $preorder,
-        ]);
-    }
     public function getPreordersCountFor12Months()
     {
         return response()->json([

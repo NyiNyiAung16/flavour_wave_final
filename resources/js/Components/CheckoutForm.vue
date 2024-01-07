@@ -83,8 +83,11 @@ const makePreorder = () => {
     if(form.product_id && form.user_id){
         form.post('/preorders/create',{
             onSuccess:()=>{
-                localStorage.removeItem('addToCarts');
+                localStorage.removeItem(`addToCarts${props.user_id}`);
                 router.get(route('dashboard'));
+                useToast().success('create preorder is successful.',{
+                    timeout:2000
+                });
             },
             onError:()=>{
                 setTimeout(()=>{

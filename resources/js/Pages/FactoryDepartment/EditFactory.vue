@@ -8,7 +8,9 @@ const props = defineProps({
     }
 });
 
+
 const form = useForm('edit',{
+    _method:'patch',
     name:props.product.name,
     description:props.product.description,
     image_url: '',
@@ -17,7 +19,7 @@ const form = useForm('edit',{
 });
 
 const Edit = () => {
-    form.patch(route('product.patch',props.product.id),{
+    form.post(route('product.patch',props.product.id),{
         onSuccess:()=>{
             form.reset();
         },

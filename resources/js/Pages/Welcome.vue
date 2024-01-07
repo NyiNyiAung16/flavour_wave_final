@@ -21,7 +21,7 @@ defineProps({
 </script>
 
 <template>
-    <Head title="Welcome" />
+    <Head title="Home" />
     <DefaultLayout :canLogin="canLogin" :can-register="canRegister" :user_id="user_id">
         <DeliciousSection/>
         <PopularProducts :products="popularProducts" :user_id="user_id"/>

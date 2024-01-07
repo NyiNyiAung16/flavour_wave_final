@@ -19,6 +19,10 @@ class AdminController extends Controller
         ]);
     }
 
+    public function showEditPage(User $user){
+        return Inertia::render('AdminDepartment/EditUser',compact('user'));
+    }
+
     public function store(AdminStoreRequest $request){
         $cleanData = $request->validated();
         $cleanData['isAdmin'] = true;
@@ -26,5 +30,23 @@ class AdminController extends Controller
         $url = $cleanData['image_url']->store('profile');
         $cleanData['image_url'] = 'storage/' . $url;
         User::create($cleanData);
+    }
+
+    public function storeEditData(User $user,Request $request){
+        $cleanData = $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'image_url' => ['required','image'],
+            'department' => 'required',
+        ]);
+        $user->update($cleanData);
+    }
+
+    public function destroy(User $user){
+        $user->delete();
+        return back()->with('message',[
+            'content' => 'Delete user is successful.',
+            'type' => 'success'
+        ]);
     }
 }

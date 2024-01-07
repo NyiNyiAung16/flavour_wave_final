@@ -8,6 +8,7 @@ use App\Models\Driver;
 use App\Models\Logistic;
 use App\Models\Order;
 use App\Models\Preorder;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -29,19 +30,28 @@ class LogisticsController extends Controller
                     'created_at' => $item->created_at
                 ];
             }),
-            'preorders' => Preorder::where('status','=','order')->get()
+            'preorders' => Preorder::where('status','order')->where('is_urgent',false)->get(),
+            'user' => auth()->user()
         ]);
     }
 
     public function store(LogisticsStoreRequest $request)
     {
         $cleanData = $request->validated();
-        Preorder::find($cleanData['preorder_id'])->update(['status'=>'deliver']);
-        Logistic::create($cleanData);
-        return back()->with('message',[
-            'content' => 'Create Deliver is successful.',
-            'type' => 'success'
-        ]);
+        $p = Preorder::where('id',$cleanData['preorder_id'])
+                        ->where('status','order')
+                        ->where('is_urgent',false)
+                        ->where('order_quantity','>=',$cleanData['quantity'])->first();
+        if($p){
+            $p->update(['status'=>'deliver','delivered_quantity' => $cleanData['quantity']]);
+            Logistic::create($cleanData);
+            return back()->with('message',[
+                'content' => 'Create Deliver is successful.',
+                'type' => 'success'
+            ]);
+        }else{
+            return back()->withErrors(['quantity' => 'Your quantity is greater than the order quantity.','preorder_id' => 'Your preorder id is urgent id.']);
+        }
     }
 
 

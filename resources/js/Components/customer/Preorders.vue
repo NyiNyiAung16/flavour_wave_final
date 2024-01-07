@@ -33,14 +33,16 @@ const showCancelModal = (id) => {
         <table class="w-full">
             <thead>
                 <tr class="text-left border-b head">
-                    <th class="py-3 pe-2">No.</th>
-                    <th class="py-3">Product Names</th>
-                    <th class="py-3">Latitude</th>
-                    <th class="py-3">Longitude</th>
-                    <th class="py-3">Quantity</th>
-                    <th class="py-3">Preorder-Date</th>
-                    <th class="py-3">Deliver Price</th>
-                    <th class="py-3">Total Price</th>
+                    <th class="py-3">No.</th>
+                    <th class="py-3 text-center">Preorder ID</th>
+                    <th class="py-3 w-1/6">Product Names</th>
+                    <th class="py-3 text-center">Latitude</th>
+                    <th class="py-3 text-center">Longitude</th>
+                    <th class="py-3 text-center">Quantity</th>
+                    <th class="py-3 text-center">Preorder-Date</th>
+                    <th class="py-3 text-center">Deliver Price</th>
+                    <th class="py-3 text-center">Total Price</th>
+                    <th class="py-3 text-center">Delivered Quantity</th>
                     <th class="py-3">Status</th>
                     <th class="py-3 text-center" v-show="user.isAdmin && user.department === 'SALE'">Action</th>
                 </tr>
@@ -48,15 +50,17 @@ const showCancelModal = (id) => {
             <tbody>
                 <tr class="border-b item" v-for="(preorder,index) in preorders" :key="preorder.id">
                     <td class="py-4">{{index}}</td>
-                    <td class="py-4  flex gap-x-2">
+                    <td class="py-4 text-center">{{preorder.id}}</td>
+                    <td class="py-4 flex flex-wrap gap-x-2">
                         <span v-for="product in preorder.products" :key="product.id">{{ product.name }},</span>
                     </td>
-                    <td class="py-4">{{preorder.latitude}}</td>
-                    <td class="py-4">{{preorder.longitude}}</td>
+                    <td class="py-4 text-center">{{preorder.latitude}}</td>
+                    <td class="py-4 text-center">{{preorder.longitude}}</td>
                     <td class="py-4 text-center">{{preorder.order_quantity}}</td>
-                    <td class="py-4">{{preorder.preorder_date}}</td>
+                    <td class="py-4 text-center">{{preorder.preorder_date}}</td>
                     <td class="py-4 text-center">{{preorder.deliver_price}}$</td>
                     <td class="py-4 text-center">{{preorder.total_price}}$</td>
+                    <td class="py-4 text-center">{{preorder.delivered_quantity}}</td>
                     <td class="py-4">{{preorder.status}}</td>
                     <td class="py-4 text-center" v-show="user.isAdmin && user.department === 'SALE'">
                         <button class="text-blue-500 hover:text-blue-600 hover:underline duration-200 font-semibold" @click="showModal(preorder.id)">confrim</button>

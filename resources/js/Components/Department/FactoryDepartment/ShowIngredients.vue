@@ -53,7 +53,7 @@ const confrimData = (index,ingredient) => {
                         <p class="text-sm hidden text-red-500 my-1" :id="`erroramount${index}`" v-show="errors.amount">{{ errors.amount }}</p>
                     </td>
                     <td class="py-4 text-center">
-                        <span class="block text-center" :id="`unitPrice${index}`" >{{ingredient.unit_price}}</span>
+                        <span class="block text-center" :id="`unitPrice${index}`" >{{ingredient.unit_price}}$</span>
                         <p class="text-sm hidden text-red-500 my-1" :id="`errorprice${index}`" v-show="errors.unit_price">{{ errors.unit_price }}</p>
                     </td>
                     <td class="py-4 text-center">{{new Date(ingredient.purchased_date).toLocaleDateString()}}</td>

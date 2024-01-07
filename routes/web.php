@@ -19,7 +19,12 @@ use App\Http\Controllers\ReceipesController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\WarehouseController;
+use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\AuthMiddleware;
+use App\Http\Middleware\FactoryMiddleware;
+use App\Http\Middleware\LogisticMiddleware;
+use App\Http\Middleware\SaleMiddleware;
+use App\Http\Middleware\WarehouseMiddleware;
 use App\Models\Preorder;
 use App\Models\Product;
 use App\Models\User;
@@ -45,8 +50,9 @@ Route::get('/', function () {
     ]);
 })->name('welcome');
 
-//dashboard page
-Route::get('/dashboard', [DashboardController::class,'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
+// product
+Route::get('/products',[ProductController::class,'all']);
+Route::get('/products/{product}/detail',[ProductController::class,'show'])->name('products.show');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile/me', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -65,22 +71,11 @@ Route::get('/about',function(){
     ]);
 });
 
-// customer
-Route::get('customers', [UserController::class, 'show']);
-Route::get('customers/{id}', [UserController::class, 'show_one']);
-Route::post('customer/create', [UserController::class, 'createCustomer']);
+//dashboard page
+Route::get('/dashboard', [DashboardController::class,'dashboard'])->middleware(['auth', 'verified'])->name('dashboard');
 
-//  order
-Route::get('customers/{id}/preorders', [PreorderController::class, 'getPreorders']);
+// customer preorder
 Route::post('preorders/create', [PreorderController::class, 'createPreorder'])->middleware(AuthMiddleware::class);
-Route::get('preorders/{id}', [PreorderController::class, 'getPreOrder']);
-Route::post('preorders/{preorder:order_id}/update', [PreorderController::class, 'update']);
-Route::get('preorders', [PreorderController::class, 'getPreordersCountFor12Months']);
-
-// product
-Route::get('/products',[ProductController::class,'all']);
-Route::get('/products/{product}/detail',[ProductController::class,'show'])->name('products.show');
-Route::post('/product/create', [ProductController::class, 'create']);
 
 //checkout
 Route::get('/checkout',function(){
@@ -91,57 +86,60 @@ Route::get('/checkout',function(){
     ]);
 });
 
-//driver
-Route::get('/drivers', [DriverController::class, 'show']);
-
-//ingredients
-Route::get('/ingredients', [IngredientsController::class, 'show']);
-Route::post('/ingredient/create', [IngredientsController::class, 'create']);
-
-//factories
-Route::post('/factories', [FactoryController::class, 'store']);
-
 //logistics
-Route::get('/logisticsDepartment/dashboard',[LogisticsController::class,'index'])->name('logisticsDepartment.index');
-Route::post('/logisticsDepartment', [LogisticsController::class, 'store'])->name('deliver.store');
-Route::get('/deliver/count', [LogisticsController::class, 'getCount']);
-Route::post('/logisticsDepartment/driver/store',[DriverController::class,'storeDriver'])->name('driver.store');
-Route::patch('/logisticsDepartment/drivers/{driver}/patch',[DriverController::class,'storeEditData'])->name('driver.patch');
-Route::patch('/logisticsDepartment/logistics/{logistic}/patch',[LogisticsController::class,'storeEditData'])->name('logistic.patch');
-Route::delete('/logisticsDepartment/drivers/{driver}/destroy',[DriverController::class,'destroy'])->name('driver.destroy');
-Route::delete('/logisticsDepartment/logistics/{logistic}/destroy',[LogisticsController::class,'destroy'])->name('logistic.destroy');
+Route::middleware(LogisticMiddleware::class)->group(function(){
+    Route::get('/logisticsDepartment/dashboard',[LogisticsController::class,'index'])->name('logisticsDepartment.index');
+    Route::post('/logisticsDepartment', [LogisticsController::class, 'store'])->name('deliver.store');
+    Route::get('/deliver/count', [LogisticsController::class, 'getCount']);
+    Route::post('/logisticsDepartment/driver/store',[DriverController::class,'storeDriver'])->name('driver.store');
+    Route::patch('/logisticsDepartment/drivers/{driver}/patch',[DriverController::class,'storeEditData'])->name('driver.patch');
+    Route::patch('/logisticsDepartment/logistics/{logistic}/patch',[LogisticsController::class,'storeEditData'])->name('logistic.patch');
+    Route::delete('/logisticsDepartment/drivers/{driver}/destroy',[DriverController::class,'destroy'])->name('driver.destroy');
+    Route::delete('/logisticsDepartment/logistics/{logistic}/destroy',[LogisticsController::class,'destroy'])->name('logistic.destroy');
+});
 
 //receipe
 Route::post('/receipe/create', [ReceipesController::class, 'create']);
 
 //warehouse
-Route::get('/warehouseDepartment/dashboard',[WarehouseController::class,'index'])->name('warehouseDepartment.index');
-Route::delete('/warehouseDepartment/{warehouse}/destroy',[WarehouseController::class,'destroy'])->name('warehouse.destroy');
-Route::post('/warehouse', [WarehouseController::class, 'store'])->name('warehouse.store');
-Route::post('order/chart', [PreorderCountController::class, 'preorderCountChart']);
-Route::patch('warehouseDepartment/{warehouse}/patch',[WarehouseController::class,'storeWarehouseEdit'])->name('warehouse.patch');
+Route::middleware(WarehouseMiddleware::class)->group(function(){
+    Route::get('/warehouseDepartment/dashboard',[WarehouseController::class,'index'])->name('warehouseDepartment.index');
+    Route::delete('/warehouseDepartment/{warehouse}/destroy',[WarehouseController::class,'destroy'])->name('warehouse.destroy');
+    Route::post('/warehouse', [WarehouseController::class, 'store'])->name('warehouse.store');
+    Route::post('order/chart', [PreorderCountController::class, 'preorderCountChart']);
+    Route::patch('warehouseDepartment/{warehouse}/patch',[WarehouseController::class,'storeWarehouseEdit'])->name('warehouse.patch');
+});
 
 //factory department
-Route::get('/factoryDepartment/dashboard',[FactoryController::class,'index'])->name('factoryDepartment.index');
-Route::get('/factoryDepartment/productsDetail/{factory}/edit',[FactoryController::class,'editPage']);
-Route::get('/factoryDepartment/products/{product}/edit',[FactoryController::class,'editProduct'])->name('product.edit');
-Route::post('/factoryDepartment/create',[FactoryController::class,'store'])->name('factory.store');
-Route::put('/factoryDepartment/edit',[FactoryController::class,'editFactory'])->name('factory.edit');
-Route::patch('/factoryDepartment/ingredients/{ingredient}/patch',[FactoryController::class,'storeEditIngredient'])->name('ingredient.patch');
-Route::patch('/factoryDepartment/receipes/{receipe}/patch',[ReceipesController::class,'storeEditReceipe'])->name('receipe.patch');
-Route::patch('/factoryDepartment/productDetail/{factory}/patch',[FactoryController::class,'storeFactoryEdit'])->name('factory.patch');
-Route::patch('/factoryDepartment/products/{product}/patch',[ProductController::class,'storeProductEdit'])->name('product.patch');
-Route::delete('/factoryDepartment/products/{product}/destroy',[FactoryController::class,'deleteProduct'])->name('product.destroy');
-Route::delete('/factoryDepartment/factories/{factory}/destroy',[FactoryController::class,'deleteFactory'])->name('factory.destroy');
-Route::delete('/factoryDepartment/ingredients/{ingredient}/destroy',[FactoryController::class,'deleteIngredient'])->name('ingredient.destroy');
-Route::delete('/factoryDepartment/receipes/{receipe}/destroy',[FactoryController::class,'deleteReceipe'])->name('receipe.destroy');
+Route::middleware(FactoryMiddleware::class)->group(function(){
+    Route::get('/factoryDepartment/dashboard',[FactoryController::class,'index'])->name('factoryDepartment.index');
+    Route::get('/factoryDepartment/productsDetail/{factory}/edit',[FactoryController::class,'editPage']);
+    Route::get('/factoryDepartment/products/{product}/edit',[FactoryController::class,'editProduct'])->name('product.edit');
+    Route::post('/factoryDepartment/create',[FactoryController::class,'store'])->name('factory.store');
+    Route::put('/factoryDepartment/edit',[FactoryController::class,'editFactory'])->name('factory.edit');
+    Route::patch('/factoryDepartment/ingredients/{ingredient}/patch',[FactoryController::class,'storeEditIngredient'])->name('ingredient.patch');
+    Route::patch('/factoryDepartment/receipes/{receipe}/patch',[ReceipesController::class,'storeEditReceipe'])->name('receipe.patch');
+    Route::patch('/factoryDepartment/productDetail/{factory}/patch',[FactoryController::class,'storeFactoryEdit'])->name('factory.patch');
+    Route::patch('/factoryDepartment/products/{product}/patch',[ProductController::class,'storeProductEdit'])->name('product.patch');
+    Route::delete('/factoryDepartment/products/{product}/destroy',[FactoryController::class,'deleteProduct'])->name('product.destroy');
+    Route::delete('/factoryDepartment/factories/{factory}/destroy',[FactoryController::class,'deleteFactory'])->name('factory.destroy');
+    Route::delete('/factoryDepartment/ingredients/{ingredient}/destroy',[FactoryController::class,'deleteIngredient'])->name('ingredient.destroy');
+    Route::delete('/factoryDepartment/receipes/{receipe}/destroy',[FactoryController::class,'deleteReceipe'])->name('receipe.destroy');
+});
 
 
 //Admin Department
-Route::get('/adminDepartment/dashboard',[AdminController::class,'index'])->name('adminDepartment.index');
-Route::post('/adminDepartment/user/store',[AdminController::class,'store'])->name('user.store');
+Route::middleware(AdminMiddleware::class)->group(function(){
+    Route::get('/adminDepartment/dashboard',[AdminController::class,'index'])->name('adminDepartment.index');
+    Route::post('/adminDepartment/user/store',[AdminController::class,'store'])->name('user.store');
+    Route::delete('/adminDepartment/users/{user}/destroy',[AdminController::class,'destroy'])->name('user.destroy');
+    Route::get('/adminDepartment/users/{user}/edit',[AdminController::class,'showEditPage'])->name('user.edit');
+    Route::patch('/adminDepartment/users/{user}/edit',[AdminController::class,'storeEditData'])->name('user.patch');
+});
 
 //Sale Department
-Route::get('/saleDepartment/dashboard',[SaleController::class,'index'])->name('saleDepartment.index');
-Route::post('/saleDepartment/preorders/{preorder}/store',[SaleController::class,'confrim'])->name('preorder.confrim');
-Route::patch('/saleDepartment/preorders/{preorder}/patch',[SaleController::class,'storeEditPreorder'])->name('preorder.patch');
+Route::middleware(SaleMiddleware::class)->group(function(){
+    Route::get('/saleDepartment/dashboard',[SaleController::class,'index'])->name('saleDepartment.index');
+    Route::post('/saleDepartment/preorders/{preorder}/store',[SaleController::class,'confrim'])->name('preorder.confrim');
+    Route::patch('/saleDepartment/preorders/{preorder}/patch',[SaleController::class,'storeEditPreorder'])->name('preorder.patch');
+});

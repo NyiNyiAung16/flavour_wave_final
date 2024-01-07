@@ -51,7 +51,7 @@ const confrimData = (index,receipe) => {
                     </td>
 
                     <td class="py-4 text-center bg-transparent" >
-                        <span :id="`amountGrams${index}`" class="block">{{receipe.amount_grams}}</span>
+                        <span :id="`amountGrams${index}`" class="block">{{receipe.amount_grams}}g</span>
                         <p class="text-sm hidden text-red-500 my-1" :id="`errorGramsId${index}`" v-show="errors.amount_grams">{{ errors.amount_grams }}</p>
                     </td>
 

@@ -1,5 +1,6 @@
 import { ref } from "vue";
 import { usePage, router } from "@inertiajs/vue3";
+import { useToast } from "vue-toastification";
 
 const page = usePage();
 
@@ -12,7 +13,8 @@ const productsId = ref([]);
 const addToCarts= (e,product,userID) =>{
     if(!page.props.auth.user) {
         router.get(route('login'));
-    }else{
+    }
+    else if(!page.props.auth.user.isAdmin){
         e.target.classList.remove('bg-green-600');
         e.target.classList.remove('hover:bg-green-700');
         e.target.classList.add('bg-green-800');
@@ -32,6 +34,10 @@ const addToCarts= (e,product,userID) =>{
         }
         localStorage.setItem(`addToCarts${userID}`,JSON.stringify(array));
         cartProducts.value = array;
+    }else{
+        useToast().info("You are a admin so you can't add cart!",{
+            timeout:2000
+        });
     }
 }
 
