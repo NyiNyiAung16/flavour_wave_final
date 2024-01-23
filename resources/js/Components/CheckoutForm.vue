@@ -1,8 +1,10 @@
 <script setup>
-import { ref,onMounted } from 'vue';
-import Map from './Map.vue';
+import BaseInput from '@/Components/BaseInput.vue'
+import Button from '@/Components/Button.vue'
 import { Head,useForm, router, usePage } from '@inertiajs/vue3';
 import { fetchCartDetails, totalPrice, totalQuantity, productsId  } from '../composable/cartData'
+import Map from './Map.vue';
+import { ref,onMounted } from 'vue';
 import { useToast } from 'vue-toastification';
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.css'
@@ -123,23 +125,45 @@ const makePreorder = () => {
                 </div>
                 <div class="space-y-3 text-sm" v-show="form.is_urgent">
                     <div>
-                        <label class="mb-1 text-slate-100 font-bold block" for="DriverNRC">Driver NRC</label>
-                        <input type="text" v-model="form.driver_nrc" class="input w-full bg-stone-900 p-2 rounded-md outline-none border-none" placeholder="e.g 12/MABANA(N)/134567">
-                        <p v-if="page.props.errors.driver_nrc" class="text-sm text-red-500 my-1">{{ page.props.errors.driver_nrc }}</p>
+                        <BaseInput
+                            type="text"
+                            label="Driver NRC"
+                            v-model="form.driver_nrc"
+                            :error="form.errors.driver_nrc"
+                            placeholder="e.g 12/MABANA(N)/134567"
+                            class="input w-full bg-stone-900 p-2 rounded-md outline-none border-none"
+                        />
                     </div>
                     <div>
-                        <label class="mb-1 text-slate-100 font-bold block" for="Truckno">Truck No</label>
-                        <input type="text" v-model="form.truck_number" class="input w-full bg-stone-900 p-2 rounded-md outline-none" placeholder="e.g 12/MM/224">
-                        <p v-if="page.props.errors.truck_number" class="text-sm text-red-500 my-1">{{ page.props.errors.truck_number }}</p>
+                        <BaseInput
+                            type="text"
+                            label="Truck No"
+                            v-model="form.truck_number"
+                            :error="form.errors.truck_number"
+                            placeholder="e.g 12/MM/224"
+                            class="input w-full bg-stone-900 p-2 rounded-md outline-none"
+                        />
                     </div>
                     <div>
-                        <label class="mb-1 text-slate-100 font-bold block" for="Capacity">Capacity</label>
-                        <input type="number" v-model="form.capacity" class="input w-full bg-stone-900 p-2 rounded-md outline-none" placeholder="e.g 100">
-                        <p v-if="page.props.errors.capacity" class="text-sm text-red-500 my-1">{{ page.props.errors.capacity }}</p>
+                        <BaseInput
+                            type="number"
+                            label="Capacity"
+                            v-model="form.capacity"
+                            :error="form.errors.capacity"
+                            placeholder="e.g 100"
+                            class="input w-full bg-stone-900 p-2 rounded-md outline-none"
+                        />
                     </div>
                     <div>
-                        <input ref="date" v-model="form.date" class="input bg-stone-800 rounded-md" placeholder="Select a date">
-                        <p v-if="page.props.errors.date" class="text-sm text-red-500 my-1">{{ page.props.errors.date }}</p>
+                        <!-- <input ref="date" v-model="form.date" class="input bg-stone-800 rounded-md" placeholder="Select a date">
+                        <p v-if="page.props.errors.date" class="text-sm text-red-500 my-1">{{ page.props.errors.date }}</p> -->
+                        <BaseInput
+                            ref="date"
+                            v-model="form.date"
+                            :error="form.errors.date"
+                            placeholder="Select a date"
+                            class="input bg-stone-800 rounded-md"
+                        />
                     </div>
                 </div>
             </div>
@@ -147,7 +171,13 @@ const makePreorder = () => {
                 <p>Total Quantity : {{totalQuantity}}</p>
                 <p>Total Price : ${{totalPrice}}</p>
             </div>
-            <button type="submit" class="px-3 py-2 rounded-md bg-slate-100 font-bold text-stone-800 mt-4" v-show="confrim">Confrim Pre-Order</button>
+            <div>
+                <Button
+                    type="submit"
+                    text="Confrim Pre-Order"
+                    class="px-3 py-2 rounded-md bg-slate-100 font-bold text-stone-800 mt-4"
+                />
+            </div>
         </form>
     </div>
 </template>

@@ -1,4 +1,6 @@
 <script setup>
+import Button from '@/Components/Button.vue';
+import Body from '@/Components/Table/Body.vue';
 import { router } from '@inertiajs/vue3'
 import { showEdit, confrim, errors } from '../../../composable/editIngredient'
 
@@ -40,27 +42,52 @@ const confrimData = (index,ingredient) => {
             <tbody>
                 <tr class="border-b item" v-for="(ingredient,index) in ingredients" :key="ingredient.id">
                     <td class="py-4">{{index}}</td>
-                    <td class="py-4  flex gap-x-2">
-                        <span class="block text-center" :id="`name${index}`">{{ ingredient.name }}</span>
-                        <p class="text-sm hidden text-red-500 my-1" :id="`errorname${index}`" v-show="errors.name">{{ errors.name }}</p>
-                    </td>
-                    <td class="py-4 text-center">
-                        <span class="block text-center" :id="`source${index}`">{{ingredient.source}}</span>
-                        <p class="text-sm hidden text-red-500 my-1" :id="`errorsource${index}`" v-show="errors.source">{{ errors.source }}</p>
-                    </td>
-                    <td class="py-4 text-center">
-                        <span class="block text-center" :id="`amount${index}`">{{ingredient.amount}}</span>
-                        <p class="text-sm hidden text-red-500 my-1" :id="`erroramount${index}`" v-show="errors.amount">{{ errors.amount }}</p>
-                    </td>
-                    <td class="py-4 text-center">
-                        <span class="block text-center" :id="`unitPrice${index}`" >{{ingredient.unit_price}}$</span>
-                        <p class="text-sm hidden text-red-500 my-1" :id="`errorprice${index}`" v-show="errors.unit_price">{{ errors.unit_price }}</p>
-                    </td>
+                    <Body
+                        :text-id="`name${index}`"
+                        :error-id="`errorname${index}`"
+                        :value="ingredient.name"
+                        :error="errors.name"
+                    />
+                    <Body
+                        :text-id="`source${index}`"
+                        :error-id="`errorsource${index}`"
+                        :value="ingredient.source"
+                        :error="errors.source"
+                    />
+                    <Body
+                        :text-id="`amount${index}`"
+                        :error-id="`erroramount${index}`"
+                        :value="ingredient.amount"
+                        :error="errors.amount"
+                    />
+                    <Body
+                        :text-id="`unitPrice${index}`"
+                        :error-id="`errorprice${index}`"
+                        :value="ingredient.unit_price"
+                        :error="errors.unit_price"
+                    />
                     <td class="py-4 text-center">{{new Date(ingredient.purchased_date).toLocaleDateString()}}</td>
                     <td class="py-4 space-x-3 text-center">
-                        <button class=" text-blue-500 hover:text-blue-600 duration-150 font-bold hover:underline" @click="edit($event,ingredient,index)" :id="`editBtn${index}`">Edit</button>
-                        <button class="hidden text-blue-500 hover:text-blue-600 duration-150 font-bold hover:underline" @click="confrimData(index,ingredient)" :id="`confirmBtn${index}`">Confrim</button>
-                        <button class="text-red-500 hover:text-red-600 duration-150 font-bold hover:underline" @click="deleteIngredient(ingredient.id)">Delete</button>
+                        <Button
+                            type="button"
+                            text="Edit"
+                            :id="`editBtn${index}`"
+                            class=" text-blue-500 hover:text-blue-600 duration-150 font-bold hover:underline"
+                            @click="edit($event,ingredient,index)"
+                        />
+                        <Button
+                            type="button"
+                            text="Confrim"
+                            :id="`confirmBtn${index}`"
+                            class="hidden text-blue-500 hover:text-blue-600 duration-150 font-bold hover:underline"
+                            @click="confrimData(index,ingredient)"
+                        />
+                        <Button
+                            type="button"
+                            text="Delete"
+                            class="text-red-500 hover:text-red-600 duration-150 font-bold hover:underline"
+                            @click="deleteIngredient(ingredient.id)"
+                        />
                     </td>
                 </tr>
             </tbody>

@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('image_url')->default('storage/profile/default.png');
             $table->boolean('isAdmin')->default(false);
-            $table->string('department')->nullable();
+            $table->string('department')->enum('Logistics','Sales','Warehouse','Admin','Factory')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

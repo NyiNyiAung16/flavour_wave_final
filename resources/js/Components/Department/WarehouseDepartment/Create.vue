@@ -1,4 +1,6 @@
 <script setup>
+import BaseInput from '@/Components/BaseInput.vue'
+import Button from '@/Components/Button.vue'
 import { useForm } from '@inertiajs/vue3';
 
 const form = useForm({
@@ -34,49 +36,86 @@ const CreateFactory = () => {
         <div class="grid grid-cols-2 gap-3">
             <div class="space-y-4">
                 <div>
-                    <label class="mb-1 text-gray-50 block" for="productid">Product ID</label>
-                    <input type="number" id="productid" v-model="form.product_id" class="w-full bg-gray-700 border-none p-2 rounded outline-none" placeholder="eg:1">
-                    <p class="text-sm text-red-500 my-1" v-if="form.errors.product_id">{{ form.errors.product_id }}</p>
+                    <BaseInput
+                        type="number"
+                        label="Product ID"
+                        v-model="form.product_id"
+                        :error="form.errors.product_id"
+                        class="w-full bg-gray-700 border-none p-2 rounded outline-none"
+                    />
                 </div>
                 <div>
-                    <label class="mb-1 text-gray-50 block" for="opening_balance">Opening Balance</label>
-                    <input type="number" id="opening_balance" v-model="form.opening_balance" class="w-full bg-gray-700 border-none p-2 rounded outline-none resize-none" placeholder="eg:100" />
-                    <p class="text-sm text-red-500 my-1" v-if="form.errors.opening_balance">{{ form.errors.opening_balance }}</p>
+                    <BaseInput
+                        type="number"
+                        label="Opening Balance"
+                        v-model="form.opening_balance"
+                        :error="form.errors.opening_balance"
+                        class="w-full bg-gray-700 border-none p-2 rounded outline-none"
+                    />
                 </div>
                 <div>
-                    <label class="mb-1 text-gray-50 block" for="salesIssue">Sales Issue</label>
-                    <input type="number" id="salesIssue" v-model="form.sales_issue" class="w-full bg-gray-700 border-none p-2 rounded outline-none" placeholder="eg:1">
-                    <p class="text-sm text-red-500 my-1" v-if="form.errors.sales_issue">{{ form.errors.sales_issue }}</p>
+                    <BaseInput
+                        type="number"
+                        label="Sales Issue"
+                        v-model="form.sales_issue"
+                        :error="form.errors.sales_issue"
+                        class="w-full bg-gray-700 border-none p-2 rounded outline-none"
+                    />
                 </div>
                 <div>
-                    <label class="mb-1 text-gray-50 block" for="received">Received</label>
-                    <input type="number" id="received" v-model="form.received" class="w-full bg-gray-700 border-none p-2 rounded outline-none" placeholder="eg:3">
-                    <p class="text-sm text-red-500 my-1" v-if="form.errors.received">{{ form.errors.received }}</p>
+                    <BaseInput
+                        type="number"
+                        label="Received"
+                        v-model="form.received"
+                        :error="form.errors.received"
+                        class="w-full bg-gray-700 border-none p-2 rounded outline-none"
+                    />
                 </div>
             </div>
             <div class="space-y-4">
                 <div>
-                    <label class="mb-1 text-gray-50 block" for="availability">Availability</label>
-                    <input type="number" id="availability" v-model="form.availability" class="w-full bg-gray-700 border-none p-2 rounded outline-none" placeholder="eg:90">
-                    <p class="text-sm text-red-500 my-1" v-if="form.errors.availability">{{ form.errors.availability }}</p>
+                    <BaseInput
+                        type="number"
+                        label="Availability"
+                        v-model="form.availability"
+                        :error="form.errors.availability"
+                        class="w-full bg-gray-700 border-none p-2 rounded outline-none"
+                    />
                 </div>
                 <div>
-                    <label class="mb-1 text-gray-50 block" for="sales_return">Sales Return</label>
-                    <input type="number" id="sales_return" v-model="form.sales_return" class="w-full bg-gray-700 border-none p-2 rounded outline-none" placeholder="eg:1">
-                    <p class="text-sm text-red-500 my-1" v-if="form.errors.sales_return">{{ form.errors.sales_return }}</p>
+                    <BaseInput
+                        type="number"
+                        label="Sales Return"
+                        v-model="form.sales_return"
+                        :error="form.errors.sales_return"
+                        class="w-full bg-gray-700 border-none p-2 rounded outline-none"
+                    />
                 </div>
                 <div>
-                    <label class="mb-1 text-gray-50 block" for="damage">Damage</label>
-                    <input type="number" id="damage" v-model="form.damage" class="w-full bg-gray-700 border-none p-2 rounded outline-none" placeholder="eg:3">
-                    <p class="text-sm text-red-500 my-1" v-if="form.errors.damage">{{ form.errors.damage }}</p>
+                    <BaseInput
+                        type="number"
+                        label="Damage"
+                        v-model="form.damage"
+                        :error="form.errors.damage"
+                        class="w-full bg-gray-700 border-none p-2 rounded outline-none"
+                    />
                 </div>
                 <div>
-                    <label class="mb-1 text-gray-50 block" for="closing_balance">Closing Balance</label>
-                    <input type="number" id="closing_balance" v-model="form.closing_balance" class="w-full bg-gray-700 border-none p-2 rounded outline-none" placeholder="eg:70">
-                    <p class="text-sm text-red-500 my-1" v-if="form.errors.closing_balance">{{ form.errors.closing_balance }}</p>
+                    <BaseInput
+                        type="number"
+                        label="Closing Balance"
+                        v-model="form.closing_balance"
+                        :error="form.errors.closing_balance"
+                        class="w-full bg-gray-700 border-none p-2 rounded outline-none"
+                    />
                 </div>
             </div>
-            <button type="submit" class="mt-2 px-3 py-2 bg-blue-500 hover:bg-blue-600 duration-150 rounded font-bold">Create</button>
+            <div>
+                <Button 
+                    type="submit"
+                    text="Create"
+                />
+            </div>
         </div>
     </form>
 </template>

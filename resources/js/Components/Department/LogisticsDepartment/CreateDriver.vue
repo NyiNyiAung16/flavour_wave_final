@@ -1,4 +1,6 @@
 <script setup>
+import BaseInput from '@/Components/BaseInput.vue'
+import Button from '@/Components/Button.vue'
 import { useForm } from '@inertiajs/vue3';
 
 const form = useForm({
@@ -28,14 +30,24 @@ const createDriver = () => {
     <div>
         <form @submit.prevent="createDriver" class="space-y-4 max-w-4xl">
             <div>
-                <label class="mb-1 text-gray-50 block" for="name">Name</label>
-                <input type="text" id="name" v-model="form.name" class="w-full bg-gray-700 border-none p-2 rounded outline-none" placeholder="eg:U Myo">
-                <p class="text-sm text-red-500 my-1" v-if="form.errors.name">{{ form.errors.name }}</p>
+                <BaseInput
+                    type="text"
+                    label="Name"
+                    v-model="form.name"
+                    :error="form.errors.name"
+                    placeholder="eg:U Myo"
+                    class="w-full bg-gray-700 border-none p-2 rounded outline-none"
+                />
             </div>
             <div>
-                <label class="mb-1 text-gray-50 block" for="vehicleNumber">Vehicle Number</label>
-                <input type="text" id="vehicleNumber" v-model="form.vehicle_number" class="w-full bg-gray-700 border-none p-2 rounded outline-none" placeholder="eg:2C/9800">
-                <p class="text-sm text-red-500 my-1" v-if="form.errors.vehicle_number">{{ form.errors.vehicle_number }}</p>
+                <BaseInput
+                    type="text"
+                    label="Vehicle Number"
+                    v-model="form.vehicle_number"
+                    :error="form.errors.vehicle_number"
+                    placeholder="eg:2C/9800"
+                    class="w-full bg-gray-700 border-none p-2 rounded outline-none"
+                />
             </div>
             <div>
                 <div class="flex items-center gap-2">
@@ -44,7 +56,13 @@ const createDriver = () => {
                 </div>
                 <p class="text-sm text-red-500 my-1" v-if="form.errors.isFree">{{ form.errors.isFree }}</p>
             </div>
-            <button type="submit" class="px-3 py-2 bg-blue-500 hover:bg-blue-600 duration-150 rounded font-bold">Create</button>
+            <div>
+                <Button
+                    type="submit"
+                    text="Create"
+                    class="px-3 py-2 bg-blue-500 hover:bg-blue-600 duration-150 rounded font-bold"
+                />
+            </div>
         </form>
     </div>
 </template>

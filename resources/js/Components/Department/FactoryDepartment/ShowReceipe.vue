@@ -1,4 +1,6 @@
 <script setup>
+import Button from '@/Components/Button.vue';
+import Body from '@/Components/Table/Body.vue';
 import { router } from '@inertiajs/vue3'
 import { showEdit, confrim,errors } from '../../../composable/editReceipe'
 
@@ -40,26 +42,46 @@ const confrimData = (index,receipe) => {
             <tbody>
                 <tr class="border-b item" v-for="(receipe,index) in receipes" :key="receipe.id">
                     <td class="py-4">{{index}}</td>
-                    <td class="py-4 text-center bg-transparent" >
-                        <span :id="`ingredientID${index}`" class="block text-center">{{ receipe.ingredient_id }}</span>
-                        <p class="text-sm hidden text-red-500 my-1" :id="`errorIngredientId${index}`" v-show="errors.ingredient_id">{{ errors.ingredient_id }}</p>
-                    </td>
-
-                    <td class="py-4 text-center bg-transparent" >
-                        <span :id="`productID${index}`" class="block text-center">{{receipe.product_id}}</span>
-                        <p class="text-sm hidden text-red-500 my-1" :id="`errorProductId${index}`" v-show="errors.product_id">{{ errors.product_id }}</p>
-                    </td>
-
-                    <td class="py-4 text-center bg-transparent" >
-                        <span :id="`amountGrams${index}`" class="block">{{receipe.amount_grams}}g</span>
-                        <p class="text-sm hidden text-red-500 my-1" :id="`errorGramsId${index}`" v-show="errors.amount_grams">{{ errors.amount_grams }}</p>
-                    </td>
-
+                    <Body
+                        :text-id="`ingredientID${index}`"
+                        :error-id="`errorIngredientId${index}`"
+                        :value="receipe.ingredient_id"
+                        :error="errors.ingredient_id"
+                    />
+                    <Body
+                        :text-id="`productID${index}`"
+                        :error-id="`errorProductId${index}`"
+                        :value="receipe.product_id"
+                        :error="errors.product_id"
+                    />
+                    <Body
+                        :text-id="`amountGrams${index}`"
+                        :error-id="`errorGramsId${index}`"
+                        :value="receipe.amount_grams"
+                        :error="errors.amount_grams"
+                    />
                     <td class="py-4 text-center">{{new Date(receipe.created_at).toLocaleDateString()}}</td>
                     <td class="py-4 space-x-3 text-center">
-                        <button class=" text-blue-500 hover:text-blue-600 duration-150 font-bold hover:underline" @click="edit($event,receipe,index)" :id="`editBtn${index}`">Edit</button>
-                        <button class="hidden text-blue-500 hover:text-blue-600 duration-150 font-bold hover:underline" @click="confrimData(index,receipe)" :id="`confirmBtn${index}`">Confrim</button>
-                        <button class="text-red-500 hover:text-red-600 duration-150 font-bold hover:underline" @click="deleteReceipe(receipe.id)">Delete</button>
+                        <Button
+                            type="button"
+                            text="Edit"
+                            :id="`editBtn${index}`"
+                            class=" text-blue-500 hover:text-blue-600 duration-150 font-bold hover:underline"
+                            @click="edit($event,receipe,index)"
+                        />
+                        <Button
+                            type="button"
+                            text="Confrim"
+                            :id="`confirmBtn${index}`"
+                            class="hidden text-blue-500 hover:text-blue-600 duration-150 font-bold hover:underline"
+                            @click="confrimData(index,receipe)"
+                        />
+                        <Button
+                            type="button"
+                            text="Delete"
+                            class="text-red-500 hover:text-red-600 duration-150 font-bold hover:underline"
+                            @click="deleteReceipe(receipe.id)"
+                        />
                     </td>
                 </tr>
             </tbody>

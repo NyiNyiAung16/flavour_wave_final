@@ -1,17 +1,7 @@
-<!-- <script setup>
-
-
-</script>
-
-
-<template>
-    <div>
-        
-    </div>
-</template>
- -->
-
 <script setup>
+import BaseInput from '@/Components/BaseInput.vue';
+import BaseSelect from '@/Components/BaseSelect.vue';
+import Button from '@/Components/Button.vue';
 import { ref } from 'vue';
 import { Head } from '@inertiajs/vue3'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
@@ -30,6 +20,15 @@ const form = useForm({
     image_url:null,
     department:props.user.department
 });
+
+const departmentOptions = ref([
+    { label: 'ADMIN' , value:'ADMIN' },
+    { label: 'SALE' , value:'SALE' },
+    { label: 'LOGISTIC' , value:'LOGISTIC' },
+    { label: 'FACTORY' , value:'FACTORY' },
+    { label: 'WAREHOUSE' , value:'WAREHOUSE' },
+]);
+
 
 const getImage = (e) => {
     form.image_url = e.target.files[0];
@@ -80,14 +79,24 @@ const toggle = ref('allUser');
                     <form class="grid grid-cols-2 gap-3" @submit.prevent="EditUser">
                         <div class="space-y-4">
                             <div>
-                                <label class="mb-1 text-gray-50 block" for="username">Username</label>
-                                <input type="text" id="username" v-model="form.name" class="w-full bg-gray-700 border-none p-2 rounded outline-none" placeholder="eg:Alex">
-                                <p class="text-sm text-red-500 my-1" v-if="form.errors.name">{{ form.errors.name }}</p>
+                                <BaseInput
+                                    type="text"
+                                    label="Username"
+                                    v-model="form.name"
+                                    :error="form.errors.name"
+                                    class="w-full bg-gray-700 border-none p-2 rounded outline-none"
+                                    placeholder="eg:Alex"
+                                />
                             </div>
                             <div>
-                                <label class="mb-1 text-gray-50 block" for="email">Email</label>
-                                <input type="email" id="productName" v-model="form.email" class="w-full bg-gray-700 border-none p-2 rounded outline-none" placeholder="eg:alex@gmail.com">
-                                <p class="text-sm text-red-500 my-1" v-if="form.errors.email">{{ form.errors.email }}</p>
+                                <BaseInput
+                                    type="email"
+                                    label="Email"
+                                    v-model="form.email"
+                                    :error="form.errors.email"
+                                    class="w-full bg-gray-700 border-none p-2 rounded outline-none"
+                                    placeholder="eg:alex@gmail.com"
+                                />
                             </div>
                             <div>
                                 <label class="block mb-1">Image</label>
@@ -96,18 +105,21 @@ const toggle = ref('allUser');
                                 <p class="text-sm text-red-500 my-1" v-if="form.errors.image_url">{{ form.errors.image_url }}</p>
                             </div>
                             <div>
-                                <label class="mb-1 text-gray-50 block" for="password">Department</label>
-                                <select v-model="form.department" class="w-full bg-gray-700 border-none p-2 rounded outline-none">
-                                    <option value="default" disabled selected>Choose a department</option>
-                                    <option value="ADMIN">ADMIN</option>
-                                    <option value="SALE">SALE</option>
-                                    <option value="LOGISTIC">LOGISTIC</option>
-                                    <option value="FACTORY">FACTORY</option>
-                                    <option value="WAREHOUSE">WAREHOUSE</option>
-                                </select>
-                                <p class="text-sm text-red-500 my-1" v-if="form.errors.department">{{ form.errors.department }}</p>
+                                <BaseSelect
+                                    label="Department"
+                                    v-model="form.department"
+                                    :options="departmentOptions"
+                                    :error="form.errors.department"
+                                    class="w-full bg-gray-700 border-none p-2 rounded outline-none"
+                                />
                             </div>
-                            <button class="inline-block px-3 py-2 bg-blue-500 hover:bg-blue-600 duration-200 rounded">Update</button>
+                            <div>
+                                <Button
+                                    type="submit"
+                                    text="Update"
+                                    class="inline-block px-3 py-2 bg-blue-500 hover:bg-blue-600 duration-200 rounded"
+                                />
+                            </div>
                         </div>
                     </form>
                 </div>

@@ -1,4 +1,6 @@
 <script setup>
+import Body from '@/Components/Table/Body.vue'
+import Button from '@/Components/Button.vue'
 import { router } from '@inertiajs/vue3';
 import { showEdit, confrim, errors } from '../../../composable/editProductDetail'
 
@@ -40,24 +42,47 @@ const confrimData = (index,factory) => {
         <tbody>
             <tr class="border-b item" v-for="(factory,index) in factories" :key="factory.id">
                 <td class="py-4">{{index}}</td>
-                <td class="py-4 text-center">
-                    <span class="block text-center" :id="`productID${index}`">{{ factory.product_id }}</span>
-                    <p class="text-sm hidden text-red-500 my-1" :id="`errorid${index}`" v-show="errors.product_id">{{ errors.product_id }}</p>
-                </td>
-                <td class="py-4 text-center">
-                    <span class="block text-center" :id="`expected${index}`">{{factory.expected}}</span>
-                    <p class="text-sm hidden text-red-500 my-1" :id="`errorexpected${index}`" v-show="errors.expected">{{ errors.expected }}</p>
-                </td>
-                <td class="py-4 text-center">
-                    <span class="block text-center" :id="`actual${index}`">{{factory.actual}}</span>
-                    <p class="text-sm hidden text-red-500 my-1" :id="`erroractual${index}`" v-show="errors.actual">{{ errors.actual }}</p>
-                </td>
+                <Body
+                    :text-id="`productID${index}`"
+                    :error-id="`errorid${index}`"
+                    :value="factory.product_id"
+                    :error="errors.product_id"
+                />
+                <Body
+                    :text-id="`expected${index}`"
+                    :error-id="`errorexpected${index}`"
+                    :value="factory.expected"
+                    :error="errors.expected"
+                />
+                <Body
+                    :text-id="`actual${index}`"
+                    :error-id="`erroractual${index}`"
+                    :value="factory.actual"
+                    :error="errors.actual"
+                />
                 <td class="py-4 text-center">{{factory.isStore}}</td>
                 <td class="py-4 text-center">{{new Date(factory.created_at).toLocaleDateString()}}</td>
                 <td class="py-4 space-x-3 text-center">
-                    <button class=" text-blue-500 hover:text-blue-600 duration-150 font-bold hover:underline" @click="edit($event,factory,index)" :id="`editBtn${index}`">Edit</button>
-                    <button class="hidden text-blue-500 hover:text-blue-600 duration-150 font-bold hover:underline" @click="confrimData(index,factory)" :id="`confirmBtn${index}`">Confrim</button>
-                    <button class="text-red-500 hover:text-red-600 duration-150 font-bold hover:underline" @click="deleteFactory(factory.id)">Delete</button>
+                    <Button
+                        type="button"
+                        text="Edit"
+                        :id="`editBtn${index}`"
+                        class=" text-blue-500 hover:text-blue-600 duration-150 font-bold hover:underline"
+                        @click="edit($event,factory,index)"
+                    />
+                    <Button
+                        type="button"
+                        text="Confrim"
+                        :id="`confirmBtn${index}`"
+                        class="hidden text-blue-500 hover:text-blue-600 duration-150 font-bold hover:underline"
+                        @click="confrimData(index,factory)"
+                    />
+                    <Button
+                        type="button"
+                        text="Delete"
+                        class="text-red-500 hover:text-red-600 duration-150 font-bold hover:underline"
+                        @click="deleteFactory(factory.id)"
+                    />
                 </td>
             </tr>
         </tbody>

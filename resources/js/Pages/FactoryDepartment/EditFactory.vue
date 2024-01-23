@@ -1,4 +1,6 @@
 <script setup>
+import BaseInput from '@/Components/BaseInput.vue'
+import Button from '@/Components/Button.vue'
 import AuthenticatedLayout from '../../Layouts/AuthenticatedLayout.vue'
 import { useForm } from '@inertiajs/vue3';
 
@@ -53,9 +55,13 @@ const getImage = (e) => {
                     <form @submit.prevent="Edit">
                         <div class="space-y-4 max-w-5xl">
                             <div>
-                                <label class="mb-1 text-gray-50 block" for="productName">Product Name</label>
-                                <input type="text" id="productName" v-model="form.name" class="w-full bg-gray-700 border-none p-2 rounded outline-none" placeholder="eg:Burmese Bliss">
-                                <p class="text-sm text-red-500 my-1" v-if="form.errors.name">{{ form.errors.name }}</p>
+                                <base-input
+                                    type="text"
+                                    label="Product Name"
+                                    v-model="form.name"
+                                    :error="form.errors.name"
+                                    class="w-full bg-gray-700 border-none p-2 rounded outline-none"
+                                />
                             </div>
                             <div>
                                 <label class="mb-1 text-gray-50 block" for="description">Description</label>
@@ -68,16 +74,30 @@ const getImage = (e) => {
                                 <p class="text-sm text-red-500 my-1" v-if="form.errors.image_url">{{ form.errors.image_url }}</p>
                             </div>
                             <div>
-                                <label class="mb-1 text-gray-50 block" for="price">Price</label>
-                                <input type="number" id="price" v-model="form.unit_price" class="w-full bg-gray-700 border-none p-2 rounded outline-none" placeholder="eg:100">
-                                <p class="text-sm text-red-500 my-1" v-if="form.errors.unit_price">{{ form.errors.unit_price }}</p>
+                                <base-input
+                                    type="number"
+                                    label="Price"
+                                    v-model="form.unit_price"
+                                    :error="form.errors.unit_price"
+                                    class="w-full bg-gray-700 border-none p-2 rounded outline-none"
+                                />
                             </div>
                             <div>
-                                <label class="mb-1 text-gray-50 block" for="perBox">Quantity Per Box</label>
-                                <input type="number" id="perBox" v-model="form.quantity_per_box" class="w-full bg-gray-700 border-none p-2 rounded outline-none" placeholder="eg:12">
-                                <p class="text-sm text-red-500 my-1" v-if="form.errors.quantity_per_box">{{ form.errors.quantity_per_box }}</p>
+                                <base-input
+                                    type="number"
+                                    label="Quantity Per Box"
+                                    v-model="form.quantity_per_box"
+                                    :error="form.errors.quantity_per_box"
+                                    class="w-full bg-gray-700 border-none p-2 rounded outline-none"
+                                />
                             </div>
-                            <button type="submit" class="px-3 py-2 bg-blue-500 hover:bg-blue-600 duration-150 rounded font-bold">Edit</button>
+                            <div>
+                                <Button
+                                    type="submit"
+                                    text="Update"
+                                    class="px-3 py-2 bg-blue-500 hover:bg-blue-600 duration-150 rounded font-bold"
+                                />
+                            </div>
                         </div>
                     </form>
                 </div>

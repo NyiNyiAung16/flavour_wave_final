@@ -1,4 +1,6 @@
 <script setup>
+import Button from '@/Components/Button.vue'
+import Body from '@/Components/Table/Body.vue';
 import { router } from '@inertiajs/vue3';
 import { showEdit, confrim, errors  } from '../../composable/editDriver'
 
@@ -39,23 +41,46 @@ const deleteDriver = (id) => {
             <tbody>
                 <tr class="border-b item" v-for="(driver,index) in drivers" :key="driver.id">
                     <td class="py-4">{{index}}</td>
-                    <td class="py-4 text-center">
-                        <span :id="`name${index}`" class="block text-center">{{ driver.name }}</span>
-                        <p class="text-sm hidden text-red-500 my-1" :id="`errorname${index}`" v-show="errors.name">{{ errors.name }}</p>
-                    </td>
-                    <td class="py-4 text-center">
-                        <span :id="`vehicle_number${index}`" class="block text-center">{{driver.vehicle_number}}</span>
-                        <p class="text-sm hidden text-red-500 my-1" :id="`errornumber${index}`" v-show="errors.vehicle_number">{{ errors.vehicle_number }}</p>
-                    </td>
-                    <td class="py-4 text-center">
-                        <span :id="`isFree${index}`" class="block text-center">{{driver.isFree ? 'Free' : 'Busy'}}</span>
-                        <p class="text-sm hidden text-red-500 my-1" :id="`errorisFree${index}`" v-show="errors.isFree">{{ errors.isFree }}</p>
-                    </td>
+                    <Body
+                        :text-id="`name${index}`"
+                        :error-id="`errorname${index}`"
+                        :value="driver.name"
+                        :error="errors.name"
+                    />
+                    <Body
+                        :text-id="`vehicle_number${index}`"
+                        :error-id="`errornumber${index}`"
+                        :value="driver.vehicle_number"
+                        :error="errors.vehicle_number"
+                    />
+                    <Body
+                        :text-id="`isFree${index}`"
+                        :error-id="`errorisFree${index}`"
+                        :value="driver.isFree ? 'Free' : 'Busy'"
+                        :error="errors.isFree"
+                    />
                     <td class="py-4 text-center">{{new Date(driver.created_at).toLocaleDateString()}}</td>
                     <td class="py-4 space-x-3 text-center">
-                        <button class=" text-blue-500 hover:text-blue-600 duration-150 font-bold hover:underline" @click="edit($event,driver,index)" :id="`editBtn${index}`">Edit</button>
-                        <button class="hidden text-blue-500 hover:text-blue-600 duration-150 font-bold hover:underline" @click="confrimData(index,driver)" :id="`confirmBtn${index}`">Confrim</button>
-                        <button class="text-red-500 hover:text-red-600 duration-150 font-bold hover:underline" @click="deleteDriver(driver.id)">Delete</button>
+                        <Button
+                            type="button"
+                            text="Edit"
+                            class=" text-blue-500 hover:text-blue-600 duration-150 font-bold hover:underline" 
+                            :id="`editBtn${index}`"
+                            @click="edit($event,driver,index)" 
+                        />
+                        <Button
+                            type="button"
+                            text="Confrim"
+                            class="hidden text-blue-500 hover:text-blue-600 duration-150 font-bold hover:underline" 
+                            :id="`confirmBtn${index}`"
+                            @click="confrimData(index,driver)" 
+                        />
+                        <Button
+                            type="button"
+                            text="Delete"
+                            class="text-red-500 hover:text-red-600 duration-150 font-bold hover:underline" 
+                            @click="deleteDriver(driver.id)" 
+                        />
                     </td>
                 </tr>
             </tbody>
