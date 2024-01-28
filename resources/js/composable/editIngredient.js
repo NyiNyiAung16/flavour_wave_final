@@ -39,15 +39,17 @@ const showEdit = (e,ingredient,index) => {
     form.amount = ingredient.amount;
     form.unit_price = ingredient.unit_price;
 
-    const ingredient_name = `<input type="text" value="${form.name}" class="w-fit p-1 text-white bg-transparent border-none outline-none" autofocus="true"/>`;
-    const ingredient_source= `<input type="text" value="${form.source}" class="w-fit p-1 text-center text-white bg-transparent border-none outline-none" autofocus="true"/>`;
-    const ingredient_amount = `<input type="number" value="${form.amount}" class="w-fit p-1 text-center text-white bg-transparent border-none outline-none" autofocus="true"/>`;
-    const ingredient_unit_price = `<input type="number" value="${form.unit_price}" class="w-fit p-1 text-center text-white bg-transparent border-none outline-none" autofocus="true"/>`;
+    const ingredient_name = `<input type="text" value="${form.name}" class="input"/>`;
+    const ingredient_source= `<input type="text" value="${form.source}" class="input"/>`;
+    const ingredient_amount = `<input type="number" value="${form.amount}" class="input"/>`;
+    const ingredient_unit_price = `<input type="number" value="${form.unit_price}" class="input"/>`;
 
     name.innerHTML = ingredient_name;
     source.innerHTML = ingredient_source;
     unitPrice.innerHTML = ingredient_unit_price;
     amount.innerHTML = ingredient_amount;
+
+    name.children[0].focus();
 };
 
 
@@ -72,8 +74,21 @@ const confrim = (index,ingredient) => {
         },
         onError:()=>{
             errors.value = form.errors;
+            if(form.errors.name){
+                name.children[0].style.outline = '1px solid red';
+            }else if(form.errors.amount){
+                amount.children[0].style.outline = '1px solid red';
+            }else if(form.errors.source){
+                source.children[0].style.outline = '1px solid red';
+            }else if(form.errors.unit_price){
+                unitPrice.children[0].style.outline = '1px solid red';
+            }
             setTimeout(()=>{
-                errors.value = {}
+                errors.value = {};
+                name.children[0].style.outline = 'none';
+                amount.children[0].style.outline = 'none';
+                source.children[0].style.outline = 'none';
+                unitPrice.children[0].style.outline = 'none';
             },2000);    
         },
         preserveScroll:true 

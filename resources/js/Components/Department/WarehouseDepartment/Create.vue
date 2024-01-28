@@ -1,6 +1,6 @@
 <script setup>
 import BaseInput from '@/Components/BaseInput.vue'
-import Button from '@/Components/Button.vue'
+import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { useForm } from '@inertiajs/vue3';
 
 const form = useForm({
@@ -33,6 +33,7 @@ const CreateFactory = () => {
 
 <template>
     <form @submit.prevent="CreateFactory">
+        <h3 class="text-2xl font-bold text-center mb-3">Create Warehouse</h3>
         <div class="grid grid-cols-2 gap-3">
             <div class="space-y-4">
                 <div>
@@ -111,10 +112,7 @@ const CreateFactory = () => {
                 </div>
             </div>
             <div>
-                <Button 
-                    type="submit"
-                    text="Create"
-                />
+                <PrimaryButton>Create</PrimaryButton>
             </div>
         </div>
     </form>

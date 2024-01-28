@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductsRequest;
 use App\Models\Factory;
 use App\Models\Ingredient;
 use App\Models\Product;
 use App\Models\Receipe;
+use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
@@ -39,27 +41,29 @@ class FactoryController extends Controller
         ]);
     }
 
-    public function store(Request $request){
-        $productCleanData = $request->validate([
-            'name' => 'required',
-            'image_url' => ['required','image'],
-            'description' => 'required',
-            'unit_price'=>'required',
-            'quantity_per_box'=>'required'
-        ]);
-        
+    public function storeProduct(ProductsRequest $request){
+        $productCleanData = $request->validated();
         $url = request('image_url')->store('product-images');
         $productCleanData['image_url'] = 'storage/' . $url ;
-        $product = Product::create($productCleanData);
+        Product::create($productCleanData);
         
+        return redirect(route('dashboard'))->with('message',[
+            'content' => 'Create Product is successful.',
+            'type' => 'success'
+        ]);
+    }
+
+    public function storeProductDetails(Request $request){
         $factoryCleanData = $request->validate([
+            'product_id' => ['required',Rule::exists('products','id')],
+            'quantity_per_box' => 'required',
             'expected' => 'required',
             'actual' => 'required'
         ]);
-        $factoryCleanData['product_id'] = $product->id;
+
         Factory::create($factoryCleanData);
         return redirect(route('dashboard'))->with('message',[
-            'content' => 'Create Factory is successful.',
+            'content' => 'Create Product Details is successful.',
             'type' => 'success'
         ]);
     }

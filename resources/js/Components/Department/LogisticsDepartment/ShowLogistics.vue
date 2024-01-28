@@ -1,14 +1,18 @@
 <script setup>
+import TableLayout from '@/Layouts/TableLayout.vue'
 import Body from '@/Components/Table/Body.vue'
 import Button from '@/Components/Button.vue'
 import { router } from '@inertiajs/vue3'
 import { showEdit, confrim, errors } from '../../../composable/editDeliver'
+import { ref } from 'vue';
 
 defineProps({
     logistics:{
         type:Array
     }
 });
+
+const headers = ref(['Preorder ID','Driver ID','Quantity','Status','Deliver Date']);
 
 const deleteLogistic = (id) => {
     router.delete(route('logistic.destroy',id));
@@ -22,24 +26,17 @@ const confrimData = (index,logistic) => {
     confrim(index,logistic);
 }
 
+
 </script>
 
 
 <template>
-    <div>
-        <table class="w-full">
-            <thead>
-                <tr class="text-left border-b head">
-                    <th class="py-3 pe-2">No.</th>
-                    <th class="py-3 text-center">Preorder ID</th>
-                    <th class="py-3 text-center">Driver ID</th>
-                    <th class="py-3 text-center">Quantity</th>
-                    <th class="py-3 text-center">Status</th>
-                    <th class="py-3 text-center">Deliver Date</th>
-                    <th class="py-3 text-center">Action</th>
-                </tr>
-            </thead>
-            <tbody>
+    <TableLayout
+        :headers="headers"
+        :is-admin="$page.props.auth.user.isAdmin" 
+        :is-department="$page.props.auth.user.department === 'LOGISTIC'"
+    >
+        <template #tbody>
                 <tr class="border-b item" v-for="(logistic,index) in logistics" :key="logistic.id">
                     <td class="py-4">{{index}}</td>
                     <Body
@@ -85,8 +82,7 @@ const confrimData = (index,logistic) => {
                         />
                     </td>
                 </tr>
-            </tbody>
-        </table>
-    </div>
+        </template>
+    </TableLayout>
 </template>
 

@@ -1,14 +1,18 @@
 <script setup>
 import Body from '@/Components/Table/Body.vue'
 import Button from '@/Components/Button.vue'
+import { ref } from 'vue';
 import { router } from '@inertiajs/vue3';
 import { showEdit, confrim, errors } from '../../../composable/editWarehouse'
+import TableLayout from '@/Layouts/TableLayout.vue';
 
 defineProps({
     warehouses:{
         type:Array
     }
 });
+
+const headers = ref(['Product ID','Opening Balance','Sales Issue','Received','Availability','Sales Return','Damage','Closing Balance','Created_at']);
 
 const deleteWarehouse = ( id ) => {
     router.delete(route('warehouse.destroy',id));
@@ -22,28 +26,17 @@ const confrimData = (index,warehouse) => {
     confrim(index,warehouse);
 }
 
+
 </script>
 
 
 <template>
-    <div>
-        <table class="w-full">
-            <thead>
-                <tr class="text-left border-b head">
-                    <th class="py-3 text-center pe-2">No.</th>
-                    <th class="py-3 text-center">Product ID</th>
-                    <th class="py-3 text-center">Opening Balance</th>
-                    <th class="py-3 text-center">Sales Issue</th>
-                    <th class="py-3 text-center">Received</th>
-                    <th class="py-3 text-center">Availability</th>
-                    <th class="py-3 text-center">Sales Return</th>
-                    <th class="py-3 text-center">Damage</th>
-                    <th class="py-3 text-center">Closing Balance</th>
-                    <th class="py-3 text-center">Created_at</th>
-                    <th class="py-3 text-center">Action</th>
-                </tr>
-            </thead>
-            <tbody>
+    <TableLayout
+        :headers="headers"
+        :is-admin="$page.props.auth.user.isAdmin" 
+        :is-department="$page.props.auth.user.department === 'WAREHOUSE'"
+    >
+        <template #tbody>
                 <tr class="border-b item" v-for="(warehouse,index) in warehouses" :key="warehouse.id">
                     <td class="py-4 text-center">{{index}}</td>
                     <Body
@@ -118,8 +111,7 @@ const confrimData = (index,warehouse) => {
                         />
                     </td>
                 </tr>
-            </tbody>
-        </table>
-    </div>
+        </template>
+    </TableLayout>
 </template>
 

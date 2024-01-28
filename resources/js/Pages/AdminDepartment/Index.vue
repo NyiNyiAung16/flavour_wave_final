@@ -27,27 +27,27 @@ const toggle = ref('allUser');
     <Head title="AdminDepartment" />
     <AuthenticatedLayout>
         <template #header>
-            <div class="flex gap-5">
-                <h2 class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-lg leading-tight cursor-pointer"
-                :class="{'underline':toggle === 'allUser'}"
+            <div class="flex flex-col gap-5">
+                <h2 class="sideBar"
+                :class="{'active-sideBar':toggle === 'allUser'}"
                 @click="toggle = 'allUser'"
                 >
                     All Users
                 </h2>
-                <h2 class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-lg leading-tight cursor-pointer"
-                :class="{'underline':toggle === 'report'}"
+                <h2 class="sideBar"
+                :class="{'active-sideBar':toggle === 'report'}"
                 @click="toggle = 'report'"
                 >
                     Reports
                 </h2>
-                <h2 class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-lg leading-tight cursor-pointer"
-                :class="{'underline':toggle === 'createUser'}"
+                <h2 class="sideBar"
+                :class="{'active-sideBar':toggle === 'createUser'}"
                 @click="toggle = 'createUser'"
                 >
                     Create User
                 </h2>
-                <h2 class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-lg leading-tight cursor-pointer"
-                :class="{'underline':toggle === 'createReport'}"
+                <h2 class="sideBar"
+                :class="{'active-sideBar':toggle === 'createReport'}"
                 @click="toggle = 'createReport'"
                 >
                     Create Report
@@ -56,7 +56,10 @@ const toggle = ref('allUser');
         </template>
         <div class="py-8">
             <div class="max-w-8xl mx-auto sm:px-6 lg:px-8 text-white">
-                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-3">
+                <div 
+                    class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-3"
+                    :class="{'overflow-x-scroll' : toggle === 'allUser'}"
+                >
                     <div v-if="toggle === 'allUser'">
                         <ShowUser :users="users"/>
                     </div>

@@ -1,6 +1,6 @@
 <script setup>
 import BaseInput from '@/Components/BaseInput.vue'
-import Button from '@/Components/Button.vue'
+import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { useForm } from '@inertiajs/vue3';
 
 const form = useForm({
@@ -27,8 +27,9 @@ const createDriver = () => {
 
 
 <template>
-    <div>
-        <form @submit.prevent="createDriver" class="space-y-4 max-w-4xl">
+    <div class="py-3">
+        <form @submit.prevent="createDriver" class="space-y-4 max-w-4xl mx-auto">
+            <h3 class="text-2xl font-bold text-center">Create Driver</h3>
             <div>
                 <BaseInput
                     type="text"
@@ -57,11 +58,7 @@ const createDriver = () => {
                 <p class="text-sm text-red-500 my-1" v-if="form.errors.isFree">{{ form.errors.isFree }}</p>
             </div>
             <div>
-                <Button
-                    type="submit"
-                    text="Create"
-                    class="px-3 py-2 bg-blue-500 hover:bg-blue-600 duration-150 rounded font-bold"
-                />
+                <PrimaryButton>Create</PrimaryButton>
             </div>
         </form>
     </div>

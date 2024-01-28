@@ -1,4 +1,7 @@
 <script setup>
+import TableLayout from '@/Layouts/TableLayout.vue';
+import { ref } from 'vue';
+
 
 
 defineProps({
@@ -7,26 +10,18 @@ defineProps({
     }
 });
 
+const headers = ref(['Product Names','Latitude','Longitude','Quantity','Preorder-Date','Deliver Price','Total Price','Status']);
+
 
 </script>
 
 <template>
-    <div>
-        <table class="w-full">
-            <thead>
-                <tr class="text-left border-b head">
-                    <th class="py-3 pe-2">No.</th>
-                    <th class="py-3">Product Names</th>
-                    <th class="py-3">Latitude</th>
-                    <th class="py-3">Longitude</th>
-                    <th class="py-3">Quantity</th>
-                    <th class="py-3">Preorder-Date</th>
-                    <th class="py-3">Deliver Price</th>
-                    <th class="py-3">Total Price</th>
-                    <th class="py-3">Status</th>
-                </tr>
-            </thead>
-            <tbody>
+    <TableLayout
+        :headers="headers"
+        :is-admin="$page.props.auth.user.isAdmin" 
+        :is-department="$page.props.auth.user.department === 'LOGISTIC'"
+    >
+        <template #tbody>
                 <tr class="border-b item" v-for="(preorder,index) in preorders" :key="preorder.id">
                     <td class="py-4">{{index}}</td>
                     <td class="py-4  flex gap-x-2">
@@ -40,9 +35,8 @@ defineProps({
                     <td class="py-4 text-center">{{preorder.total_price}}$</td>
                     <td class="py-4">{{preorder.status}}</td>
                 </tr>
-            </tbody>
-        </table>
-    </div>
+        </template>
+    </TableLayout>
 </template>
 
 

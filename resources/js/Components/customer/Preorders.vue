@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import ConfrimModal from '@/Components/Modals/ConfrimModal.vue'
 import CancelModal from '@/Components/Modals/CancelModal.vue'
+import TableLayout from '@/Layouts/TableLayout.vue';
 
 defineProps({
     preorders:{
@@ -12,6 +13,7 @@ defineProps({
     }
 });
 
+const headers = ref(['Preorder ID','Product Names','Latitude','Longitude','Quantity','Preorder-Date','Deliver Price','Total Price','Delivered Quantity','Status']);
 const confrimation = ref(false);
 const cancelconfrimation = ref(false);
 const preorderID = ref(null);
@@ -26,52 +28,39 @@ const showCancelModal = (id) => {
     preorderID.value = id;
 }
 
+
 </script>
 
 <template>
-    <div>
-        <table class="w-full">
-            <thead>
-                <tr class="text-left border-b head">
-                    <th class="py-3">No.</th>
-                    <th class="py-3 text-center">Preorder ID</th>
-                    <th class="py-3 w-1/6">Product Names</th>
-                    <th class="py-3 text-center">Latitude</th>
-                    <th class="py-3 text-center">Longitude</th>
-                    <th class="py-3 text-center">Quantity</th>
-                    <th class="py-3 text-center">Preorder-Date</th>
-                    <th class="py-3 text-center">Deliver Price</th>
-                    <th class="py-3 text-center">Total Price</th>
-                    <th class="py-3 text-center">Delivered Quantity</th>
-                    <th class="py-3">Status</th>
-                    <th class="py-3 text-center" v-show="user.isAdmin && user.department === 'SALE'">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr class="border-b item" v-for="(preorder,index) in preorders" :key="preorder.id">
-                    <td class="py-4">{{index}}</td>
-                    <td class="py-4 text-center">{{preorder.id}}</td>
-                    <td class="py-4 flex flex-wrap gap-x-2">
-                        <span v-for="product in preorder.products" :key="product.id">{{ product.name }},</span>
-                    </td>
-                    <td class="py-4 text-center">{{preorder.latitude}}</td>
-                    <td class="py-4 text-center">{{preorder.longitude}}</td>
-                    <td class="py-4 text-center">{{preorder.order_quantity}}</td>
-                    <td class="py-4 text-center">{{preorder.preorder_date}}</td>
-                    <td class="py-4 text-center">{{preorder.deliver_price}}$</td>
-                    <td class="py-4 text-center">{{preorder.total_price}}$</td>
-                    <td class="py-4 text-center">{{preorder.delivered_quantity}}</td>
-                    <td class="py-4">{{preorder.status}}</td>
-                    <td class="py-4 text-center" v-show="user.isAdmin && user.department === 'SALE'">
-                        <button class="text-blue-500 hover:text-blue-600 hover:underline duration-200 font-semibold" @click="showModal(preorder.id)">confrim</button>
-                        <button class="text-red-500 hover:text-red-600 hover:underline duration-200 font-semibold ms-2" @click="showCancelModal(preorder.id)">cancel</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <ConfrimModal :preorder_id="preorderID" :confrimation="confrimation" @hide-modal="confrimation = false"/>
-        <CancelModal :preorder_id="preorderID" :cancelconfrimation="cancelconfrimation" @cancel-modal="cancelconfrimation = false"/>
-    </div>
+    <TableLayout
+        :headers="headers"
+        :is-admin="$page.props.auth.user.isAdmin" 
+        :is-department="$page.props.auth.user.department === 'SALE'"
+    >
+        <template #tbody>
+            <tr class="border-b item" v-for="(preorder,index) in preorders" :key="preorder.id">
+                <td class="py-4">{{index}}</td>
+                <td class="py-4 text-center">{{preorder.id}}</td>
+                <td class="py-4 flex flex-wrap gap-x-2">
+                    <span v-for="product in preorder.products" :key="product.id">{{ product.name }},</span>
+                </td>
+                <td class="py-4 text-center">{{preorder.latitude}}</td>
+                <td class="py-4 text-center">{{preorder.longitude}}</td>
+                <td class="py-4 text-center">{{preorder.order_quantity}}</td>
+                <td class="py-4 text-center">{{preorder.preorder_date}}</td>
+                <td class="py-4 text-center">{{preorder.deliver_price}}$</td>
+                <td class="py-4 text-center">{{preorder.total_price}}$</td>
+                <td class="py-4 text-center">{{preorder.delivered_quantity}}</td>
+                <td class="py-4">{{preorder.status}}</td>
+                <td class="py-4 text-center" v-show="user.isAdmin && user.department === 'SALE'">
+                    <button class="text-blue-500 hover:text-blue-600 hover:underline duration-200 font-semibold" @click="showModal(preorder.id)">confrim</button>
+                    <button class="text-red-500 hover:text-red-600 hover:underline duration-200 font-semibold ms-2" @click="showCancelModal(preorder.id)">cancel</button>
+                </td>
+            </tr>
+        </template>
+    </TableLayout>
+    <ConfrimModal :preorder_id="preorderID" :confrimation="confrimation" @hide-modal="confrimation = false"/>
+    <CancelModal :preorder_id="preorderID" :cancelconfrimation="cancelconfrimation" @cancel-modal="cancelconfrimation = false"/>
 </template>
 
 

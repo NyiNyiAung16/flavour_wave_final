@@ -34,13 +34,15 @@ const showEdit = (e,receipe,index) => {
     form.ingredient_id = receipe.ingredient_id;
     form.amount_grams = receipe.amount_grams;
 
-    const product_id = `<input type="number" value="${form.product_id}" class="w-fit p-1 text-center text-white bg-transparent border-none outline-none" autofocus="true"/>`;
-    const ingredient_id = `<input type="number" value="${form.ingredient_id}" class="w-fit p-1 text-white bg-transparent border-none outline-none" autofocus="true"/>`;
-    const grams = `<input type="number" value="${form.amount_grams}" class="w-fit p-1 text-center text-white bg-transparent border-none outline-none" autofocus="true"/>`;
+    const product_id = `<input type="number" value="${form.product_id}" class="input"/>`;
+    const ingredient_id = `<input type="number" value="${form.ingredient_id}" class="input"/>`;
+    const grams = `<input type="number" value="${form.amount_grams}" class="input"/>`;
 
     productID.innerHTML = product_id;
     ingredientID.innerHTML = ingredient_id;
     amountGrams.innerHTML = grams;
+
+    ingredientID.children[0].focus();
 
 };
 
@@ -63,8 +65,18 @@ const confrim = (index,receipe) => {
         },
         onError:()=>{
             errors.value = form.errors;
+            if(form.errors.product_id){
+                productID.children[0].style.outline = '1px solid red';
+            }else if(form.errors.ingredient_id){
+                ingredientID.children[0].style.outline = '1px solid red';
+            }else if(form.errors.amount_grams){
+                amountGrams.children[0].style.outline = '1px solid red';
+            }
             setTimeout(()=>{
-                errors.value = {}
+                errors.value = {};
+                ingredientID.children[0].style.outline = 'none';
+                productID.children[0].style.outline = 'none';
+                amountGrams.children[0].style.outline = 'none';
             },2000);    
         },
         preserveScroll:true 

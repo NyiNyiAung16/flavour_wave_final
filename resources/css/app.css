@@ -1,3 +1,15 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.sideBar{
+    @apply font-semibold text-gray-200 hover:text-gray-300 hover:bg-gray-900 p-2 rounded text-start duration-150 text-lg leading-tight cursor-pointer border-l-4 border-transparent;
+}
+
+.active-sideBar{
+    @apply border-gray-700 bg-gray-900;
+}
+
+.input{
+    @apply inline-block max-w-full rounded p-1 text-center text-white bg-gray-900 border-none outline-none checked:bg-gray-900;
+}

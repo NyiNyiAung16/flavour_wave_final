@@ -115,7 +115,8 @@ Route::middleware(FactoryMiddleware::class)->group(function(){
     Route::get('/factoryDepartment/dashboard',[FactoryController::class,'index'])->name('factoryDepartment.index');
     Route::get('/factoryDepartment/productsDetail/{factory}/edit',[FactoryController::class,'editPage']);
     Route::get('/factoryDepartment/products/{product}/edit',[FactoryController::class,'editProduct'])->name('product.edit');
-    Route::post('/factoryDepartment/create',[FactoryController::class,'store'])->name('factory.store');
+    Route::post('/factoryDepartment/createProduct',[FactoryController::class,'storeProduct'])->name('factory.product.store');
+    Route::post('/factoryDepartment/createProductDetails',[FactoryController::class,'storeProductDetails'])->name('factory.productDetails.store');
     Route::put('/factoryDepartment/edit',[FactoryController::class,'editFactory'])->name('factory.edit');
     Route::patch('/factoryDepartment/ingredients/{ingredient}/patch',[FactoryController::class,'storeEditIngredient'])->name('ingredient.patch');
     Route::patch('/factoryDepartment/receipes/{receipe}/patch',[ReceipesController::class,'storeEditReceipe'])->name('receipe.patch');

@@ -34,27 +34,27 @@ const toggle = ref('default');
     <Head title="SaleDepartment" />
     <AuthenticatedLayout>
         <template #header>
-            <div class="flex gap-5">
-                <h2 class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-md leading-tight cursor-pointer" 
-                :class="{'underline':toggle === 'default'}"
+            <div class="flex flex-col gap-5">
+                <h2 class="sideBar" 
+                :class="{'active-sideBar':toggle === 'default'}"
                 @click="toggle = 'default'"
                 >
                     Preorders
                 </h2>
-                <h2 class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-md leading-tight cursor-pointer" 
-                :class="{'underline':toggle === 'urgents'}"
+                <h2 class="sideBar" 
+                :class="{'active-sideBar':toggle === 'urgents'}"
                 @click="toggle = 'urgents'"
                 >
                     Urgent Orders
                 </h2>
-                <h2 class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-md leading-tight cursor-pointer" 
-                :class="{'underline':toggle === 'orders'}"
+                <h2 class="sideBar" 
+                :class="{'active-sideBar':toggle === 'orders'}"
                 @click="toggle = 'orders'"
                 >
                     Confrimed & Cancel Preorders
                 </h2>
-                <h2 class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-md leading-tight cursor-pointer" 
-                :class="{'underline':toggle === 'urgentOrders'}"
+                <h2 class="sideBar" 
+                :class="{'active-sideBar':toggle === 'urgentOrders'}"
                 @click="toggle = 'urgentOrders'"
                 >
                     Confrimed & Cancel Urgent Orders
@@ -63,7 +63,7 @@ const toggle = ref('default');
         </template>
         <div class="py-8">
             <div class="max-w-8xl mx-auto sm:px-6 lg:px-8 text-white">
-                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-3">
+                <div class="bg-white dark:bg-gray-800 overflow-hidden overflow-x-scroll shadow-sm sm:rounded-lg p-3">
                     <div v-if="toggle === 'default'">
                         <Preorders :preorders="preorders" :user="user"/>
                     </div>

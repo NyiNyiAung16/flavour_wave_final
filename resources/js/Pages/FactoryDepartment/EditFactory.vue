@@ -1,4 +1,5 @@
 <script setup>
+import NavLink from '@/Components/NavLink.vue'
 import BaseInput from '@/Components/BaseInput.vue'
 import Button from '@/Components/Button.vue'
 import AuthenticatedLayout from '../../Layouts/AuthenticatedLayout.vue'
@@ -44,16 +45,24 @@ const getImage = (e) => {
 <template>
     <AuthenticatedLayout>
         <template #header>
-            <div class="flex gap-5">
-                <p class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-xl leading-tight cursor-pointer underline" 
-                >Edit Product Detail</p>
+            <div class="flex flex-col gap-3">
+                <NavLink 
+                    v-show="$page.props.auth.user.isAdmin && $page.props.auth.user.department === 'FACTORY'" 
+                    :href="route('factoryDepartment.index')" 
+                    :active="route().current('factoryDepartment.index')"
+                >
+                    Dashboard
+                </NavLink>
+                <p class="sideBar active-sideBar" 
+                >Edit Product</p>
             </div>
         </template>
         <div class="py-8">
             <div class="max-w-8xl mx-auto sm:px-6 lg:px-8 text-white">
                 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-3">
                     <form @submit.prevent="Edit">
-                        <div class="space-y-4 max-w-5xl">
+                        <h3 class="text-2xl text-center font-semibold mb-3">Edit Product</h3>
+                        <div class="space-y-4 max-w-5xl mx-auto">
                             <div>
                                 <base-input
                                     type="text"

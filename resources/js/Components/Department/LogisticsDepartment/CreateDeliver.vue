@@ -1,6 +1,6 @@
 <script setup>
 import BaseInput from '@/Components/BaseInput.vue';
-import Button from '@/Components/Button.vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { useForm } from '@inertiajs/vue3';
 
 const form = useForm({
@@ -27,8 +27,9 @@ const createDeliver = () => {
 
 
 <template>
-    <div>
-        <form @submit.prevent="createDeliver" class="space-y-4 max-w-4xl">
+    <div class="py-3">
+        <form @submit.prevent="createDeliver" class="space-y-4 max-w-4xl mx-auto">
+            <h3 class="text-2xl font-bold text-center">Create Deliver</h3>
             <div>
                 <BaseInput
                     type="number"
@@ -57,11 +58,7 @@ const createDeliver = () => {
                 />
             </div>
             <div>
-                <Button
-                    type="button"
-                    text="Deliver"
-                    class="px-3 py-2 bg-blue-500 hover:bg-blue-600 duration-150 rounded font-bold"
-                />
+                <PrimaryButton>Create</PrimaryButton>
             </div>
         </form>
     </div>

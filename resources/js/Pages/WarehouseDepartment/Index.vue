@@ -24,30 +24,33 @@ const toggle = ref('default');
     <Head title="WarehouseDepartment" />
     <AuthenticatedLayout>
         <template #header>
-            <div class="flex items-center gap-4">
-                <h2 class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-lg leading-tight cursor-pointer" 
-                    :class="{'underline':toggle === 'default'}"
+            <div class="flex flex-col gap-5">
+                <h2 class="sideBar" 
+                    :class="{'active-sideBar':toggle === 'default'}"
                     @click="toggle = 'default'"
                 >
-                    WarehouseDepartment
+                    Products Details
                 </h2>
-                <h2 class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-lg leading-tight cursor-pointer" 
-                    :class="{'underline':toggle === 'storeProducts'}"
+                <h2 class="sideBar" 
+                    :class="{'active-sideBar':toggle === 'storeProducts'}"
                     @click="toggle = 'storeProducts'"
                 >
                     Store Products
                 </h2>
-                <h2 class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-lg leading-tight cursor-pointer" 
-                    :class="{'underline':toggle === 'create'}"
+                <h2 class="sideBar" 
+                    :class="{'active-sideBar':toggle === 'create'}"
                     @click="toggle = 'create'"
                 >
-                    Create 
+                    Create Warehouse
                 </h2>
             </div>
         </template>
         <div class="py-8">
             <div class="max-w-8xl mx-auto sm:px-6 lg:px-8 text-white">
-                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-3">
+                <div 
+                    class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-3"
+                    :class="{'overflow-x-scroll': toggle !== 'create'}"
+                >
                     <div v-if="toggle === 'default'">
                         <Show :warehouses="warehouses"/>
                     </div>

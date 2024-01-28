@@ -10,7 +10,6 @@ import { useToast } from 'vue-toastification';
 const form = useForm({
     name:'',
     email:'',
-    image_url:null,
     password:'',
     password_confirmation:'',
     department:'default'
@@ -23,10 +22,6 @@ const departmentOptions = ref([
     { label: 'FACTORY' , value:'FACTORY' },
     { label: 'WAREHOUSE' , value:'WAREHOUSE' },
 ]);
-
-const getImage = (e) => {
-    form.image_url = e.target.files[0];
-}
 
 const createUser = () => {
     if(form.department === 'default'){
@@ -54,62 +49,53 @@ const createUser = () => {
 
 <template>
     <div>
-        <form class="grid grid-cols-2 gap-3" @submit.prevent="createUser">
-            <div class="space-y-4">
-                <div>
-                    <base-input
-                        type="text"
-                        v-model="form.name"
-                        :error="form.errors.name"
-                        label="Username"
-                        placeholder="eg:Alex"
-                        class="w-full bg-gray-700 border-none p-2 rounded outline-none"
-                    />
-                </div>
-                <div>
-                    <base-input
-                        type="email"
-                        v-model="form.email"
-                        :error="form.errors.email"
-                        label="Email"
-                        placeholder="eg:alex@gmail.com"
-                        class="w-full bg-gray-700 border-none p-2 rounded outline-none"
-                    />
-                </div>
-                <div>
-                    <label class="block mb-1">Image</label>
-                    <label class="mb-1 text-gray-50 hover:text-gray-300 duration-150 block bg-gray-700 border-none p-2 rounded cursor-pointer" for="image">Choose an image</label>
-                    <input class="hidden" type="file" id="image" @change="getImage">
-                    <p class="text-sm text-red-500 my-1" v-if="form.errors.image_url">{{ form.errors.image_url }}</p>
-                </div>
+        <form class="max-w-4xl mx-auto space-y-5" @submit.prevent="createUser">
+            <h3 class="text-2xl font-bold text-center text-gray-100">Create User</h3>
+            <div>
+                <base-input
+                    type="text"
+                    v-model="form.name"
+                    :error="form.errors.name"
+                    label="Username"
+                    placeholder="eg:Alex"
+                    class="w-full bg-gray-700 border-none p-2 rounded outline-none"
+                />
             </div>
-            <div class="space-y-4 ">
-                <div>
-                    <base-select
-                        label="Department"
-                        v-model="form.department"
-                        :options="departmentOptions"
-                        :error="form.errors.department"
-                        class="w-full bg-gray-700 border-none p-2 rounded outline-none"
-                    />
-                </div>
-                <div>
-                    <base-input
-                        type="password"
-                        v-model="form.password"
-                        label="Password"
-                        class="w-full bg-gray-700 border-none p-2 rounded outline-none"
-                    />
-                </div>
-                <div>
-                    <base-input
-                        type="password"
-                        v-model="form.password_confirmation"
-                        label="Confrim Password"
-                        :error="form.errors.password"
-                        class="w-full bg-gray-700 border-none p-2 rounded outline-none"
-                    />
-                </div>
+            <div>
+                <base-input
+                    type="email"
+                    v-model="form.email"
+                    :error="form.errors.email"
+                    label="Email"
+                    placeholder="eg:alex@gmail.com"
+                    class="w-full bg-gray-700 border-none p-2 rounded outline-none"
+                />
+            </div>
+            <div>
+                <base-select
+                    label="Department"
+                    v-model="form.department"
+                    :options="departmentOptions"
+                    :error="form.errors.department"
+                    class="w-full bg-gray-700 border-none p-2 rounded outline-none"
+                />
+            </div>
+            <div>
+                <base-input
+                    type="password"
+                    v-model="form.password"
+                    label="Password"
+                    class="w-full bg-gray-700 border-none p-2 rounded outline-none"
+                />
+            </div>
+            <div>
+                <base-input
+                    type="password"
+                    v-model="form.password_confirmation"
+                    label="Confrim Password"
+                    :error="form.errors.password"
+                    class="w-full bg-gray-700 border-none p-2 rounded outline-none"
+                />
             </div>
             <div>
                 <Button

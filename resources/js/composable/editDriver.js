@@ -34,13 +34,15 @@ const showEdit = (e,driver,index) => {
     form.vehicle_number = driver.vehicle_number;
     form.isFree = driver.isFree ? true : false;
 
-    const driver_name = `<input type="text" value="${form.name}" class="w-fit p-1 text-center text-white bg-transparent border-none outline-none" autofocus="true"/>`;
-    const driver_vehicle_number= `<input type="text" value="${form.vehicle_number}" class="w-fit p-1 text-center text-white bg-transparent border-none outline-none" autofocus="true"/>`;
-    const driver_isFree = `<input type="checkbox" value="${form.isFree}" class="w-fit p-1 text-center bg-gray-200 rounded border-none outline-none" autofocus="true"/>`;
+    const driver_name = `<input type="text" value="${form.name}" class="input"/>`;
+    const driver_vehicle_number= `<input type="text" value="${form.vehicle_number}" class="input"/>`;
+    const driver_isFree = `<input type="checkbox" ${form.isFree ? 'checked' : ''} class="input"/>`;
 
     name.innerHTML = driver_name;
     vehicle_number.innerHTML = driver_vehicle_number;
     isFree.innerHTML = driver_isFree;
+
+    name.children[0].focus();
 };
 
 
@@ -62,8 +64,18 @@ const confrim = (index,driver) => {
         },
         onError:()=>{
             errors.value = form.errors;
+            if(form.errors.name){
+                name.children[0].style.outline = '1px solid red';
+            }else if(form.errors.vehicle_number){
+                vehicle_number.children[0].style.outline = '1px solid red';
+            }else if(form.errors.isFree){
+                isFree.children[0].style.outline = '1px solid red';
+            }
             setTimeout(()=>{
-                errors.value = {}
+                errors.value = {};
+                name.children[0].style.outline = 'none';
+                vehicle_number.children[0].style.outline = 'none';
+                isFree.children[0].style.outline = 'none';
             },2000);    
         },
         preserveScroll:true 

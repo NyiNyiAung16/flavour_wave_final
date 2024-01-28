@@ -59,14 +59,14 @@ const showEdit = (e,warehouse,index) => {
     form.damage = warehouse.damage;
     form.closing_balance = warehouse.closing_balance;
 
-    const product_id = `<input type="number" value="${form.product_id}" class="w-[80px] m-0 px-2 py-1 text-center text-white bg-transparent border-none outline-none" autofocus="true"/>`;
-    const opening_balance = `<input type="number" value="${form.opening_balance}" class="w-[80px] m-0 px-2 py-1 text-center text-white bg-transparent border-none outline-none" autofocus="true"/>`;
-    const sales_issue = `<input type="number" value="${form.sales_issue}" class="w-[80px] m-0 px-2 py-1 text-center text-white bg-transparent border-none outline-none" autofocus="true"/>`;
-    const warehouse_received = `<input type="number" value="${form.received}" class="w-[80px] m-0 px-2 py-1 text-center text-white bg-transparent border-none outline-none" autofocus="true"/>`;
-    const availability = `<input type="number" value="${form.availability}" class="w-[80px] m-0 px-2 py-1 text-center text-white bg-transparent border-none outline-none" autofocus="true"/>`;
-    const sales_return = `<input type="number" value="${form.sales_return}" class="w-[80px] m-0 px-2 py-1 text-center text-white bg-transparent border-none outline-none" autofocus="true"/>`;
-    const warehouse_damage = `<input type="number" value="${form.damage}" class="w-[80px] m-0 px-2 py-1 text-center text-white bg-transparent border-none outline-none" autofocus="true"/>`;
-    const closing_balance = `<input type="number" value="${form.closing_balance}" class="w-[80px] m-0 px-2 py-1 text-center text-white bg-transparent border-none outline-none" autofocus="true"/>`;
+    const product_id = `<input type="number" value="${form.product_id}" class="input"/>`;
+    const opening_balance = `<input type="number" value="${form.opening_balance}" class="input"/>`;
+    const sales_issue = `<input type="number" value="${form.sales_issue}" class="input"/>`;
+    const warehouse_received = `<input type="number" value="${form.received}" class="input"/>`;
+    const availability = `<input type="number" value="${form.availability}" class="input"/>`;
+    const sales_return = `<input type="number" value="${form.sales_return}" class="input"/>`;
+    const warehouse_damage = `<input type="number" value="${form.damage}" class="input"/>`;
+    const closing_balance = `<input type="number" value="${form.closing_balance}" class="input"/>`;
 
     productid.innerHTML = product_id;
     opening.innerHTML = opening_balance;
@@ -76,6 +76,8 @@ const showEdit = (e,warehouse,index) => {
     salesRe.innerHTML = sales_return;
     damage.innerHTML = warehouse_damage;
     closing.innerHTML = closing_balance;
+
+    productid.children[0].focus();
 
 };
 
@@ -115,12 +117,38 @@ const confrim = (index,warehouse) => {
         },
         onError:()=>{
             errors.value = form.errors;
+            if(form.errors.product_id){
+                productid.children[0].style.outline = '1px solid red';
+            }else if(form.errors.opening_balance){
+                opening.children[0].style.outline = '1px solid red';
+            }else if(form.errors.sales_issue){
+                salesIss.children[0].style.outline = '1px solid red';
+            }else if(form.errors.received){
+                received.children[0].style.outline = '1px solid red';
+            }else if(form.errors.availability){
+                avail.children[0].style.outline = '1px solid red';
+            }else if(form.errors.sales_return){
+                salesRe.children[0].style.outline = '1px solid red';
+            }else if(form.errors.damage){
+                damage.children[0].style.outline = '1px solid red';
+            }else if(form.errors.closing_balance){
+                closing.children[0].style.outline = '1px solid red';
+            }
             setTimeout(()=>{
-                errors.value = {}
+                errors.value = {};
+                productid.children[0].style.outline = 'none';
+                opening.children[0].style.outline = 'none'; 
+                salesIss.children[0].style.outline = 'none'; 
+                received.children[0].style.outline = 'none'; 
+                avail.children[0].style.outline = 'none'; 
+                salesRe.children[0].style.outline = 'none'; 
+                damage.children[0].style.outline = 'none'; 
+                closing.children[0].style.outline = 'none'; 
             },2000);    
         },
         preserveScroll:true 
     });
 }
+
 
 export { showEdit, confrim, errors };

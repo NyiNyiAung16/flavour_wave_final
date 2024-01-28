@@ -1,4 +1,5 @@
 <script setup>
+import NavLink from '@/Components/NavLink.vue'
 import BaseInput from '@/Components/BaseInput.vue';
 import BaseSelect from '@/Components/BaseSelect.vue';
 import Button from '@/Components/Button.vue';
@@ -17,7 +18,6 @@ const props = defineProps({
 const form = useForm({
     name:props.user.name,
     email:props.user.email,
-    image_url:null,
     department:props.user.department
 });
 
@@ -28,11 +28,6 @@ const departmentOptions = ref([
     { label: 'FACTORY' , value:'FACTORY' },
     { label: 'WAREHOUSE' , value:'WAREHOUSE' },
 ]);
-
-
-const getImage = (e) => {
-    form.image_url = e.target.files[0];
-}
 
 const EditUser = () => {
     if(form.department === 'default'){
@@ -64,19 +59,25 @@ const toggle = ref('allUser');
     <Head title="AdminDepartment" />
     <AuthenticatedLayout>
         <template #header>
-            <div class="flex gap-5">
-                <h2 class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-lg leading-tight cursor-pointer"
-                :class="{'underline':toggle === 'allUser'}"
-                @click="toggle = 'allUser'"
+            <div class="flex flex-col gap-5">
+                <NavLink 
+                    v-show="$page.props.auth.user.isAdmin && $page.props.auth.user.department === 'ADMIN'" 
+                    :href="route('adminDepartment.index')" 
+                    :active="route().current('adminDepartment.index')"
+                >
+                    Dashboard
+                </NavLink>
+                <p class="sideBar active-sideBar"
                 >
                     Edit User
-                </h2>
+                </p>
             </div>
         </template>
         <div class="py-8">
             <div class="max-w-8xl mx-auto sm:px-6 lg:px-8 text-white">
                 <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-3">
-                    <form class="grid grid-cols-2 gap-3" @submit.prevent="EditUser">
+                    <form class="max-w-3xl mx-auto py-2" @submit.prevent="EditUser">
+                        <h3 class="text-2xl font-semibold text-center mb-3">Edit User</h3>
                         <div class="space-y-4">
                             <div>
                                 <BaseInput
@@ -97,12 +98,6 @@ const toggle = ref('allUser');
                                     class="w-full bg-gray-700 border-none p-2 rounded outline-none"
                                     placeholder="eg:alex@gmail.com"
                                 />
-                            </div>
-                            <div>
-                                <label class="block mb-1">Image</label>
-                                <label class="mb-1 text-gray-50 hover:text-gray-300 duration-150 block bg-gray-700 border-none p-2 rounded cursor-pointer" for="image">Choose an image</label>
-                                <input class="hidden" type="file" id="image" @change="getImage">
-                                <p class="text-sm text-red-500 my-1" v-if="form.errors.image_url">{{ form.errors.image_url }}</p>
                             </div>
                             <div>
                                 <BaseSelect

@@ -1,14 +1,19 @@
 <script setup>
+import TableLayout from '@/Layouts/TableLayout.vue';
 import Body from '@/Components/Table/Body.vue'
 import Button from '@/Components/Button.vue'
+import { ref } from 'vue';
 import { router } from '@inertiajs/vue3';
 import { showEdit, confrim, errors } from '../../../composable/editProductDetail'
 
 const props = defineProps({
     factories:{
-        type:Array
+        type:Array,
+        required:true
     }
 });
+
+const headers = ref(['Product ID','Expected','Actual','Store To Warehouse','Created_at'])
 
 const deleteFactory = ( id ) => {
     router.delete(route('factory.destroy',id));
@@ -27,19 +32,12 @@ const confrimData = (index,factory) => {
 
 
 <template>
-    <table class="w-full">
-        <thead>
-            <tr class="text-left border-b head">
-                <th class="py-3 pe-2">No.</th>
-                <th class="py-3 text-center">Product ID</th>
-                <th class="py-3 text-center">Expected</th>
-                <th class="py-3 text-center">Actual</th>
-                <th class="py-3 text-center">Store To Warehouse</th>
-                <th class="py-3 text-center">Created_at</th>
-                <th class="py-3 text-center">Action</th>
-            </tr>
-        </thead>
-        <tbody>
+    <TableLayout 
+        :headers="headers"
+        :is-admin="$page.props.auth.user.isAdmin" 
+        :is-department="$page.props.auth.user.department === 'FACTORY'"
+    >
+        <template #tbody>
             <tr class="border-b item" v-for="(factory,index) in factories" :key="factory.id">
                 <td class="py-4">{{index}}</td>
                 <Body
@@ -85,7 +83,7 @@ const confrimData = (index,factory) => {
                     />
                 </td>
             </tr>
-        </tbody>
-    </table>
+        </template>
+    </TableLayout>
 </template>
 

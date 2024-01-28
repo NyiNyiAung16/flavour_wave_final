@@ -1,4 +1,6 @@
 <script setup>
+import TableLayout from '@/Layouts/TableLayout.vue';
+import { ref } from 'vue';
 
 defineProps({
     urgents:{
@@ -6,27 +8,19 @@ defineProps({
     }
 });
 
+const headers = ref(['Product Names','Quantity','Driver NRC','Truck Number','Truck Capacity','Pickup Date','Total Price','Status']);
+
 
 </script>
 
 
 <template>
-    <div>
-        <table class="w-full">
-            <thead>
-                <tr class="text-left border-b head">
-                    <th class="py-3 pe-2">No.</th>
-                    <th class="py-3 w-[350px]">Product Names</th>
-                    <th class="py-3">Quantity</th>
-                    <th class="py-3">Driver NRC</th>
-                    <th class="py-3">Truck Number</th>
-                    <th class="py-3">Truck Capacity</th>
-                    <th class="py-3">Pickup Date</th>
-                    <th class="py-3">Total Price</th>
-                    <th class="py-3">Status</th>
-                </tr>
-            </thead>
-            <tbody>
+    <TableLayout
+        :headers="headers"
+        :is-admin="$page.props.auth.user.isAdmin" 
+        :is-department="$page.props.auth.user.department === 'LOGISTIC'"
+    >
+        <template #tbody>
                 <tr class="border-b item" v-for="(urgent,index) in urgents" :key="urgent.id">
                     <td class="py-4">{{index}}</td>
                     <td class="py-4 flex gap-x-2 flex-wrap">
@@ -40,9 +34,8 @@ defineProps({
                     <td class="py-4">{{urgent.total_price}}$</td>
                     <td class="py-4">{{urgent.status}}</td>
                 </tr>
-            </tbody>
-        </table>
-    </div>
+        </template>
+    </TableLayout>
 </template>
 
 

@@ -1,6 +1,8 @@
 <script setup>
+import TableLayout from '@/Layouts/TableLayout.vue';
 import Button from '@/Components/Button.vue';
 import Body from '@/Components/Table/Body.vue';
+import { ref } from 'vue';
 import { router } from '@inertiajs/vue3'
 import { showEdit, confrim,errors } from '../../../composable/editReceipe'
 
@@ -10,6 +12,7 @@ defineProps({
     }
 });
 
+const headers = ref(['Ingredient ID','Product ID','Amount Grams','Created_at'])
 
 const deleteReceipe = (id) => {
     router.delete(route('receipe.destroy',id));
@@ -27,19 +30,12 @@ const confrimData = (index,receipe) => {
 
 
 <template>
-    <div>
-        <table class="w-full">
-            <thead>
-                <tr class="text-left border-b head">
-                    <th class="py-3 pe-2">No.</th>
-                    <th class="py-3 text-center">Ingredient ID</th>
-                    <th class="py-3 text-center">Product ID</th>
-                    <th class="py-3 text-center">Amount Grams</th>
-                    <th class="py-3 text-center">Created_at</th>
-                    <th class="py-3 text-center">Action</th>
-                </tr>
-            </thead>
-            <tbody>
+    <TableLayout
+        :headers="headers"
+        :is-admin="$page.props.auth.user.isAdmin" 
+        :is-department="$page.props.auth.user.department === 'FACTORY'"
+    >
+        <template #tbody>
                 <tr class="border-b item" v-for="(receipe,index) in receipes" :key="receipe.id">
                     <td class="py-4">{{index}}</td>
                     <Body
@@ -84,8 +80,7 @@ const confrimData = (index,receipe) => {
                         />
                     </td>
                 </tr>
-            </tbody>
-        </table>
-    </div>
+        </template>
+    </TableLayout>
 </template>
 

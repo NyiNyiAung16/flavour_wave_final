@@ -34,13 +34,14 @@ const showEdit = (e,factory,index) => {
     form.expected = factory.expected;
     form.actual = factory.actual;
 
-    const factory_product_id = `<input type="number" value="${form.product_id}" class="w-fit p-1 text-center text-white bg-transparent border-none outline-none" autofocus="true"/>`;
-    const factory_expected= `<input type="number" value="${form.expected}" class="w-fit p-1 text-center text-white bg-transparent border-none outline-none" autofocus="true"/>`;
-    const factory_actual = `<input type="number" value="${form.actual}" class="w-fit p-1 text-center text-white bg-transparent border-none outline-none" autofocus="true"/>`;
+    const factory_product_id = `<input type="number" value="${form.product_id}" class="input"/>`;
+    const factory_expected= `<input type="number" value="${form.expected}" class="input"/>`;
+    const factory_actual = `<input type="number" value="${form.actual}" class="input"/>`;
 
     productID.innerHTML = factory_product_id;
     expected.innerHTML = factory_expected;
     actual.innerHTML = factory_actual;
+    productID.children[0].focus();
 };
 
 
@@ -62,8 +63,18 @@ const confrim = (index,factory) => {
         },
         onError:()=>{
             errors.value = form.errors;
+            if(form.errors.product_id){
+                productID.children[0].style.outline = '1px solid red';
+            }else if(form.errors.expected){
+                expected.children[0].style.outline = '1px solid red';
+            }else if(form.errors.actual){
+                actual.children[0].style.outline = '1px solid red';
+            }
             setTimeout(()=>{
-                errors.value = {}
+                errors.value = {};
+                productID.children[0].style.outline = 'none';
+                expected.children[0].style.outline = 'none';
+                actual.children[0].style.outline = 'none';
             },2000);    
         },
         preserveScroll:true 

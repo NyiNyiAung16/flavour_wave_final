@@ -34,13 +34,15 @@ const showEdit = (e,logistic,index) => {
     form.driver_id = logistic.driver_id;
     form.quantity = logistic.quantity;
 
-    const logistic_preorder_id = `<input type="number" value="${form.preorder_id}" class="w-fit p-1 text-center text-white bg-transparent border-none outline-none" autofocus="true"/>`;
-    const logistic_driver_id= `<input type="number" value="${form.driver_id}" class="w-fit p-1 text-center text-white bg-transparent border-none outline-none" autofocus="true"/>`;
-    const logistic_quantity = `<input type="number" value="${form.quantity}" class="w-fit p-1 text-center  bg-transparent border-none outline-none" autofocus="true"/>`;
+    const logistic_preorder_id = `<input type="number" value="${form.preorder_id}" class="input"/>`;
+    const logistic_driver_id= `<input type="number" value="${form.driver_id}" class="input"/>`;
+    const logistic_quantity = `<input type="number" value="${form.quantity}" class="input"/>`;
 
     preorderID.innerHTML = logistic_preorder_id;
     driverID.innerHTML = logistic_driver_id;
     quantity.innerHTML = logistic_quantity;
+
+    preorderID.children[0].focus();
 };
 
 
@@ -62,8 +64,18 @@ const confrim = (index,logistic) => {
         },
         onError:()=>{
             errors.value = form.errors;
+            if(form.errors.preorder_id){
+                preorderID.children[0].style.outline = '1px solid red';
+            }else if(form.errors.driver_id){
+                driverID.children[0].style.outline = '1px solid red';
+            }else if(form.errors.quantity){
+                quantity.children[0].style.outline = '1px solid red';
+            }
             setTimeout(()=>{
-                errors.value = {}
+                errors.value = {};
+                preorderID.children[0].style.outline = 'none';
+                driverID.children[0].style.outline = 'none';
+                quantity.children[0].style.outline = 'none';
             },2000);    
         },
         preserveScroll:true 

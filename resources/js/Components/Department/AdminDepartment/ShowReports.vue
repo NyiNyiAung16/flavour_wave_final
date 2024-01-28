@@ -23,9 +23,9 @@ onMounted(()=>{
             </thead>
             <tbody>
                 <tr class="border-b item" v-for="(report,index) in reports" :key="report.created_at">
-                    <td class="py-3">{{ index }}</td>
-                    <td class="py-3">{{ report.report }}</td>
-                    <td class="py-3">{{ report.created_at }}</td>
+                    <td class="py-4">{{ index }}</td>
+                    <td class="py-4">{{ report.report }}</td>
+                    <td class="py-4">{{ report.created_at }}</td>
                 </tr>
             </tbody>
         </table>

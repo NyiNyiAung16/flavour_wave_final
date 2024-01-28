@@ -33,33 +33,33 @@ const toggle = ref('default');
     <Head title="LogisticsDepartment" />
     <AuthenticatedLayout>
         <template #header>
-            <div class="flex gap-4 items-center">
-                <h2 class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-md leading-tight cursor-pointer" 
-                    :class="{'underline':toggle === 'default'}"
+            <div class="flex flex-col gap-5">
+                <h2 class="sideBar" 
+                    :class="{'active-sideBar':toggle === 'default'}"
                     @click="toggle = 'default'"
                 >
                     Delivered Orders
                 </h2>
-                <h2 class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-md leading-tight cursor-pointer" 
-                    :class="{'underline':toggle === 'orders'}"
+                <h2 class="sideBar" 
+                    :class="{'active-sideBar':toggle === 'orders'}"
                     @click="toggle = 'orders'"
                 >
                     Orders 
                 </h2>
-                <h2 class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-md leading-tight cursor-pointer" 
-                    :class="{'underline':toggle === 'drivers'}"
+                <h2 class="sideBar" 
+                    :class="{'active-sideBar':toggle === 'drivers'}"
                     @click="toggle = 'drivers'"
                 >
                     Drivers Info
                 </h2>
-                <h2 class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-md leading-tight cursor-pointer" 
-                    :class="{'underline':toggle === 'createDeliver'}"
+                <h2 class="sideBar" 
+                    :class="{'active-sideBar':toggle === 'createDeliver'}"
                     @click="toggle = 'createDeliver'"
                 >
                     Create Deliver
                 </h2>
-                <h2 class="font-semibold text-gray-200 hover:text-gray-300 duration-150 text-md leading-tight cursor-pointer" 
-                    :class="{'underline':toggle === 'createDriver'}"
+                <h2 class="sideBar" 
+                    :class="{'active-sideBar':toggle === 'createDriver'}"
                     @click="toggle = 'createDriver'"
                 >
                     Create Driver
@@ -68,7 +68,10 @@ const toggle = ref('default');
         </template>
         <div class="py-8">
             <div class="max-w-8xl mx-auto sm:px-6 lg:px-8 text-white">
-                <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-3">
+                <div 
+                    class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-3"
+                    :class="{'overflow-x-scroll' : toggle !== 'createDeliver' && toggle !== 'createDriver'}"
+                >
                     <div v-if="toggle === 'default'">
                         <ShowLogistics :logistics="logistics"/>
                     </div>
