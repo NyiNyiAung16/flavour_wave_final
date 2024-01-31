@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AdminStoreRequest;
+use App\Models\Department;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
 class AdminController extends Controller
@@ -12,19 +14,21 @@ class AdminController extends Controller
     public function index(){
         return Inertia::render('AdminDepartment/Index',[
             'user' => auth()->user(),
-            'users' => User::where('isAdmin',true)->latest()->get()
+            'users' => User::where('isAdmin',true)->latest()->get(),
+            'departments' => Department::latest()->get()
         ]);
     }
 
     public function showEditPage(User $user){
-        return Inertia::render('AdminDepartment/EditUser',compact('user'));
+        return Inertia::render('AdminDepartment/EditUser',[
+            'user' => $user->load('department'),
+            'departments' => Department::latest()->get()
+        ]);
     }
 
     public function store(AdminStoreRequest $request){
         $cleanData = $request->validated();
         $cleanData['isAdmin'] = true;
-        $url = $cleanData['image_url']->store('profile');
-        $cleanData['image_url'] = 'storage/' . $url;
         User::create($cleanData);
     }
 
@@ -32,8 +36,7 @@ class AdminController extends Controller
         $cleanData = $request->validate([
             'name' => 'required',
             'email' => 'required',
-            'image_url' => ['required','image'],
-            'department' => 'required',
+            'department_id' =>[ 'required',Rule::exists('departments','id')],
         ]);
         $user->update($cleanData);
     }

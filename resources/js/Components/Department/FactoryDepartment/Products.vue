@@ -10,7 +10,9 @@ defineProps({
 });
 
 const deleteProduct = ( id ) => {
-    router.delete(route('product.destroy',id));
+    router.delete(route('product.destroy',id),{
+        preserveScroll:true
+    });
 }
 
 const headers = ref(['Product ID','Name','Description','Image','Price','Quantity Per Box','Created_at']);

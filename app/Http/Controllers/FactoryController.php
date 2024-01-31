@@ -46,26 +46,16 @@ class FactoryController extends Controller
         $url = request('image_url')->store('product-images');
         $productCleanData['image_url'] = 'storage/' . $url ;
         Product::create($productCleanData);
-        
-        return redirect(route('dashboard'))->with('message',[
-            'content' => 'Create Product is successful.',
-            'type' => 'success'
-        ]);
     }
 
     public function storeProductDetails(Request $request){
         $factoryCleanData = $request->validate([
             'product_id' => ['required',Rule::exists('products','id')],
-            'quantity_per_box' => 'required',
             'expected' => 'required',
             'actual' => 'required'
         ]);
 
         Factory::create($factoryCleanData);
-        return redirect(route('dashboard'))->with('message',[
-            'content' => 'Create Product Details is successful.',
-            'type' => 'success'
-        ]);
     }
 
     public function editPage(Factory $factory){

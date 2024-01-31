@@ -50,19 +50,19 @@ onMounted(()=>{
                                 <NavLink v-show="!$page.props.auth.user.isAdmin" :href="route('dashboard')" :active="route().current('dashboard')">
                                     Dashboard
                                 </NavLink>
-                                <NavLink v-show="$page.props.auth.user.isAdmin && $page.props.auth.user.department === 'ADMIN'" :href="route('adminDepartment.index')" :active="route().current('adminDepartment.index')">
+                                <NavLink v-show="$page.props.auth.user.isAdmin && $page.props.auth.user.department.name === 'ADMIN'" :href="route('adminDepartment.index')" :active="route().current('adminDepartment.index')">
                                     Dashboard
                                 </NavLink>
-                                <NavLink v-show="$page.props.auth.user.isAdmin && $page.props.auth.user.department === 'FACTORY'" :href="route('factoryDepartment.index')" :active="route().current('factoryDepartment.index')">
+                                <NavLink v-show="$page.props.auth.user.isAdmin && $page.props.auth.user.department.name === 'FACTORY'" :href="route('factoryDepartment.index')" :active="route().current('factoryDepartment.index')">
                                     Dashboard
                                 </NavLink>
-                                <NavLink v-show="$page.props.auth.user.isAdmin && $page.props.auth.user.department === 'WAREHOUSE'" :href="route('warehouseDepartment.index')" :active="route().current('warehouseDepartment.index')">
+                                <NavLink v-show="$page.props.auth.user.isAdmin && $page.props.auth.user.department.name === 'WAREHOUSE'" :href="route('warehouseDepartment.index')" :active="route().current('warehouseDepartment.index')">
                                     Dashboard
                                 </NavLink>
-                                <NavLink v-show="$page.props.auth.user.isAdmin && $page.props.auth.user.department === 'LOGISTIC'" :href="route('logisticsDepartment.index')" :active="route().current('logisticsDepartment.index')">
+                                <NavLink v-show="$page.props.auth.user.isAdmin && $page.props.auth.user.department.name === 'LOGISTIC'" :href="route('logisticsDepartment.index')" :active="route().current('logisticsDepartment.index')">
                                     Dashboard
                                 </NavLink>
-                                <NavLink v-show="$page.props.auth.user.isAdmin && $page.props.auth.user.department === 'SALE'" :href="route('saleDepartment.index')" :active="route().current('saleDepartment.index')">
+                                <NavLink v-show="$page.props.auth.user.isAdmin && $page.props.auth.user.department.name === 'SALE'" :href="route('saleDepartment.index')" :active="route().current('saleDepartment.index')">
                                     Dashboard
                                 </NavLink>
                             </div>

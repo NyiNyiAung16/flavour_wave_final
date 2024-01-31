@@ -1,5 +1,6 @@
 <script setup>
 import { ref } from 'vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue';
 import storeReport from '@/composable/storeReport'
 import { useToast } from 'vue-toastification';
 
@@ -36,7 +37,7 @@ const submitReport = () => {
                 <textarea rows="5" v-model="report" class="w-full bg-gray-700 resize-none p-2 rounded border-none outline-none" placeholder="eg:something..."></textarea>
                 <p class="text-sm text-red-500 my-1" v-if="error">{{ error }}</p>
             </div>
-            <button type="submit" class="px-3 py-2 rounded border-none hover:bg-blue-600 bg-blue-500">Report</button>
+            <PrimaryButton>Report</PrimaryButton>
         </form>
     </div>
 </template>

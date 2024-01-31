@@ -15,7 +15,9 @@ defineProps({
 const headers = ref(['Name','Source','Amount','Unit Price','Purchased_Date'])
 
 const deleteIngredient = (id) => {
-    router.delete(route('ingredient.destroy',id));
+    router.delete(route('ingredient.destroy',id),{
+        preserveScroll:true
+    });
 }
 
 const edit = (e,ingredient,index) => {

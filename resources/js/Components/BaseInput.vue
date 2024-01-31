@@ -16,6 +16,8 @@ defineProps({
     }
 });
 
+defineEmits(['update:modelValue'])
+
 </script>
 
 
@@ -24,7 +26,7 @@ defineProps({
     <input
         v-bind="$attrs" 
         :value="modelValue"
-        @input="$emit('update:ModelValue',$event.target.value)"
+        @input="$emit('update:modelValue',$event.target.value)"
     >
     <p class="text-sm text-red-500 my-1" v-if="error">{{ error }}</p>
 </template>

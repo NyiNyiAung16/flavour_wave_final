@@ -15,7 +15,7 @@ class WarehouseMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(auth()->user()->isAdmin && auth()->user()->department === 'WAREHOUSE'){
+        if(auth()->user()->isAdmin && auth()->user()->department->name === 'WAREHOUSE'){
             return $next($request);
         }
     }

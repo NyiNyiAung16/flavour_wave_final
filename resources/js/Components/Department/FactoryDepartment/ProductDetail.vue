@@ -16,7 +16,9 @@ const props = defineProps({
 const headers = ref(['Product ID','Expected','Actual','Store To Warehouse','Created_at'])
 
 const deleteFactory = ( id ) => {
-    router.delete(route('factory.destroy',id));
+    router.delete(route('factory.destroy',id),{
+        preserveScroll:true
+    });
 }
 
 const edit = (e,factory,index) => {

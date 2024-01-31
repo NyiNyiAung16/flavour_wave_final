@@ -2,6 +2,7 @@
 import BaseInput from '@/Components/BaseInput.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { useForm } from '@inertiajs/vue3';
+import { useToast } from 'vue-toastification';
 
 const props = defineProps({
     getData:{
@@ -11,7 +12,6 @@ const props = defineProps({
 
 const form = useForm({
     product_id:0,
-    quantity_per_box:0,
     expected:0,
     actual:0
 });
@@ -20,6 +20,7 @@ const submitProductDetail = () => {
     form.post(route('factory.productDetails.store'),{
         onSuccess:()=>{
             form.reset();
+            useToast().success('Create Product Details is successful.');
         },
         onError:()=>{
             setTimeout(() => {
@@ -42,15 +43,6 @@ const submitProductDetail = () => {
                     label="Product ID"
                     v-model="form.product_id"
                     :error="form.errors.product_id"
-                    class="w-full bg-gray-700 border-none p-2 rounded outline-none"
-                />
-            </div>
-            <div>
-                <base-input
-                    type="number"
-                    label="Quantity Per Box"
-                    v-model="form.quantity_per_box"
-                    :error="form.errors.quantity_per_box"
                     class="w-full bg-gray-700 border-none p-2 rounded outline-none"
                 />
             </div>

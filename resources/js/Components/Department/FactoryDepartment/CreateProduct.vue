@@ -2,6 +2,7 @@
 import BaseInput from '@/Components/BaseInput.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue';
 import { useForm } from '@inertiajs/vue3';
+import { useToast } from 'vue-toastification';
 
 const props = defineProps({
     getData:{
@@ -14,12 +15,14 @@ const form = useForm({
     description:'',
     image_url:null,
     unit_price:0,
+    quantity_per_box:0,
 });
 
 const CreateFactory = () => {
     form.post(route('factory.product.store'),{
         onSuccess:()=>{
             form.reset();
+            useToast().success('Create Product is successful.')
         },
         onError:()=>{
             setTimeout(() => {
@@ -65,6 +68,15 @@ const getImage = (e) => {
                     label="Price"
                     v-model="form.unit_price"
                     :error="form.errors.unit_price"
+                    class="w-full bg-gray-700 border-none p-2 rounded outline-none"
+                />
+            </div>
+            <div>
+                <base-input
+                    type="number"
+                    label="Quantity Per Box"
+                    v-model="form.quantity_per_box"
+                    :error="form.errors.quantity_per_box"
                     class="w-full bg-gray-700 border-none p-2 rounded outline-none"
                 />
             </div>

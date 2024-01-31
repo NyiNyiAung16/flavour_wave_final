@@ -15,7 +15,7 @@ class SaleMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(auth()->user()->isAdmin && auth()->user()->department === 'SALE'){
+        if(auth()->user()->isAdmin && auth()->user()->department->name === 'SALE'){
             return $next($request);
         }
     }

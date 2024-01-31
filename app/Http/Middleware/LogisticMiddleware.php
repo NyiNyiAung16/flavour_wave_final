@@ -15,7 +15,7 @@ class LogisticMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(auth()->user()->isAdmin && auth()->user()->department === 'LOGISTIC'){
+        if(auth()->user()->isAdmin && auth()->user()->department->name === 'LOGISTIC'){
             return $next($request);
         }
     }

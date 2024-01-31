@@ -20,11 +20,8 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
-        // User::factory(5)
-        //         ->hasPreOrders(3)
-        //         ->create();
-        // Logistic::factory(5)->create();
         $this->call([
+            DepartmentSeeder::class,
             ProductSeeder::class,
             IngredientSeeder::class,
             DriverSeeder::class,

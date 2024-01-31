@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class AdminStoreRequest extends FormRequest
 {
@@ -24,8 +25,7 @@ class AdminStoreRequest extends FormRequest
         return [
             'name' => 'required',
             'email' => 'required',
-            'image_url' => ['required','image'],
-            'department' => 'required',
+            'department_id' => ['required',Rule::exists('departments','id')],
             'password' => ['required','confirmed','min:6'],
         ];
     }

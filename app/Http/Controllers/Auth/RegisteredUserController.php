@@ -36,8 +36,6 @@ class RegisteredUserController extends Controller
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
-        $userId = 'fw - '. fake()->randomNumber(5,true);
-        $cleanData['user_id'] = $userId;
         $user = User::create($cleanData);
 
         event(new Registered($user));

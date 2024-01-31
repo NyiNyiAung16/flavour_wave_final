@@ -1,31 +1,37 @@
 <script setup>
 import BaseInput from '@/Components/BaseInput.vue'
 import BaseSelect from '@/Components/BaseSelect.vue'
-import Button from '@/Components/Button.vue'
+import PrimaryButton from '@/Components/PrimaryButton.vue'
 import { useForm,router } from '@inertiajs/vue3'
 import { ref } from 'vue';
 import { useToast } from 'vue-toastification';
 
+
+const props = defineProps({
+    departments:{
+        type:Array,
+        required:true
+    }
+})
 
 const form = useForm({
     name:'',
     email:'',
     password:'',
     password_confirmation:'',
-    department:'default'
+    department_id:'default'
 });
 
-const departmentOptions = ref([
-    { label: 'ADMIN' , value:'ADMIN' },
-    { label: 'SALE' , value:'SALE' },
-    { label: 'LOGISTIC' , value:'LOGISTIC' },
-    { label: 'FACTORY' , value:'FACTORY' },
-    { label: 'WAREHOUSE' , value:'WAREHOUSE' },
-]);
+const departmentOptions = ref([]);
+
+props.departments.forEach((d)=>{
+    departmentOptions.value.push({ label: d.name , value:d.id });
+})
+
 
 const createUser = () => {
-    if(form.department === 'default'){
-        form.department = ''
+    if(form.department_id === 'default'){
+        form.department_id = ''
     }
     form.post(route('user.store'),{
         onSuccess:() => {
@@ -39,8 +45,8 @@ const createUser = () => {
             },2000)
         }
     });
-    if(form.department === ''){
-        form.department = 'default';
+    if(form.department_id === ''){
+        form.department_id = 'default';
     }
 }
 
@@ -74,7 +80,7 @@ const createUser = () => {
             <div>
                 <base-select
                     label="Department"
-                    v-model="form.department"
+                    v-model="form.department_id"
                     :options="departmentOptions"
                     :error="form.errors.department"
                     class="w-full bg-gray-700 border-none p-2 rounded outline-none"
@@ -98,10 +104,7 @@ const createUser = () => {
                 />
             </div>
             <div>
-                <Button
-                    text="Create"
-                    class="inline-block px-3 py-2 bg-blue-500 hover:bg-blue-600 duration-200 rounded"
-                />
+                <PrimaryButton>Create</PrimaryButton>
             </div>
         </form>
     </div>

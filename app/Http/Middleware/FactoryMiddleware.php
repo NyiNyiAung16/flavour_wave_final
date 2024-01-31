@@ -15,7 +15,7 @@ class FactoryMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(auth()->user()->isAdmin && auth()->user()->department === 'FACTORY'){
+        if(auth()->user()->isAdmin && auth()->user()->department->name === 'FACTORY'){
             return $next($request);
         }
     }

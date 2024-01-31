@@ -1,7 +1,7 @@
 <script setup>
 import NavLink from '@/Components/NavLink.vue'
 import BaseInput from '@/Components/BaseInput.vue'
-import Button from '@/Components/Button.vue'
+import PrimaryButton from '@/Components/PrimaryButton.vue'
 import AuthenticatedLayout from '../../Layouts/AuthenticatedLayout.vue'
 import { useForm } from '@inertiajs/vue3';
 
@@ -47,7 +47,7 @@ const getImage = (e) => {
         <template #header>
             <div class="flex flex-col gap-3">
                 <NavLink 
-                    v-show="$page.props.auth.user.isAdmin && $page.props.auth.user.department === 'FACTORY'" 
+                    v-show="$page.props.auth.user.isAdmin && $page.props.auth.user.department.name === 'FACTORY'" 
                     :href="route('factoryDepartment.index')" 
                     :active="route().current('factoryDepartment.index')"
                 >
@@ -101,11 +101,7 @@ const getImage = (e) => {
                                 />
                             </div>
                             <div>
-                                <Button
-                                    type="submit"
-                                    text="Update"
-                                    class="px-3 py-2 bg-blue-500 hover:bg-blue-600 duration-150 rounded font-bold"
-                                />
+                                <PrimaryButton>Update</PrimaryButton>
                             </div>
                         </div>
                     </form>

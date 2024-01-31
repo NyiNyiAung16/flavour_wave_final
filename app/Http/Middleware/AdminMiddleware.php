@@ -15,7 +15,7 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(auth()->user()->isAdmin && auth()->user()->department === 'ADMIN'){
+        if(auth()->user()->isAdmin && auth()->user()->department->name === 'ADMIN'){
             return $next($request);
         }
     }

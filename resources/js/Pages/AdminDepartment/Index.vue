@@ -4,9 +4,9 @@ import { Head } from '@inertiajs/vue3'
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import CreateUser from '../../Components/Department/AdminDepartment/CreateUser.vue'
 import ShowUser from '../../Components/Department/AdminDepartment/ShowUser.vue';
-import Charts from '@/Components/Department/AdminDepartment/Charts.vue'
 import CreateReport from '@/Components/Department/AdminDepartment/CreateReport.vue';
 import ShowReports from '@/Components/Department/AdminDepartment/ShowReports.vue';
+import CreateDepartment from '@/Components/Department/AdminDepartment/CreateDepartment.vue';
 
 
 defineProps({
@@ -14,6 +14,9 @@ defineProps({
         type:Object
     },
     users:{
+        type:Array
+    },
+    departments:{
         type:Array
     }
 });
@@ -47,6 +50,12 @@ const toggle = ref('allUser');
                     Create User
                 </h2>
                 <h2 class="sideBar"
+                :class="{'active-sideBar':toggle === 'createDepartment'}"
+                @click="toggle = 'createDepartment'"
+                >
+                    Create Department
+                </h2>
+                <h2 class="sideBar"
                 :class="{'active-sideBar':toggle === 'createReport'}"
                 @click="toggle = 'createReport'"
                 >
@@ -67,10 +76,13 @@ const toggle = ref('allUser');
                         <ShowReports/>
                     </div>
                     <div v-if="toggle === 'createUser'">
-                        <CreateUser/>
+                        <CreateUser :departments="departments"/>
                     </div>
                     <div v-if="toggle === 'createReport'">
                         <CreateReport/>
+                    </div>
+                    <div v-if="toggle === 'createDepartment'">
+                        <CreateDepartment />
                     </div>
                 </div>
             </div>

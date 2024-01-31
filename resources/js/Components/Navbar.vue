@@ -19,32 +19,32 @@
                         >Dashboard
                     </Link>
                     <Link
-                        v-if="$page.props.auth.user && $page.props.auth.user.isAdmin && $page.props.auth.user.department === 'ADMIN'"
+                        v-if="$page.props.auth.user && $page.props.auth.user.isAdmin && $page.props.auth.user.department.name === 'ADMIN'"
                         :href="route('adminDepartment.index')"
                         class="font-semibold hover:text-slate-200"
                         >Dashboard
                     </Link>
                     
                     <Link
-                        v-if="$page.props.auth.user && $page.props.auth.user.isAdmin && $page.props.auth.user.department === 'FACTORY'"
+                        v-if="$page.props.auth.user && $page.props.auth.user.isAdmin && $page.props.auth.user.department.name === 'FACTORY'"
                         :href="route('factoryDepartment.index')"
                         class="font-semibold hover:text-slate-200"
                         >Dashboard
                     </Link>
                     <Link
-                        v-if="$page.props.auth.user && $page.props.auth.user.isAdmin && $page.props.auth.user.department === 'WAREHOUSE'"
+                        v-if="$page.props.auth.user && $page.props.auth.user.isAdmin && $page.props.auth.user.department.name === 'WAREHOUSE'"
                         :href="route('warehouseDepartment.index')"
                         class="font-semibold hover:text-slate-200"
                         >Dashboard
                     </Link>
                     <Link
-                        v-if="$page.props.auth.user && $page.props.auth.user.isAdmin && $page.props.auth.user.department === 'LOGISTIC'"
+                        v-if="$page.props.auth.user && $page.props.auth.user.isAdmin && $page.props.auth.user.department.name === 'LOGISTIC'"
                         :href="route('logisticsDepartment.index')"
                         class="font-semibold hover:text-slate-200"
                         >Dashboard
                     </Link>
                     <Link
-                        v-if="$page.props.auth.user && $page.props.auth.user.isAdmin && $page.props.auth.user.department === 'SALE'"
+                        v-if="$page.props.auth.user && $page.props.auth.user.isAdmin && $page.props.auth.user.department.name === 'SALE'"
                         :href="route('saleDepartment.index')"
                         class="font-semibold hover:text-slate-200"
                         >Dashboard
