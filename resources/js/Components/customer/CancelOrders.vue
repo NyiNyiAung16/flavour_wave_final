@@ -2,7 +2,6 @@
 import TableLayout from '@/Layouts/TableLayout.vue';
 import { ref } from 'vue';
 
-
 defineProps({
     cancelOrders:{
         type:Array,
