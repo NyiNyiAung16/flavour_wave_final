@@ -12,7 +12,7 @@ defineProps({
     }
 });
 
-const headers = ref(['Preorder ID','Driver ID','Quantity','Status','Deliver Date']);
+const headers = ref(['Preorder ID','Driver ID','Quantity','Deliver Date','Status']);
 
 const deleteLogistic = (id) => {
     router.delete(route('logistic.destroy',id));
@@ -34,7 +34,7 @@ const confrimData = (index,logistic) => {
     <TableLayout
         :headers="headers"
         :is-admin="$page.props.auth.user.isAdmin" 
-        :is-department="$page.props.auth.user.department === 'LOGISTIC'"
+        :is-department="$page.props.auth.user.department.name === 'LOGISTIC'"
     >
         <template #tbody>
                 <tr class="border-b item" v-for="(logistic,index) in logistics" :key="logistic.id">
@@ -57,8 +57,8 @@ const confrimData = (index,logistic) => {
                         :value="logistic.quantity"
                         :error="errors.quantity"
                     />
-                    <td class="py-4 text-center">{{logistic.status}}</td>
                     <td class="py-4 text-center">{{new Date(logistic.created_at).toLocaleDateString()}}</td>
+                    <td class="py-4 text-center text-green-500">{{logistic.status}}</td>
                     <td class="py-4 space-x-3 text-center">
                         <Button
                             type="button"

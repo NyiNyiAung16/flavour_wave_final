@@ -5,7 +5,7 @@ defineProps({
     href: {
         type: String,
         required: true,
-    },
+    }
 });
 </script>
 

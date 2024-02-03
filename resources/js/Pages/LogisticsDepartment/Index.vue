@@ -82,7 +82,7 @@ const toggle = ref('default');
                         <DriversInfo :drivers="drivers"/>
                     </div>
                     <div v-if="toggle === 'createDeliver'">
-                        <createDeliver/>
+                        <createDeliver :preorders="preorders" :drivers="drivers"/>
                     </div>
                     <div v-if="toggle === 'createDriver'">
                         <CreateDriver/>

@@ -37,7 +37,7 @@ const confrimData = (index,factory) => {
     <TableLayout 
         :headers="headers"
         :is-admin="$page.props.auth.user.isAdmin" 
-        :is-department="$page.props.auth.user.department === 'FACTORY'"
+        :is-department="$page.props.auth.user.department.name === 'FACTORY'"
     >
         <template #tbody>
             <tr class="border-b item" v-for="(factory,index) in factories" :key="factory.id">

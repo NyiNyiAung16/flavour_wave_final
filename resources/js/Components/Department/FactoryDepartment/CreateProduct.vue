@@ -19,6 +19,7 @@ const form = useForm({
 });
 
 const CreateFactory = () => {
+    
     form.post(route('factory.product.store'),{
         onSuccess:()=>{
             form.reset();

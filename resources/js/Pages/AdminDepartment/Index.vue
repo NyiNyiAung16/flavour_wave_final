@@ -6,7 +6,6 @@ import CreateUser from '../../Components/Department/AdminDepartment/CreateUser.v
 import ShowUser from '../../Components/Department/AdminDepartment/ShowUser.vue';
 import CreateReport from '@/Components/Department/AdminDepartment/CreateReport.vue';
 import ShowReports from '@/Components/Department/AdminDepartment/ShowReports.vue';
-import CreateDepartment from '@/Components/Department/AdminDepartment/CreateDepartment.vue';
 
 
 defineProps({
@@ -50,12 +49,6 @@ const toggle = ref('allUser');
                     Create User
                 </h2>
                 <h2 class="sideBar"
-                :class="{'active-sideBar':toggle === 'createDepartment'}"
-                @click="toggle = 'createDepartment'"
-                >
-                    Create Department
-                </h2>
-                <h2 class="sideBar"
                 :class="{'active-sideBar':toggle === 'createReport'}"
                 @click="toggle = 'createReport'"
                 >
@@ -80,9 +73,6 @@ const toggle = ref('allUser');
                     </div>
                     <div v-if="toggle === 'createReport'">
                         <CreateReport/>
-                    </div>
-                    <div v-if="toggle === 'createDepartment'">
-                        <CreateDepartment />
                     </div>
                 </div>
             </div>

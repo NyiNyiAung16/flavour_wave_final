@@ -52,37 +52,12 @@ class PreorderController extends Controller
                 $preorderCleanData['driver_nrc'] = $isUrgentData['driver_nrc'];
                 $preorderCleanData['date'] = $isUrgentData['date'];
             }
+            $preorderCleanData['preorder_date'] = now();
             $preorder = Preorder::create($preorderCleanData);
             for($i = 0; $i < count($pId);$i++){
                 $preorder->products()->attach($pId[$i]);
             }
         }
-    }
-
-    public function getPreordersCountFor12Months()
-    {
-        return response()->json([
-            [
-                'product_name' => 'Burmese Bliss',
-                'monthly_preorder_count' => [100, 200, 900, 400, 600, 500, 7000, 4900, 5900, 4000, 300, 1800],
-            ],
-            [
-                'product_name' => 'Golden Sunshine Tea',
-                'monthly_preorder_count' => [4900, 5900, 4000, 300, 1800, 100, 200, 900, 400, 600, 500, 7000]
-            ],
-            [
-                'product_name' => 'Mango Tango Delight',
-                'monthly_preorder_count' => [100, 200, 900, 4900, 400, 600, 500, 7000, 5900, 4000, 300, 1800]
-            ],
-            [
-                'product_name' => 'Rangoon Rosewater Elixir',
-                'monthly_preorder_count' => [100, 200, 900, 400, 5900, 4000, 300, 7000, 4900, 1800, 600, 500,]
-            ],
-            [
-                'product_name' => 'Emerald Green Chai',
-                'monthly_preorder_count' => [500, 7000, 4900, 5900, 1800, 400, 600, 4000, 100, 200, 900, 300]
-            ],
-        ]);
     }
 
     // edit order list

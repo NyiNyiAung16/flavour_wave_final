@@ -15,6 +15,7 @@ class DriverController extends Controller
 
     public function storeDriver(DriverStoreRequest $request){
         $cleanData = $request->validated();
+        $cleanData['isFree'] = true;
         Driver::create($cleanData);
         return back()->with('message',[
             'content' => 'Create Driver is successful.',

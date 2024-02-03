@@ -34,7 +34,7 @@ const deleteDriver = (id) => {
     <TableLayout
         :headers="headers"
         :is-admin="$page.props.auth.user.isAdmin" 
-        :is-department="$page.props.auth.user.department === 'LOGISTIC'"
+        :is-department="$page.props.auth.user.department.name === 'LOGISTIC'"
     >
         <template #tbody>
                 <tr class="border-b item" v-for="(driver,index) in drivers" :key="driver.id">

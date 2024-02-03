@@ -12,7 +12,7 @@ class LogisticsStoreRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        if(auth()->user()->isAdmin && auth()->user()->department === 'LOGISTIC'){
+        if(auth()->user()->isAdmin && auth()->user()->department->name === 'LOGISTIC'){
             return true;
         }
 

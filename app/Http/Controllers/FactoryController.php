@@ -51,11 +51,34 @@ class FactoryController extends Controller
     public function storeProductDetails(Request $request){
         $factoryCleanData = $request->validate([
             'product_id' => ['required',Rule::exists('products','id')],
-            'expected' => 'required',
-            'actual' => 'required'
+            'expected' => ['required','numeric','min:1'],
+            'actual' => ['required','numeric','min:1']
         ]);
 
         Factory::create($factoryCleanData);
+    }
+
+    public function storeIngredient(Request $request){
+        $cleanData = $request->validate([
+            'name'=>'required',
+            'source'=>'required',
+            'amount'=>'required|numeric|min:1',
+            'unit_price'=>'required|numeric|min:1',
+        ]);
+
+        $cleanData['purchased_date'] = now();
+
+        Ingredient::create($cleanData);
+    }
+
+    public function storeReceipe(Request $request){
+        $cleanData = $request->validate([
+            'ingredient_id' => ['required',Rule::exists('ingredients','id')],
+            'product_id' => ['required',Rule::exists('receipes','id')],
+            'amount_grams' => 'required|numeric|min:1',
+        ]);
+
+        Receipe::create($cleanData);
     }
 
     public function editPage(Factory $factory){

@@ -30,7 +30,7 @@ class LogisticsController extends Controller
                     'created_at' => $item->created_at
                 ];
             }),
-            'preorders' => Preorder::where('status','order')->where('is_urgent',false)->get(),
+            'preorders' => Preorder::without('products')->where('status','order')->where('is_urgent',false)->get(),
             'user' => auth()->user()
         ]);
     }
@@ -49,8 +49,6 @@ class LogisticsController extends Controller
                 'content' => 'Create Deliver is successful.',
                 'type' => 'success'
             ]);
-        }else{
-            return back()->withErrors(['quantity' => 'Your quantity is greater than the order quantity.','preorder_id' => 'Your preorder id is urgent id.']);
         }
     }
 

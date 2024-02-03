@@ -7,7 +7,7 @@ const props = defineProps({
     user_id:{
         type:Number
     }
-})
+});
 
 const cart = ref(null);
 

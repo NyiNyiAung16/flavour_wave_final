@@ -12,7 +12,7 @@ class WarehouseRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        if(auth()->user()->isAdmin && auth()->user()->department === 'WAREHOUSE'){
+        if(auth()->user()->isAdmin && auth()->user()->department->name === 'WAREHOUSE'){
             return true;
         }
         return false;
@@ -27,13 +27,13 @@ class WarehouseRequest extends FormRequest
     {
         return [
             'product_id' => ['required',Rule::exists('products','id')],
-            'opening_balance' => ['required','min:1'],
-            'sales_issue' => ['required','min:1'],
-            'received' => ['required','min:1'],
-            'availability' => ['required','min:1'],
-            'sales_return' => ['required','min:1'],
-            'damage' => ['required','min:1'],
-            'closing_balance' => ['required','min:1']
+            'opening_balance' => ['required','numeric','min:1'],
+            'sales_issue' => ['required','numeric','min:1'],
+            'received' => ['required','numeric','min:1'],
+            'availability' => ['required','numeric','min:1'],
+            'sales_return' => ['required','numeric','min:1'],
+            'damage' => ['required','numeric','min:1'],
+            'closing_balance' => ['required','numeric','min:1']
         ];
     }
 }

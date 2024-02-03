@@ -4,20 +4,22 @@ import DepartmentName from '@/Components/DepartmentName.vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
-import { Link } from '@inertiajs/vue3';
+import { Link, usePage } from '@inertiajs/vue3';
 
 let departmentName = ref('');
+const page = usePage();
+const department = page.props.auth.user.department;
 
 onMounted(()=>{
-    if(route().current('adminDepartment.index')){
+    if(department?.name === 'ADMIN'){
         departmentName.value = 'Admin Department';
-    }else if(route().current('factoryDepartment.index')){
+    }else if(department?.name === 'FACTORY'){
         departmentName.value = 'Factory Department';
-    }else if(route().current('warehouseDepartment.index')){
+    }else if(department?.name === 'WAREHOUSE'){
         departmentName.value = 'Warehouse Department';
-    }else if(route().current('logisticsDepartment.index')){
+    }else if(department?.name === 'LOGISTIC'){
         departmentName.value = 'Logistics Department';
-    }else if(route().current('saleDepartment.index')){
+    }else if(department?.name === 'SALE'){
         departmentName.value = 'Sales Department';
     }
 })
@@ -46,6 +48,7 @@ onMounted(()=>{
                         </div>
                         <!-- Navigation Links -->
                         <div class="hidden sm:flex flex-col mt-5 mb-4">
+                            <DepartmentName :name="departmentName" />
                             <div v-if="$page.url == '/profile/me'" class="flex flex-col px-3">
                                 <NavLink v-show="!$page.props.auth.user.isAdmin" :href="route('dashboard')" :active="route().current('dashboard')">
                                     Dashboard
@@ -66,14 +69,13 @@ onMounted(()=>{
                                     Dashboard
                                 </NavLink>
                             </div>
-                            <DepartmentName :name="departmentName" />
                         </div>
                         <div class="px-3">
                             <slot name="header" />
                         </div>
                         <div class="px-3 absolute bottom-0 py-2 flex flex-col gap-3" v-if="$page.url != '/profile/me'">
                             <DropdownLink :href="route('profile.edit')"> Profile </DropdownLink>
-                            <DropdownLink :href="route('logout')" method="post" as="button">
+                            <DropdownLink :href="route('logout')" method="post" as="button" class="bg-gray-950">
                                 Log Out
                             </DropdownLink>
                         </div>

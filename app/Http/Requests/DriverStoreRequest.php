@@ -11,7 +11,7 @@ class DriverStoreRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        if(auth()->user()->isAdmin && auth()->user()->department === 'LOGISTIC'){
+        if(auth()->user()->isAdmin && auth()->user()->department->name === 'LOGISTIC'){
             return true;
         }
 
@@ -27,8 +27,7 @@ class DriverStoreRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'vehicle_number' => 'required',
-            'isFree' => 'required|boolean'
+            'vehicle_number' => 'required'
         ];
     }
 }

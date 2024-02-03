@@ -34,7 +34,7 @@ const confrimData = (index,warehouse) => {
     <TableLayout
         :headers="headers"
         :is-admin="$page.props.auth.user.isAdmin" 
-        :is-department="$page.props.auth.user.department === 'WAREHOUSE'"
+        :is-department="$page.props.auth.user.department.name === 'WAREHOUSE'"
     >
         <template #tbody>
                 <tr class="border-b item" v-for="(warehouse,index) in warehouses" :key="warehouse.id">

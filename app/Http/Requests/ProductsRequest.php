@@ -26,8 +26,8 @@ class ProductsRequest extends FormRequest
         return [
             'name' => 'required',
             'description' => 'required',
-            'unit_price' => 'required',
-            'quantity_per_box' => 'required',
+            'unit_price' => 'required|numeric|min:1',
+            'quantity_per_box' => 'required|numeric|min:1',
             'image_url' => ['required','image'],
         ];
     }

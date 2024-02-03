@@ -35,7 +35,7 @@ const toggle = ref('default');
                     :class="{'active-sideBar':toggle === 'storeProducts'}"
                     @click="toggle = 'storeProducts'"
                 >
-                    Store Products
+                    Products
                 </h2>
                 <h2 class="sideBar" 
                     :class="{'active-sideBar':toggle === 'create'}"

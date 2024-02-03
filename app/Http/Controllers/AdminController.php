@@ -14,7 +14,7 @@ class AdminController extends Controller
     public function index(){
         return Inertia::render('AdminDepartment/Index',[
             'user' => auth()->user(),
-            'users' => User::where('isAdmin',true)->latest()->get(),
+            'users' => User::with('department')->where('isAdmin',true)->latest()->get(),
             'departments' => Department::latest()->get()
         ]);
     }
@@ -30,6 +30,13 @@ class AdminController extends Controller
         $cleanData = $request->validated();
         $cleanData['isAdmin'] = true;
         User::create($cleanData);
+    }
+
+    public function departmentStore(Request $request){
+        $cleanData = $request->validate([
+            'name' => 'required'
+        ]);
+        Department::create($cleanData);
     }
 
     public function storeEditData(User $user,Request $request){

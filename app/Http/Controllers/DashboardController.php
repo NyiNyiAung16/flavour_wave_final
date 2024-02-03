@@ -13,8 +13,9 @@ class DashboardController extends Controller
 {
     public function dashboard() {
         return Inertia::render('Dashboard',[
-            'preorders' => Preorder::where('user_id',auth()->id())->where('is_urgent',false)->get(),
-            'urgents' => Preorder::where('user_id',auth()->id())->where('is_urgent',true)->get(),
+            'preorders' => Preorder::where('user_id',auth()->id())->where('is_urgent',false)->whereNull('cancel_reason')->get(),
+            'urgents' => Preorder::where('user_id',auth()->id())->where('is_urgent',true)->whereNull('cancel_reason')->get(),
+            'cancelOrders' => Preorder::where('user_id',auth()->id())->whereNotNull('cancel_reason')->get(),
             'user' => auth()->user()
         ]);
     }

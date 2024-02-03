@@ -17,6 +17,7 @@ const form = useForm({
 });
 
 const submitProductDetail = () => {
+
     form.post(route('factory.productDetails.store'),{
         onSuccess:()=>{
             form.reset();
@@ -63,10 +64,6 @@ const submitProductDetail = () => {
                     :error="form.errors.actual"
                     class="w-full bg-gray-700 border-none p-2 rounded outline-none"
                 />
-            </div>
-            <div class="flex gap-3 items-center">
-                <input type="checkbox" class="rounded-sm bg-gray-700 border-none">
-                <span>Store to Warehouse?</span>
             </div>
             <div>
                 <PrimaryButton>Create</PrimaryButton>

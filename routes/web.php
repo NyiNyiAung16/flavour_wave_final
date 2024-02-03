@@ -81,8 +81,7 @@ Route::post('preorders/create', [PreorderController::class, 'createPreorder'])->
 Route::get('/checkout',function(){
     return Inertia::render('Checkout',[
         'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'user_id' => auth()->id()
+        'canRegister' => Route::has('register')
     ]);
 });
 
@@ -117,6 +116,8 @@ Route::middleware(FactoryMiddleware::class)->group(function(){
     Route::get('/factoryDepartment/products/{product}/edit',[FactoryController::class,'editProduct'])->name('product.edit');
     Route::post('/factoryDepartment/createProduct',[FactoryController::class,'storeProduct'])->name('factory.product.store');
     Route::post('/factoryDepartment/createProductDetails',[FactoryController::class,'storeProductDetails'])->name('factory.productDetails.store');
+    Route::post('/factoryDepartment/ingredient/store',[FactoryController::class,'storeIngredient'])->name('ingredient.store');
+    Route::post('/factoryDepartment/receipe/store',[FactoryController::class,'storeReceipe'])->name('receipe.store');
     Route::put('/factoryDepartment/edit',[FactoryController::class,'editFactory'])->name('factory.edit');
     Route::patch('/factoryDepartment/ingredients/{ingredient}/patch',[FactoryController::class,'storeEditIngredient'])->name('ingredient.patch');
     Route::patch('/factoryDepartment/receipes/{receipe}/patch',[ReceipesController::class,'storeEditReceipe'])->name('receipe.patch');
@@ -132,9 +133,9 @@ Route::middleware(FactoryMiddleware::class)->group(function(){
 //Admin Department
 Route::middleware(AdminMiddleware::class)->group(function(){
     Route::get('/adminDepartment/dashboard',[AdminController::class,'index'])->name('adminDepartment.index');
+    Route::get('/adminDepartment/users/{user}/edit',[AdminController::class,'showEditPage'])->name('user.edit');
     Route::post('/adminDepartment/user/store',[AdminController::class,'store'])->name('user.store');
     Route::delete('/adminDepartment/users/{user}/destroy',[AdminController::class,'destroy'])->name('user.destroy');
-    Route::get('/adminDepartment/users/{user}/edit',[AdminController::class,'showEditPage'])->name('user.edit');
     Route::patch('/adminDepartment/users/{user}/edit',[AdminController::class,'storeEditData'])->name('user.patch');
 });
 

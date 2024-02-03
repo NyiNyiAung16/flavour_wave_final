@@ -11,13 +11,6 @@ import 'flatpickr/dist/flatpickr.css'
 import 'flatpickr/dist/themes/dark.css'
 import { calculateDistance } from '@/composable/getDistance';
 
-const props = defineProps({
-    user_id:{
-        type:Number
-    }
-});
-
-
 const pick = ref(true);
 const location = ref(null);
 const companyLocation = ref(null);
@@ -25,11 +18,12 @@ const loc = ref(null);
 const delPrice = ref(null);
 const confrim = ref(false);
 const date = ref(null);
-const page = usePage();
 const distance = ref(0);
 
+const page = usePage();
+
 onMounted(async()=>{
-    await fetchCartDetails(props.user_id);
+    await fetchCartDetails(page.props.auth.user.id);
     flatpickr(date.value,{
         dateFormat:"d-m-Y",
         minDate:"today"
@@ -68,7 +62,7 @@ const form = useForm({
     'longitude':0,
     'deliver_price':0,
     'total_price':totalPrice.value,
-    'user_id':0,
+    'user_id':page.props.auth.user.id,
     'product_id':productsId.value,
     'date':'',
     'is_urgent':false,
@@ -77,15 +71,11 @@ const form = useForm({
     'driver_nrc':''
 });
 
-if(props){
-    form.user_id = props.user_id;
-}
-
 const makePreorder = () => {
     if(form.product_id && form.user_id){
         form.post('/preorders/create',{
             onSuccess:()=>{
-                localStorage.removeItem(`addToCarts${props.user_id}`);
+                localStorage.removeItem(`addToCarts${page.props.auth.user.id}`);
                 router.get(route('dashboard'));
                 useToast().success('create preorder is successful.',{
                     timeout:2000
@@ -131,7 +121,7 @@ const makePreorder = () => {
                             v-model="form.driver_nrc"
                             :error="form.errors.driver_nrc"
                             placeholder="e.g 12/MABANA(N)/134567"
-                            class="input w-full bg-stone-900 p-2 rounded-md outline-none border-none"
+                            class="w-full bg-stone-900 p-2 rounded-md outline-none border-none"
                         />
                     </div>
                     <div>
@@ -141,7 +131,7 @@ const makePreorder = () => {
                             v-model="form.truck_number"
                             :error="form.errors.truck_number"
                             placeholder="e.g 12/MM/224"
-                            class="input w-full bg-stone-900 p-2 rounded-md outline-none"
+                            class="w-full bg-stone-900 p-2 rounded-md outline-none"
                         />
                     </div>
                     <div>
@@ -151,19 +141,12 @@ const makePreorder = () => {
                             v-model="form.capacity"
                             :error="form.errors.capacity"
                             placeholder="e.g 100"
-                            class="input w-full bg-stone-900 p-2 rounded-md outline-none"
+                            class="w-full bg-stone-900 p-2 rounded-md outline-none"
                         />
                     </div>
                     <div>
-                        <!-- <input ref="date" v-model="form.date" class="input bg-stone-800 rounded-md" placeholder="Select a date">
-                        <p v-if="page.props.errors.date" class="text-sm text-red-500 my-1">{{ page.props.errors.date }}</p> -->
-                        <BaseInput
-                            ref="date"
-                            v-model="form.date"
-                            :error="form.errors.date"
-                            placeholder="Select a date"
-                            class="input bg-stone-800 rounded-md"
-                        />
+                        <input ref="date" v-model="form.date" class="bg-stone-800 rounded-md" placeholder="Select a date">
+                        <p v-if="page.props.errors.date" class="text-sm text-red-500 my-1">{{ page.props.errors.date }}</p>
                     </div>
                 </div>
             </div>

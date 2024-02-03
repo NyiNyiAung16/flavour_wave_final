@@ -5,8 +5,7 @@ import { useForm } from '@inertiajs/vue3';
 
 const form = useForm({
     'name':'',
-    'vehicle_number':'',
-    'isFree':false
+    'vehicle_number':''
 });
 
 const createDriver = () => {
@@ -49,13 +48,6 @@ const createDriver = () => {
                     placeholder="eg:2C/9800"
                     class="w-full bg-gray-700 border-none p-2 rounded outline-none"
                 />
-            </div>
-            <div>
-                <div class="flex items-center gap-2">
-                    <input type="checkbox" id="isFree" v-model="form.isFree" class="bg-gray-700 border-none p-2 rounded outline-none" >
-                    <label class=" text-gray-50" for="isFree">is Free?</label>
-                </div>
-                <p class="text-sm text-red-500 my-1" v-if="form.errors.isFree">{{ form.errors.isFree }}</p>
             </div>
             <div>
                 <PrimaryButton>Create</PrimaryButton>

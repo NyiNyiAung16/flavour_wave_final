@@ -3,6 +3,9 @@ import { onMounted } from 'vue';
 import NoBannerLayout from '../Layouts/NoBannerLayout.vue'
 import CheckoutForm from '../Components/CheckoutForm.vue'
 import { cartProducts,fetchCartProducts,increaseProduct, decreaseProduct, removeProduct } from '../composable/cartData'
+import { usePage } from '@inertiajs/vue3'
+
+const page = usePage();
 
 const props = defineProps({
     canLogin: {
@@ -10,27 +13,26 @@ const props = defineProps({
     },
     canRegister: {
         type: Boolean,
-    },
-    user_id:{
-        type:Number
     }
 });
 
+const userId = page.props.auth.user.id;
+
 onMounted(async()=>{
-    await fetchCartProducts(props.user_id);
+    await fetchCartProducts(userId);
 })
 
 
 const increase = (id) => {
-    increaseProduct(id,props.user_id);
+    increaseProduct(id,userId);
 }
 
 const decrease = (id) => {
-    decreaseProduct(id,props.user_id);
+    decreaseProduct(id,userId);
 };
 
 const deleteProduct = (id) => {
-    removeProduct(id,props.user_id);
+    removeProduct(id,userId);
 }
 
 </script>
@@ -62,7 +64,7 @@ const deleteProduct = (id) => {
                         </ul>
                     </div>
                 </div>
-                <CheckoutForm :user_id="user_id"/>
+                <CheckoutForm />
             </div>
         </div>
     </NoBannerLayout>

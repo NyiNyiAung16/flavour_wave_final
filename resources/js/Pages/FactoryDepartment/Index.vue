@@ -8,6 +8,9 @@ import ShowIngredients from '@/Components/Department/FactoryDepartment/ShowIngre
 import ShowReceipe from '@/Components/Department/FactoryDepartment/ShowReceipe.vue';
 import CreateProductDetails from '@/Components/Department/FactoryDepartment/CreateProductDetails.vue';
 import CreateProduct from '@/Components/Department/FactoryDepartment/CreateProduct.vue';
+import CreateIngredient from '@/Components/Department/FactoryDepartment/CreateIngredient.vue';
+import CreateReceipe from '@/Components/Department/FactoryDepartment/CreateReceipe.vue';
+
 
 const props = defineProps({
     factories:{
@@ -38,7 +41,7 @@ const toggleChild = ref('index');
     <Head title="FactoryDeparment" />
     <AuthenticatedLayout>
         <template #header>
-            <div class="flex flex-col gap-5">
+            <div class="flex flex-col gap-3">
                 <p class="sideBar" 
                    :class="{'active-sideBar':toggleChild === 'index'}" 
                    @click="toggleChild = 'index'"
@@ -63,13 +66,21 @@ const toggleChild = ref('index');
                 :class="{'active-sideBar':toggleChild === 'createProductDetails'}" 
                 @click="toggleChild = 'createProductDetails'"
                 >Create Product Details</p>
+                <p class="sideBar"
+                :class="{'active-sideBar':toggleChild === 'createIngredient'}" 
+                @click="toggleChild = 'createIngredient'"
+                >Create Ingredient</p>
+                <p class="sideBar"
+                :class="{'active-sideBar':toggleChild === 'createReceipe'}" 
+                @click="toggleChild = 'createReceipe'"
+                >Create Receipe</p>
             </div>
         </template>
         <div class="py-5">
             <div class="max-w-8xl mx-auto sm:px-6 lg:px-8 text-white">
                 <div 
                     class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-3" 
-                    :class="{'overflow-x-scroll': toggleChild !== 'createProductDetails' && toggleChild !== 'createProduct'}"
+                    :class="{'overflow-x-scroll': toggleChild !== 'createProductDetails' && toggleChild !== 'createProduct' && toggleChild !== 'createIngredient' && toggleChild !== 'createReceipe'}"
                 >
                     <div>
                         <div v-if="factories">
@@ -90,6 +101,12 @@ const toggleChild = ref('index');
                             </div>
                             <div v-if="toggleChild === 'createProduct'">
                                 <CreateProduct/>
+                            </div>
+                            <div v-if="toggleChild === 'createIngredient'">
+                                <CreateIngredient />
+                            </div>
+                            <div v-if="toggleChild === 'createReceipe'">
+                                <CreateReceipe />
                             </div>
                         </div>
                     </div>
