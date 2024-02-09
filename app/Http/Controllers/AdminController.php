@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AdminStoreRequest;
 use App\Models\Department;
+use App\Models\Report;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -15,7 +16,8 @@ class AdminController extends Controller
         return Inertia::render('AdminDepartment/Index',[
             'user' => auth()->user(),
             'users' => User::with('department')->where('isAdmin',true)->latest()->get(),
-            'departments' => Department::latest()->get()
+            'departments' => Department::latest()->get(),
+            'reports'=> Report::latest()->get()
         ]);
     }
 

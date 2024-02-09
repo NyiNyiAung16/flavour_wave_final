@@ -63,12 +63,12 @@ const toggle = ref('default');
         </template>
         <div class="py-8">
             <div class="max-w-8xl mx-auto sm:px-6 lg:px-8 text-white">
-                <div class="bg-white dark:bg-gray-800 overflow-hidden overflow-x-scroll shadow-sm sm:rounded-lg p-3">
+                <div class="overflow-hidden sm:rounded-lg">
                     <div v-if="toggle === 'default'">
-                        <Preorders :preorders="preorders" :user="user"/>
+                        <Preorders :preorders="preorders"/>
                     </div>
                     <div v-if="toggle === 'urgents'">
-                        <Urgent :urgents="urgents" :user="user"/>
+                        <Urgent :urgents="urgents"/>
                     </div>
                     <div v-if="toggle === 'orders'">
                         <ShowOrders :preorders="confrim_preorders"/>

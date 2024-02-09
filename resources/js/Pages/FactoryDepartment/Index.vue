@@ -28,12 +28,8 @@ const props = defineProps({
 });
 
 const passDataToForm = ref({});
-
-const getDataFromDetail = (factory) => {
-    passDataToForm.value = factory;
-}
-
 const toggleChild = ref('index');
+
 
 </script>
 
@@ -45,42 +41,57 @@ const toggleChild = ref('index');
                 <p class="sideBar" 
                    :class="{'active-sideBar':toggleChild === 'index'}" 
                    @click="toggleChild = 'index'"
-                >Products</p>
+                >
+                    Products
+                </p>
                 <p class="sideBar" 
                    :class="{'active-sideBar':toggleChild === 'show'}" 
                    @click="toggleChild = 'show'"
-                >Product Detail</p>
+                >
+                    Product Detail
+                </p>
                 <p class="sideBar" 
                    :class="{'active-sideBar':toggleChild === 'ingredients'}" 
                    @click="toggleChild = 'ingredients'"
-                >Show Ingredients</p>
+                >
+                    Show Ingredients
+                </p>
                 <p class="sideBar" 
                    :class="{'active-sideBar':toggleChild === 'receipes'}" 
                    @click="toggleChild = 'receipes'"
-                >Show Receipes</p>
+                >
+                    Show Receipes
+                </p>
                 <p class="sideBar"
-                :class="{'active-sideBar':toggleChild === 'createProduct'}" 
-                @click="toggleChild = 'createProduct'"
-                >Create Product</p>
+                    :class="{'active-sideBar':toggleChild === 'createProduct'}" 
+                    @click="toggleChild = 'createProduct'"
+                >
+                    Create Product
+                </p>
                 <p class="sideBar"
-                :class="{'active-sideBar':toggleChild === 'createProductDetails'}" 
-                @click="toggleChild = 'createProductDetails'"
-                >Create Product Details</p>
+                    :class="{'active-sideBar':toggleChild === 'createProductDetails'}" 
+                    @click="toggleChild = 'createProductDetails'"
+                >
+                    Create Product Details
+                </p>
                 <p class="sideBar"
-                :class="{'active-sideBar':toggleChild === 'createIngredient'}" 
-                @click="toggleChild = 'createIngredient'"
-                >Create Ingredient</p>
+                    :class="{'active-sideBar':toggleChild === 'createIngredient'}" 
+                    @click="toggleChild = 'createIngredient'"
+                >
+                    Create Ingredient
+                </p>
                 <p class="sideBar"
-                :class="{'active-sideBar':toggleChild === 'createReceipe'}" 
-                @click="toggleChild = 'createReceipe'"
-                >Create Receipe</p>
+                    :class="{'active-sideBar':toggleChild === 'createReceipe'}" 
+                    @click="toggleChild = 'createReceipe'"
+                >
+                    Create Receipe
+                </p>
             </div>
         </template>
         <div class="py-5">
             <div class="max-w-8xl mx-auto sm:px-6 lg:px-8 text-white">
                 <div 
-                    class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-3" 
-                    :class="{'overflow-x-scroll': toggleChild !== 'createProductDetails' && toggleChild !== 'createProduct' && toggleChild !== 'createIngredient' && toggleChild !== 'createReceipe'}"
+                    class="overflow-hidden sm:rounded-lg"
                 >
                     <div>
                         <div v-if="factories">
@@ -88,7 +99,7 @@ const toggleChild = ref('index');
                                 <Products :products="products"/>
                             </div>
                             <div v-if="toggleChild === 'show'">
-                                <ProductDetail :factories="factories" @pass-data="getDataFromDetail"/>
+                                <ProductDetail :factories="factories"/>
                             </div>
                             <div v-if="toggleChild === 'ingredients'">
                                 <ShowIngredients :ingredients="ingredients"/>

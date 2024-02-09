@@ -54,24 +54,20 @@ const checkDataInForm = (form) =>{
         driver_id:''
     };
     //preorder id and quantity
-    props.preorders.forEach((p)=>{
-        if(form.preorder_id != p.id){
-            errors.preorder_id = 'Your preorder id is valid.'
-        }
-        if(form.quantity <= 0){
-            errors.quantity = 'Your quantity is not less than preorder quantity.'
-        }
-        if(form.quantity > p.order_quantity){
-            errors.quantity = 'Your quantity is greater than preorder quantity.'
-        }
-    });
+    let preorder = props.preorders.find((p) => p.id == parseInt(form.preorder_id));
+    if(!preorder){
+        errors.preorder_id = 'Your preorder id is valid.'
+    }else if(parseInt(form.quantity) > preorder.order_quantity){
+        errors.quantity = 'Your quantity is greater than preorder quantity.'
+    }
+    if(parseInt(form.quantity) <= 0){
+        errors.quantity = 'Your quantity is not less than preorder quantity.'
+    }
     //driver id
     let driver = props.drivers.find((d)=>{
         return d.id == form.driver_id;
     });
-    if(!driver){
-        errors.driver_id = 'Your driver id is valid.'
-    }else if(driver.isFree === false || driver.isFree === 0){
+    if(driver?.isFree === false || driver?.isFree === 0){
         errors.driver_id = 'This driver is busy.'
     }
 

@@ -2,17 +2,24 @@
 import TableLayout from '@/Layouts/TableLayout.vue';
 import Button from '@/Components/Button.vue';
 import Body from '@/Components/Table/Body.vue';
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 import { router } from '@inertiajs/vue3'
 import { showEdit, confrim, errors } from '../../../composable/editIngredient'
+import { filteredByName } from '@/composable/search';
 
-defineProps({
+const props = defineProps({
     ingredients:{
         type:Array
     }
 });
 
-const headers = ref(['Name','Source','Amount','Unit Price','Purchased_Date'])
+const headers = ref(['Name','Source','Amount','Unit Price','Purchased_Date']);
+
+const search = ref('');
+
+const filteredIngredients = computed(()=>{
+    return filteredByName(search.value,props.ingredients)
+});
 
 const deleteIngredient = (id) => {
     router.delete(route('ingredient.destroy',id),{
@@ -32,63 +39,81 @@ const confrimData = (index,ingredient) => {
 
 
 <template>
-    <TableLayout
-        :headers="headers"
-        :is-admin="$page.props.auth.user.isAdmin" 
-        :is-department="$page.props.auth.user.department.name === 'FACTORY'"
-    >
-        <template #tbody>
-                <tr class="border-b item" v-for="(ingredient,index) in ingredients" :key="ingredient.id">
-                    <td class="py-4">{{index}}</td>
-                    <Body
-                        :text-id="`name${index}`"
-                        :error-id="`errorname${index}`"
-                        :value="ingredient.name"
-                        :error="errors.name"
-                    />
-                    <Body
-                        :text-id="`source${index}`"
-                        :error-id="`errorsource${index}`"
-                        :value="ingredient.source"
-                        :error="errors.source"
-                    />
-                    <Body
-                        :text-id="`amount${index}`"
-                        :error-id="`erroramount${index}`"
-                        :value="ingredient.amount"
-                        :error="errors.amount"
-                    />
-                    <Body
-                        :text-id="`unitPrice${index}`"
-                        :error-id="`errorprice${index}`"
-                        :value="ingredient.unit_price"
-                        :error="errors.unit_price"
-                    />
-                    <td class="py-4 text-center">{{new Date(ingredient.purchased_date).toLocaleDateString()}}</td>
-                    <td class="py-4 space-x-3 text-center">
-                        <Button
-                            type="button"
-                            text="Edit"
-                            :id="`editBtn${index}`"
-                            class=" text-blue-500 hover:text-blue-600 duration-150 font-bold hover:underline"
-                            @click="edit($event,ingredient,index)"
+    <div class="flex justify-between items-center">
+        <Search 
+            @searching="(val) => search = val" 
+            :howToSearch="'name'" 
+            class="w-3/4"
+        />
+        <Sorting 
+            :items="filteredIngredients" 
+            sort-by="name" 
+            @sorted="(val) => ingredients = val"
+        />
+    </div>
+    <div class="sm:rounded-lg" :class="{'overflow-x-scroll': filteredIngredients.length > 0}">
+        <TableLayout
+            :headers="headers"
+            :is-admin="$page.props.auth.user.isAdmin" 
+            :is-department="$page.props.auth.user.department.name === 'FACTORY'"
+            v-if="filteredIngredients.length > 0"
+        >
+            <template #tbody>
+                    <tr class="border-b item" v-for="(ingredient,index) in filteredIngredients" :key="ingredient.id">
+                        <td class="py-4 text-center">{{index}}</td>
+                        <Body
+                            :text-id="`name${index}`"
+                            :error-id="`errorname${index}`"
+                            :value="ingredient.name"
+                            :error="errors.name"
                         />
-                        <Button
-                            type="button"
-                            text="Confrim"
-                            :id="`confirmBtn${index}`"
-                            class="hidden text-blue-500 hover:text-blue-600 duration-150 font-bold hover:underline"
-                            @click="confrimData(index,ingredient)"
+                        <Body
+                            :text-id="`source${index}`"
+                            :error-id="`errorsource${index}`"
+                            :value="ingredient.source"
+                            :error="errors.source"
                         />
-                        <Button
-                            type="button"
-                            text="Delete"
-                            class="text-red-500 hover:text-red-600 duration-150 font-bold hover:underline"
-                            @click="deleteIngredient(ingredient.id)"
+                        <Body
+                            :text-id="`amount${index}`"
+                            :error-id="`erroramount${index}`"
+                            :value="ingredient.amount"
+                            :error="errors.amount"
                         />
-                    </td>
-                </tr>
+                        <Body
+                            :text-id="`unitPrice${index}`"
+                            :error-id="`errorprice${index}`"
+                            :value="ingredient.unit_price"
+                            :error="errors.unit_price"
+                        />
+                        <td class="py-4 text-center">{{new Date(ingredient.purchased_date).toLocaleDateString()}}</td>
+                        <td class="py-4 space-x-3 text-center">
+                            <Button
+                                type="button"
+                                text="Edit"
+                                :id="`editBtn${index}`"
+                                class=" text-blue-500 hover:text-blue-600 duration-150 font-bold hover:underline"
+                                @click="edit($event,ingredient,index)"
+                            />
+                            <Button
+                                type="button"
+                                text="Confrim"
+                                :id="`confirmBtn${index}`"
+                                class="hidden text-blue-500 hover:text-blue-600 duration-150 font-bold hover:underline"
+                                @click="confrimData(index,ingredient)"
+                            />
+                            <Button
+                                type="button"
+                                text="Delete"
+                                class="text-red-500 hover:text-red-600 duration-150 font-bold hover:underline"
+                                @click="deleteIngredient(ingredient.id)"
+                            />
+                        </td>
+                    </tr>
+            </template>
+        </TableLayout>
+        <template v-else>
+            <p>Nothing to search ingredients!</p>
         </template>
-    </TableLayout>
+    </div>
 </template>
 
