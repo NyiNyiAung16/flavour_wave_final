@@ -27,43 +27,48 @@ const deleteProduct = (id) => {
 
 
 <template>
-    <div class="flex justify-between items-center">
-        <Search 
-            @searching="(val) => search = val" 
-            :howToSearch="'name'" 
-            class="w-3/4"
-        />
-        <Sorting 
-            :items="filteredUsers" 
-            sort-by="name" 
-            @sorted="(val) => users = val"
-            class="w-[370px]"
-        />
-    </div>
-    <div class="sm:rounded-lg" :class="{'overflow-x-scroll': filteredUsers.length > 0}">
-        <TableLayout
-            :headers="headers"
-            :is-admin="$page.props.auth.user.isAdmin" 
-            :is-department="$page.props.auth.user.department.name === 'ADMIN'"
-            v-if="filteredUsers.length > 0"
-        >
-            <template #tbody>
-                    <tr class="border-b item" v-for="(user,index) in filteredUsers" :key="user.id">
-                        <td class="py-4 text-center">{{index}}</td>
-                        <td class="py-4 text-center w-[270px] px-2">{{ user.name }}</td>
-                        <td class="py-4 text-center w-[370px] px-2">{{user.email}}</td>
-                        <td class="py-4 text-center">{{user.department.name}}</td>
-                        <td class="py-4 text-center">{{ new Date(user.created_at).toLocaleDateString()}}</td>
-                        <td class="py-4 space-x-3 text-center">
-                            <Link :href="`/adminDepartment/users/${user.id}/edit`" class="text-blue-500 hover:text-blue-600 duration-150 font-bold underline">Edit</Link>
-                            <button class="text-red-500 hover:text-red-600 duration-150 font-bold underline" @click="deleteProduct(user.id)">Delete</button>
-                        </td>
-                    </tr>
+    <div v-if="users.length > 0">
+        <div class="flex justify-between items-center">
+            <Search 
+                @searching="(val) => search = val" 
+                :howToSearch="'name'" 
+                class="w-3/4"
+            />
+            <Sorting 
+                :items="filteredUsers" 
+                sort-by="name" 
+                @sorted="(val) => users = val"
+                class="w-[370px]"
+            />
+        </div>
+        <div class="sm:rounded-lg" :class="{'overflow-x-scroll': filteredUsers.length > 0}">
+            <TableLayout
+                :headers="headers"
+                :is-admin="$page.props.auth.user.isAdmin" 
+                :is-department="$page.props.auth.user.department.name === 'ADMIN'"
+                v-if="filteredUsers.length > 0"
+            >
+                <template #tbody>
+                        <tr class="border-b item" v-for="(user,index) in filteredUsers" :key="user.id">
+                            <td class="py-4 text-center">{{index}}</td>
+                            <td class="py-4 text-center w-[270px] px-2">{{ user.name }}</td>
+                            <td class="py-4 text-center w-[370px] px-2">{{user.email}}</td>
+                            <td class="py-4 text-center">{{user.department.name}}</td>
+                            <td class="py-4 text-center">{{ new Date(user.created_at).toLocaleDateString()}}</td>
+                            <td class="py-4 space-x-3 text-center">
+                                <Link :href="`/adminDepartment/users/${user.id}/edit`" class="text-blue-500 hover:text-blue-600 duration-150 font-bold hover:underline">Edit</Link>
+                                <button class="text-red-500 hover:text-red-600 duration-150 font-bold hover:underline" @click="deleteProduct(user.id)">Delete</button>
+                            </td>
+                        </tr>
+                </template>
+            </TableLayout>
+            <template v-else>
+                <NoResults/>
             </template>
-        </TableLayout>
-        <template v-else>
-            <p>nothing to search!</p>
-        </template>
+        </div>
+    </div>
+    <div v-else>
+        <p>Don't have any users!</p>
     </div>
 </template>
 

@@ -61,7 +61,7 @@ const toggle = ref('allUser');
         <div class="py-8">
             <div class="max-w-8xl mx-auto sm:px-6 lg:px-8 text-white">
                 <div 
-                    class="overflow-hidden sm:rounded-lg"
+                    class="sm:rounded-lg"
                 >
                     <div v-if="toggle === 'allUser'">
                         <ShowUser :users="users"/>

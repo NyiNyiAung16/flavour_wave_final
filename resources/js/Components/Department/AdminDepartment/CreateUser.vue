@@ -54,7 +54,7 @@ const createUser = () => {
 
 
 <template>
-    <div>
+    <div class="p-2">
         <form class="max-w-4xl mx-auto space-y-5" @submit.prevent="createUser">
             <h3 class="text-2xl font-bold text-center text-gray-100">Create User</h3>
             <div>

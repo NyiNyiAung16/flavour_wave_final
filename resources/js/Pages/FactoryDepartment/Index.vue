@@ -91,7 +91,7 @@ const toggleChild = ref('index');
         <div class="py-5">
             <div class="max-w-8xl mx-auto sm:px-6 lg:px-8 text-white">
                 <div 
-                    class="overflow-hidden sm:rounded-lg"
+                    class="sm:rounded-lg"
                 >
                     <div>
                         <div v-if="factories">

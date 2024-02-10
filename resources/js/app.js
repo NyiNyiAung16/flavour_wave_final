@@ -3,6 +3,7 @@ import '../css/app.css';
 
 import Search from '@/Components/Search.vue';
 import Sorting from '@/Components/Sorting.vue';
+import NoResults from '@/Components/NoResults.vue';
 import { createApp, h } from 'vue';
 import { createInertiaApp } from '@inertiajs/vue3';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
@@ -24,6 +25,7 @@ createInertiaApp({
             .use(ZiggyVue, Ziggy)
             .component('Search',Search)
             .component('Sorting',Sorting)
+            .component('NoResults',NoResults)
             .mount(el);
     },
     progress: {

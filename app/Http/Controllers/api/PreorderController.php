@@ -29,17 +29,11 @@ class PreorderController extends Controller
     {
         $pId = request('product_id');
         if ($pId) {
-            $preorderCleanData = $request->validate([
-                'user_id' => ['required',Rule::exists('users','id')],
-                'order_quantity' => 'required',
-                'latitude' => 'required',
-                'longitude' => 'required',
-                'full_location' => 'required',
-                'deliver_price'=>'required',
-                'total_price'=>'required'
-            ]);
+            $cleandata = [];
             if(request('is_urgent')){
                 $isUrgentData = request()->validate([
+                    'user_id' => 'required',
+                    'order_quantity' => 'required', 
                     'date'=>'required',
                     'is_urgent'=>'required',
                     'truck_number'=>'required',
@@ -47,14 +41,20 @@ class PreorderController extends Controller
                     'driver_nrc'=>'required',
                     'total_price'=>'required|numeric|min:1'
                 ]);
-                $preorderCleanData['is_urgent'] = $isUrgentData['is_urgent'];
-                $preorderCleanData['truck_number'] = $isUrgentData['truck_number'];
-                $preorderCleanData['capacity'] = $isUrgentData['capacity'];
-                $preorderCleanData['driver_nrc'] = $isUrgentData['driver_nrc'];
-                $preorderCleanData['date'] = $isUrgentData['date'];
+                $cleandata = $isUrgentData;
+            }else{
+                $preorderCleanData = $request->validate([
+                    'user_id' => ['required',Rule::exists('users','id')],
+                    'order_quantity' => 'required',
+                    'latitude' => 'required',
+                    'longitude' => 'required',
+                    'full_location' => 'required',
+                    'deliver_price'=>'required',
+                    'total_price'=>'required'
+                ]);
+                $cleandata = $preorderCleanData;
             }
-            $preorderCleanData['preorder_date'] = now();
-            $preorder = Preorder::create($preorderCleanData);
+            $preorder = Preorder::create($cleandata);
             for($i = 0; $i < count($pId);$i++){
                 $preorder->products()->attach($pId[$i]);
             }

@@ -37,106 +37,111 @@ const confrimData = (index,warehouse) => {
 
 
 <template>
-    <div class="flex justify-between items-center">
-        <Search 
-            @searching="(val) => search = val" 
-            :howToSearch="'product ID'" 
-            class="w-3/4"
-        />
-        <Sorting 
-            :items="filteredWarehouses" 
-            sort-by="product_id" 
-            @sorted="(val) => warehouses = val"
-            class="w-[370px]"
-        />
-    </div>
-    <div class="sm:rounded-lg" :class="{'overflow-x-scroll': filteredWarehouses.length > 0}">
-        <TableLayout
-            :headers="headers"
-            :is-admin="$page.props.auth.user.isAdmin" 
-            :is-department="$page.props.auth.user.department.name === 'WAREHOUSE'"
-            v-if="filteredWarehouses.length > 0"
-        >
-            <template #tbody>
-                    <tr class="border-b item" v-for="(warehouse,index) in filteredWarehouses" :key="warehouse.id">
-                        <td class="py-4 text-center">{{index}}</td>
-                        <Body
-                            :text-id="`productid${index}`"
-                            :error-id="`errorid${index}`"
-                            :value="warehouse.product_id"
-                            :error="errors.product_id"
-                        />
-                        <Body
-                            :text-id="`opening${index}`"
-                            :error-id="`errorop${index}`"
-                            :value="warehouse.opening_balance"
-                            :error="errors.opening_balance"
-                        />
-                        <Body
-                            :text-id="`salesIss${index}`"
-                            :error-id="`errorsal${index}`"
-                            :value="warehouse.sales_issue"
-                            :error="errors.sales_issue"
-                        />
-                        <Body
-                            :text-id="`received${index}`"
-                            :error-id="`errorrec${index}`"
-                            :value="warehouse.received"
-                            :error="errors.received"
-                        />
-                        <Body
-                            :text-id="`avail${index}`"
-                            :error-id="`errorava${index}`"
-                            :value="warehouse.availability"
-                            :error="errors.availability"
-                        />
-                        <Body
-                            :text-id="`salesRe${index}`"
-                            :error-id="`errorsalr${index}`"
-                            :value="warehouse.sales_return"
-                            :error="errors.sales_return"
-                        />
-                        <Body
-                            :text-id="`damage${index}`"
-                            :error-id="`errordam${index}`"
-                            :value="warehouse.damage"
-                            :error="errors.damage"
-                        />
-                        <Body
-                            :text-id="`closing${index}`"
-                            :error-id="`errorclo${index}`"
-                            :value="warehouse.closing_balance"
-                            :error="errors.closing_balance"
-                        />
-                        <td class="py-4 text-center">{{ new Date(warehouse.created_at).toLocaleDateString()}}</td>
-                        <td class="py-4 space-x-3 text-center">
-                            <Button
-                                type="button"
-                                text="Edit"
-                                :id="`editBtn${index}`"
-                                class=" text-blue-500 hover:text-blue-600 duration-150 font-bold hover:underline"
-                                @click="edit($event,warehouse,index)"
+    <div v-if="warehouses.length > 0">
+        <div class="flex justify-between items-center">
+            <Search 
+                @searching="(val) => search = val" 
+                :howToSearch="'product ID'" 
+                class="w-3/4"
+            />
+            <Sorting 
+                :items="filteredWarehouses" 
+                sort-by="product_id" 
+                @sorted="(val) => warehouses = val"
+                class="w-[370px]"
+            />
+        </div>
+        <div class="sm:rounded-lg" :class="{'overflow-x-scroll': filteredWarehouses.length > 0}">
+            <TableLayout
+                :headers="headers"
+                :is-admin="$page.props.auth.user.isAdmin" 
+                :is-department="$page.props.auth.user.department.name === 'WAREHOUSE'"
+                v-if="filteredWarehouses.length > 0"
+            >
+                <template #tbody>
+                        <tr class="border-b item" v-for="(warehouse,index) in filteredWarehouses" :key="warehouse.id">
+                            <td class="py-4 text-center">{{index}}</td>
+                            <Body
+                                :text-id="`productid${index}`"
+                                :error-id="`errorid${index}`"
+                                :value="warehouse.product_id"
+                                :error="errors.product_id"
                             />
-                            <Button
-                                type="button"
-                                text="Confrim"
-                                :id="`confirmBtn${index}`"
-                                class="hidden text-blue-500 hover:text-blue-600 duration-150 font-bold hover:underline"
-                                @click="confrimData(index,warehouse)"
+                            <Body
+                                :text-id="`opening${index}`"
+                                :error-id="`errorop${index}`"
+                                :value="warehouse.opening_balance"
+                                :error="errors.opening_balance"
                             />
-                            <Button
-                                type="button"
-                                text="Delete"
-                                class="text-red-500 hover:text-red-600 duration-150 font-bold hover:underline"
-                                @click="deleteWarehouse(warehouse.id)"
+                            <Body
+                                :text-id="`salesIss${index}`"
+                                :error-id="`errorsal${index}`"
+                                :value="warehouse.sales_issue"
+                                :error="errors.sales_issue"
                             />
-                        </td>
-                    </tr>
+                            <Body
+                                :text-id="`received${index}`"
+                                :error-id="`errorrec${index}`"
+                                :value="warehouse.received"
+                                :error="errors.received"
+                            />
+                            <Body
+                                :text-id="`avail${index}`"
+                                :error-id="`errorava${index}`"
+                                :value="warehouse.availability"
+                                :error="errors.availability"
+                            />
+                            <Body
+                                :text-id="`salesRe${index}`"
+                                :error-id="`errorsalr${index}`"
+                                :value="warehouse.sales_return"
+                                :error="errors.sales_return"
+                            />
+                            <Body
+                                :text-id="`damage${index}`"
+                                :error-id="`errordam${index}`"
+                                :value="warehouse.damage"
+                                :error="errors.damage"
+                            />
+                            <Body
+                                :text-id="`closing${index}`"
+                                :error-id="`errorclo${index}`"
+                                :value="warehouse.closing_balance"
+                                :error="errors.closing_balance"
+                            />
+                            <td class="py-4 text-center">{{ new Date(warehouse.created_at).toLocaleDateString()}}</td>
+                            <td class="py-4 space-x-3 text-center">
+                                <Button
+                                    type="button"
+                                    text="Edit"
+                                    :id="`editBtn${index}`"
+                                    class=" text-blue-500 hover:text-blue-600 duration-150 font-bold hover:underline"
+                                    @click="edit($event,warehouse,index)"
+                                />
+                                <Button
+                                    type="button"
+                                    text="Confrim"
+                                    :id="`confirmBtn${index}`"
+                                    class="hidden text-blue-500 hover:text-blue-600 duration-150 font-bold hover:underline"
+                                    @click="confrimData(index,warehouse)"
+                                />
+                                <Button
+                                    type="button"
+                                    text="Delete"
+                                    class="text-red-500 hover:text-red-600 duration-150 font-bold hover:underline"
+                                    @click="deleteWarehouse(warehouse.id)"
+                                />
+                            </td>
+                        </tr>
+                </template>
+            </TableLayout>
+            <template v-else>
+                <NoResults/>
             </template>
-        </TableLayout>
-        <template v-else>
-            <p>Nothing to search warehouse!!</p>
-        </template>
+        </div>
+    </div>
+    <div v-else>
+        <p>Don't have any warehouses!</p>
     </div>
 </template>
 

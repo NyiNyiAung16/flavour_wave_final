@@ -58,7 +58,7 @@ const toggle = ref('preorders');
                             <Preorders :preorders="preorders"/>
                         </div>
                         <div v-if="toggle === 'urgent'">
-                            <Urgent :urgents="urgents" :user="user"/>
+                            <Urgent :urgents="urgents"/>
                         </div>
                         <div v-if="toggle === 'cancel'">
                             <CancelOrders :cancel-orders="cancelOrders"/>
