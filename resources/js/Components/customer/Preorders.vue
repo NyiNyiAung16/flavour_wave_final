@@ -11,7 +11,7 @@ const props = defineProps({
     }
 });
 
-const headers = ref(['Id','Product Names','Latitude','Longitude','Quantity','Preorder-Date','Deliver Price','Total Price','Delivered Quantity','Preorder Date','Status']);
+const headers = ref(['Id','Product Names','Location','Latitude','Longitude','Quantity','Preorder-Date','Deliver Price','Total Price','Delivered Quantity','Preorder Date','Status']);
 const confrimation = ref(false);
 const cancelconfrimation = ref(false);
 const preorderID = ref(null);
@@ -62,6 +62,7 @@ const showCancelModal = (id) => {
                     <td class="py-4 px-2 flex flex-wrap gap-x-2">
                         <span v-for="product in preorder.products" :key="product.id">{{ product.name }},</span>
                     </td>
+                    <td class="py-4 px-2 text-center">{{preorder.full_location}}</td>
                     <td class="py-4 px-2 text-center">{{preorder.latitude}}</td>
                     <td class="py-4 px-2 text-center">{{preorder.longitude}}</td>
                     <td class="py-4 px-2 text-center">{{preorder.order_quantity}}</td>

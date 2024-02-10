@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();
+            $table->string('full_location')->nullable();
             $table->integer('order_quantity');
             $table->integer('total_price')->default(0);
             $table->integer('deliver_price')->nullable()->default(0);

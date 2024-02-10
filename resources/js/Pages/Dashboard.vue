@@ -52,10 +52,10 @@ const toggle = ref('preorders');
         </template>
         <div class="py-8">
             <div class="max-w-8xl mx-auto sm:px-6 lg:px-8 text-white">
-                <div class="bg-white dark:bg-gray-800 overflow-hidden overflow-x-scroll shadow-sm sm:rounded-lg p-3">
+                <div class="overflow-hidden sm:rounded-lg">
                     <div v-if="!user.isAdmin">
                         <div v-if="toggle === 'preorders'">
-                            <Preorders :preorders="preorders" :user="user"/>
+                            <Preorders :preorders="preorders"/>
                         </div>
                         <div v-if="toggle === 'urgent'">
                             <Urgent :urgents="urgents" :user="user"/>

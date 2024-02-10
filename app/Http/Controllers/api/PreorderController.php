@@ -34,6 +34,7 @@ class PreorderController extends Controller
                 'order_quantity' => 'required',
                 'latitude' => 'required',
                 'longitude' => 'required',
+                'full_location' => 'required',
                 'deliver_price'=>'required',
                 'total_price'=>'required'
             ]);
@@ -44,7 +45,7 @@ class PreorderController extends Controller
                     'truck_number'=>'required',
                     'capacity'=>['required','numeric','min:1'],
                     'driver_nrc'=>'required',
-                    'total_price'=>'required'
+                    'total_price'=>'required|numeric|min:1'
                 ]);
                 $preorderCleanData['is_urgent'] = $isUrgentData['is_urgent'];
                 $preorderCleanData['truck_number'] = $isUrgentData['truck_number'];
