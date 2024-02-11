@@ -16,10 +16,10 @@ return new class extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('latitude')->nullable();
             $table->string('longitude')->nullable();
-            $table->integer('order_quantity');
+            $table->string('full_location')->nullable();
+            $table->integer('order_quantity')->nullable();
             $table->integer('total_price')->default(0);
             $table->integer('deliver_price')->nullable()->default(0);
-            $table->timestamp('preorder_date');
             $table->boolean('is_urgent')->default(false);
             $table->string('truck_number')->nullable();
             $table->string('date')->nullable();

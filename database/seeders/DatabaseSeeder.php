@@ -25,7 +25,8 @@ class DatabaseSeeder extends Seeder
             IngredientSeeder::class,
             DriverSeeder::class,
             WarehouseSeeder::class,
-            UserSeeder::class,
+            ReceipeSeeder::class,
+            UserSeeder::class
         ]);
     }
 }

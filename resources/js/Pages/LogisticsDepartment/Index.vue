@@ -82,8 +82,8 @@ const toggle = ref("default");
         </template>
         <div class="py-8">
             <div class="max-w-8xl mx-auto sm:px-6 lg:px-8 text-white">
-                <div
-                    class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg p-3"
+                <div 
+                    class="sm:rounded-lg"
                 >
                     <div v-if="toggle === 'default'">
                         <ShowLogistics :logistics="logistics" />

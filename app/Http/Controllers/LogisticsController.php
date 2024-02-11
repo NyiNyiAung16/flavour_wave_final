@@ -31,8 +31,8 @@ class LogisticsController extends Controller
                     'created_at' => $item->created_at
                 ];
             }),
-            'preorders' => Preorder::where('status','order')->where('is_urgent',false) ->get(),
             'inprocess' => Preorder::where('status','processing')->where('is_urgent',false) ->get(),
+            'preorders' => Preorder::where('status','order')->where('is_urgent',false)->get(),
             'user' => auth()->user()
         ]);
     }

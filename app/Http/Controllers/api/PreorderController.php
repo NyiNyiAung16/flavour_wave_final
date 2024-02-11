@@ -29,35 +29,36 @@ class PreorderController extends Controller
     {
         $pId = request('product_id');
         if ($pId) {
-            $preorderCleanData = $request->validate([
-                'user_id' => ['required',Rule::exists('users','id')],
-                'order_quantity' => 'required',
-                'latitude' => 'required',
-                'longitude' => 'required',
-                'deliver_price'=>'required',
-                'total_price'=>'required'
-            ]);
+            $cleandata = [];
             if(request('is_urgent')){
                 $isUrgentData = request()->validate([
+                    'user_id' => 'required',
+                    'order_quantity' => 'required', 
                     'date'=>'required',
                     'is_urgent'=>'required',
                     'truck_number'=>'required',
                     'capacity'=>['required','numeric','min:1'],
                     'driver_nrc'=>'required',
+                    'total_price'=>'required|numeric|min:1'
+                ]);
+                $cleandata = $isUrgentData;
+            }else{
+                $preorderCleanData = $request->validate([
+                    'user_id' => ['required',Rule::exists('users','id')],
+                    'order_quantity' => 'required',
+                    'latitude' => 'required',
+                    'longitude' => 'required',
+                    'full_location' => 'required',
+                    'deliver_price'=>'required',
                     'total_price'=>'required'
                 ]);
-                $preorderCleanData['is_urgent'] = $isUrgentData['is_urgent'];
-                $preorderCleanData['truck_number'] = $isUrgentData['truck_number'];
-                $preorderCleanData['capacity'] = $isUrgentData['capacity'];
-                $preorderCleanData['driver_nrc'] = $isUrgentData['driver_nrc'];
-                $preorderCleanData['date'] = $isUrgentData['date'];
+                $cleandata = $preorderCleanData;
             }
             $orderedItem = $request -> validate([
                 "order_items" => "required|array",
                 ]);
 
-            $preorderCleanData['preorder_date'] = now();
-            $preorder = Preorder::create($preorderCleanData);
+            $preorder = Preorder::create($cleandata);
             for ($i = 0; $i < count($pId); $i++) {
                 $productId = $pId[$i];
                 $quantity = $orderedItem['order_items'][$productId];

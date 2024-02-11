@@ -16,6 +16,7 @@ use App\Http\Controllers\IngredientsController;
 use App\Http\Controllers\LogisticsController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReceipesController;
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\StripeController;
 use App\Http\Controllers\WarehouseController;
@@ -140,6 +141,7 @@ Route::middleware(AdminMiddleware::class)->group(function(){
     Route::get('/adminDepartment/dashboard',[AdminController::class,'index'])->name('adminDepartment.index');
     Route::get('/adminDepartment/users/{user}/edit',[AdminController::class,'showEditPage'])->name('user.edit');
     Route::post('/adminDepartment/user/store',[AdminController::class,'store'])->name('user.store');
+    Route::post('/adminDepartment/report/store',[ReportController::class,'store'])->name('report.store');
     Route::delete('/adminDepartment/users/{user}/destroy',[AdminController::class,'destroy'])->name('user.destroy');
     Route::patch('/adminDepartment/users/{user}/edit',[AdminController::class,'storeEditData'])->name('user.patch');
 });

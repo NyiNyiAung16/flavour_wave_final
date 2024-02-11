@@ -21,7 +21,7 @@
         <div>
             <h3 class="text-3xl font-bold">Pages</h3>
             <div class="flex flex-col gap-1">
-                <Link href="/home" class="hover:text-green-400 duration-200">Home</Link>
+                <Link href="/" class="hover:text-green-400 duration-200">Home</Link>
                 <Link href="/products" class="hover:text-green-400 duration-200">Products</Link>
                 <Link href="/myorders" class="hover:text-green-400 duration-200">Myorders</Link>
             </div>
