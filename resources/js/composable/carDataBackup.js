@@ -36,7 +36,7 @@ const addToCarts = (e, product, userID) => {
         cartProducts.value = array;
         total(array);
     } else {
-        useToast().info("You are an admin so you can't add to the cart!", {
+        useToast().info("You are a admin so you can't add cart!", {
             timeout: 2000,
         });
     }
@@ -47,17 +47,10 @@ function total(product) {
         totalPrice.value = 0;
         totalQuantity.value = 0;
         productsId.value = [];
-        order_items.value = {};
-
         product.forEach((p) => {
             totalPrice.value += p.quantity_price;
             totalQuantity.value += p.quantity;
             productsId.value.push(p.id);
-
-            if (!order_items.value[p.id]) {
-                order_items.value[p.id] = 0;
-            }
-            order_items.value[p.id] += p.quantity;
         });
     }
 }
@@ -105,7 +98,6 @@ const removeProduct = (id, userID) => {
         `addToCarts${userID}`,
         JSON.stringify(cartProducts.value)
     );
-    total(cartProducts.value);
 };
 
 export {
@@ -119,5 +111,4 @@ export {
     totalPrice,
     totalQuantity,
     productsId,
-    order_items,
 };

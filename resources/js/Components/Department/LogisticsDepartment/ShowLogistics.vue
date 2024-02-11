@@ -12,7 +12,13 @@ const props = defineProps({
     }
 });
 
-const headers = ref(['Preorder ID','Driver ID','Quantity','Deliver Date','Status']);
+const headers = ref([
+    "Preorder ID",
+    "Driver ID",
+    "Quantity",
+    "Deliver Date",
+    "Status",
+]);
 const search = ref('');
 
 const filteredLogistics = computed(()=>{
@@ -21,20 +27,17 @@ const filteredLogistics = computed(()=>{
 
 
 const deleteLogistic = (id) => {
-    router.delete(route('logistic.destroy',id));
-}
+    router.delete(route("logistic.destroy", id));
+};
 
-const edit = (e,logistic,index) => {
-    showEdit(e,logistic,index);
-}
+const edit = (e, logistic, index) => {
+    showEdit(e, logistic, index);
+};
 
-const confrimData = (index,logistic) => {
-    confrim(index,logistic);
-}
-
-
+const confrimData = (index, logistic) => {
+    confrim(index, logistic);
+};
 </script>
-
 
 <template>
     <div v-if="logistics.length > 0">
@@ -115,4 +118,3 @@ const confrimData = (index,logistic) => {
         <p>Don't have any logistics!</p>
     </div>
 </template>
-

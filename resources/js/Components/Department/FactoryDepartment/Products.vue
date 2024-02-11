@@ -5,10 +5,11 @@ import { ref, computed } from 'vue';
 import { filteredByName } from '@/composable/search';
 
 const props = defineProps({
-    'products':{
-        type:Array
-    }
+    products: {
+        type: Array,
+    },
 });
+
 const emits = defineEmits(['set-products']);
 
 const headers = ref(['Product ID','Name','Description','Image','Price','Quantity Per Box','Created_at']);
@@ -22,13 +23,10 @@ const deleteProduct = ( id ) => {
     router.delete(route('product.destroy',id),{
         preserveScroll:true
     });
-}
-
-
+};
 
 
 </script>
-
 
 <template>
     <div v-if="products.length > 0">
@@ -80,4 +78,3 @@ const deleteProduct = ( id ) => {
         <p>Don't have any products!</p>
     </div>
 </template>
-

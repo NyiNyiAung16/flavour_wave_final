@@ -19,7 +19,6 @@ const filteredCancelOrders = computed(()=>{
 
 </script>
 
-
 <template>
     <div v-if="cancelOrders.length > 0">
         <div class="flex justify-between items-center">
@@ -38,17 +37,25 @@ const filteredCancelOrders = computed(()=>{
         <div class="sm:rounded-lg" :class="{'overflow-x-scroll': filteredCancelOrders.length > 0}">
             <TableLayout
                 :headers="headers"
-                :is-admin="$page.props.auth.user.isAdmin" 
+                :is-admin="$page.props.auth.user.isAdmin"
                 :is-department="$page.props.auth.user.department?.name === 'SALE'"
                 v-if="filteredCancelOrders.length > 0"
             >
                 <template #tbody>
-                    <tr class="border-b item" v-for="(order,index) in filteredCancelOrders" :key="order.id">
-                        <td class="py-4 text-center">{{ index }}</td>
-                        <td class="py-4 text-center">{{order.id}}</td>
-                        <td class="py-4 ">{{order.cancel_reason}}</td>
-                        <td class="py-4 text-center">{{new Date(order.created_at).toLocaleDateString()}}</td>
-                        <td class="py-4 text-center text-red-500">{{order.status}}</td>
+                    <tr
+                    class="border-b item"
+                    v-for="(order, index) in filteredCancelOrders"
+                    :key="order.id"
+                >
+                        <td class="py-4 text-center">{{ index + 1 }}</td>
+                        <td class="py-4 text-center">{{ order.id }}</td>
+                        <td class="py-4 ">{{ order.cancel_reason }}</td>
+                        <td class="py-4 text-center">
+                        {{ new Date(order.created_at).toLocaleDateString() }}
+                    </td>
+                        <td class="py-4 text-center text-red-500">
+                        {{ order.status }}
+                    </td>
                     </tr>
                 </template>
             </TableLayout>
@@ -61,4 +68,3 @@ const filteredCancelOrders = computed(()=>{
         <p>Don't have any cancel orders!</p>
     </div>
 </template>
-

@@ -25,6 +25,7 @@ class DriverController extends Controller
 
     public function storeEditData(Driver $driver,DriverStoreRequest $request){
         $cleanData = $request->validated();
+        $cleanData['isFree'] = (int) $cleanData['isFree'];
         $driver->update($cleanData);
         return back()->with('message',[
             'content' => 'Edit Driver is successful.',

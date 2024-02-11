@@ -19,7 +19,6 @@ const filteredUrgentOrders = computed(()=>{
 
 </script>
 
-
 <template>
     <div v-if="urgents.length > 0">
         <div class="flex justify-between items-center">
@@ -70,6 +69,3 @@ const filteredUrgentOrders = computed(()=>{
         <p>Don't have any urgent orders!</p>
     </div>
 </template>
-
-
-

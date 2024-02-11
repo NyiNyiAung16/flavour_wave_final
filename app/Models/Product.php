@@ -12,7 +12,7 @@ class Product extends Model
     protected $table = 'products';
 
     public function orders(){
-        return $this->belongsToMany(Preorder::class);
+        return $this->belongsToMany(Preorder::class)->withPivot("quantity");
     }
 
     public function inventory(){
@@ -26,4 +26,6 @@ class Product extends Model
     public function receipes(){
         return $this->hasMany(Receipe::class);
     }
+
+
 }

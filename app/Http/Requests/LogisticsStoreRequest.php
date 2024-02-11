@@ -29,7 +29,8 @@ class LogisticsStoreRequest extends FormRequest
         return [
             'preorder_id' => ['required', Rule::exists('preorders', 'id')],
             'driver_id' => ['required', Rule::exists('drivers', 'id')],
-            'quantity' => 'required'
+            'quantity' => 'required',
+            'item_quantity' => 'required',
         ];
     }
 }

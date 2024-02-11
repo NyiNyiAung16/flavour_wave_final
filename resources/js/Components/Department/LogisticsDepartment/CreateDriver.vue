@@ -1,33 +1,35 @@
 <script setup>
-import BaseInput from '@/Components/BaseInput.vue'
-import PrimaryButton from '@/Components/PrimaryButton.vue';
-import { useForm } from '@inertiajs/vue3';
+import BaseInput from "@/Components/BaseInput.vue";
+import PrimaryButton from "@/Components/PrimaryButton.vue";
+import { useForm } from "@inertiajs/vue3";
 
 const form = useForm({
-    'name':'',
-    'vehicle_number':''
+    name: "",
+    vehicle_number: "",
+    isFree: 1,
 });
 
 const createDriver = () => {
-    form.post(route('driver.store'),{
-        onSuccess:()=>{
-            form.reset()
+    form.post(route("driver.store"), {
+        onSuccess: () => {
+            form.reset();
         },
-        onError:()=>{
+        onError: () => {
             setTimeout(() => {
                 form.clearErrors();
             }, 2000);
         },
-        preserveScroll:true
-    })
-}
-
+        preserveScroll: true,
+    });
+};
 </script>
-
 
 <template>
     <div class="py-3">
-        <form @submit.prevent="createDriver" class="space-y-4 max-w-4xl mx-auto">
+        <form
+            @submit.prevent="createDriver"
+            class="space-y-4 max-w-4xl mx-auto"
+        >
             <h3 class="text-2xl font-bold text-center">Create Driver</h3>
             <div>
                 <BaseInput
@@ -55,4 +57,3 @@ const createDriver = () => {
         </form>
     </div>
 </template>
-

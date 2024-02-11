@@ -20,21 +20,18 @@ const filteredDrivers = computed(()=>{
     return filteredByName(search.value,props.drivers)
 });
 
-const edit = (e,driver,index)=>{
-    showEdit(e,driver,index);
-}
+const edit = (e, driver, index) => {
+    showEdit(e, driver, index);
+};
 
-const confrimData = (index,driver) =>{
-    confrim(index,driver);
-}
+const confrimData = (index, driver) => {
+    confrim(index, driver);
+};
 
 const deleteDriver = (id) => {
-    router.delete(route('driver.destroy',id));
-}
-
-
+    router.delete(route("driver.destroy", id));
+};
 </script>
-
 
 <template>
     <div v-if="drivers.length > 0">
@@ -115,4 +112,3 @@ const deleteDriver = (id) => {
         <p>Don't have any drivers!</p>
     </div>
 </template>
-

@@ -1,25 +1,22 @@
 <script setup>
-
 defineProps({
-    headers:{
-        type:Array,
-        required:true
+    headers: {
+        type: Array,
+        required: true,
     },
-    isAdmin:{
-        type:Boolean,
-        required:true
+    isAdmin: {
+        type: Boolean,
+        required: true,
     },
-    isDepartment:{
-        type:Boolean,
-        required:true
-    }
+    isDepartment: {
+        type: Boolean,
+        required: true,
+    },
 });
-
 </script>
 
-
 <template>
-    <table class="min-w-[1400px] bg-white dark:bg-gray-800 sm:rounded-lg">
+    <table class="min-w-[100%] bg-white dark:bg-gray-800 sm:rounded-lg">
         <thead>
             <tr class="border-b head">
                 <th class="py-3 pe-2">No.</th>
@@ -32,4 +29,3 @@ defineProps({
         </tbody>
     </table>
 </template>
-

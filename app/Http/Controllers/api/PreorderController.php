@@ -54,9 +54,15 @@ class PreorderController extends Controller
                 ]);
                 $cleandata = $preorderCleanData;
             }
+            $orderedItem = $request -> validate([
+                "order_items" => "required|array",
+                ]);
+
             $preorder = Preorder::create($cleandata);
-            for($i = 0; $i < count($pId);$i++){
-                $preorder->products()->attach($pId[$i]);
+            for ($i = 0; $i < count($pId); $i++) {
+                $productId = $pId[$i];
+                $quantity = $orderedItem['order_items'][$productId];
+                $preorder->products()->attach($productId, ['quantity' => $quantity]);
             }
         }
     }
@@ -71,4 +77,5 @@ class PreorderController extends Controller
         ]);
 
     }
+
 }

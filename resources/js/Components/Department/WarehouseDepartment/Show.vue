@@ -20,21 +20,18 @@ const filteredWarehouses = computed(()=>{
     return filteredById(search.value,props.warehouses)
 });
 
-const deleteWarehouse = ( id ) => {
-    router.delete(route('warehouse.destroy',id));
-}
+const deleteWarehouse = (id) => {
+    router.delete(route("warehouse.destroy", id));
+};
 
-const edit = (e,warehouse,index) => {
-    showEdit(e,warehouse,index);
-}
+const edit = (e, warehouse, index) => {
+    showEdit(e, warehouse, index);
+};
 
-const confrimData = (index,warehouse) => {
-    confrim(index,warehouse);
-}
-
-
+const confrimData = (index, warehouse) => {
+    confrim(index, warehouse);
+};
 </script>
-
 
 <template>
     <div v-if="warehouses.length > 0">
@@ -144,4 +141,3 @@ const confrimData = (index,warehouse) => {
         <p>Don't have any warehouses!</p>
     </div>
 </template>
-
