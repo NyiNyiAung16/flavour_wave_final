@@ -27,7 +27,8 @@ class DriverStoreRequest extends FormRequest
     {
         return [
             'name' => 'required',
-            'vehicle_number' => 'required'
+            'vehicle_number' => 'required',
+            'isFree' => 'required',
         ];
     }
 }

@@ -1,15 +1,21 @@
 <script setup>
-import BaseInput from '@/Components/BaseInput.vue'
-import Button from '@/Components/Button.vue'
-import { Head,useForm, router, usePage } from '@inertiajs/vue3';
-import { fetchCartDetails, totalPrice, totalQuantity, productsId  } from '../composable/cartData'
-import Map from './Map.vue';
-import { ref,onMounted } from 'vue';
-import { useToast } from 'vue-toastification';
-import flatpickr from 'flatpickr';
-import 'flatpickr/dist/flatpickr.css'
-import 'flatpickr/dist/themes/dark.css'
-import { calculateDistance } from '@/composable/getDistance';
+import BaseInput from "@/Components/BaseInput.vue";
+import Button from "@/Components/Button.vue";
+import { Head, useForm, router, usePage } from "@inertiajs/vue3";
+import {
+    fetchCartDetails,
+    totalPrice,
+    totalQuantity,
+    productsId,
+    order_items,
+} from "../composable/cartData";
+import Map from "./Map.vue";
+import { ref, onMounted } from "vue";
+import { useToast } from "vue-toastification";
+import flatpickr from "flatpickr";
+import "flatpickr/dist/flatpickr.css";
+import "flatpickr/dist/themes/dark.css";
+import { calculateDistance } from "@/composable/getDistance";
 
 const pick = ref(true);
 const location = ref(null);
@@ -22,22 +28,27 @@ const distance = ref(0);
 
 const page = usePage();
 
-onMounted(async()=>{
+onMounted(async () => {
     await fetchCartDetails(page.props.auth.user.id);
-    flatpickr(date.value,{
-        dateFormat:"d-m-Y",
-        minDate:"today"
+    flatpickr(date.value, {
+        dateFormat: "d-m-Y",
+        minDate: "today",
     });
 });
 
 const getCompanyLocation = (val) => {
     companyLocation.value = val;
-}
+};
 
 const getLocation = (val) => {
     location.value = val;
     pick.value = false;
-    const res = calculateDistance(companyLocation.value.lat,companyLocation.value.lng,location.value.lat,location.value.lng);
+    const res = calculateDistance(
+        companyLocation.value.lat,
+        companyLocation.value.lng,
+        location.value.lat,
+        location.value.lng
+    );
     distance.value = parseInt(res);
 };
 
@@ -48,60 +59,74 @@ const showDetail = () => {
     form.latitude = location.value.lat;
     form.longitude = location.value.lng;
     form.deliver_price = distance.value;
-}
+};
 
 const removeDetail = () => {
-    loc.value.textContent = '';
+    loc.value.textContent = "";
     delPrice.value.textContent = 0;
     confrim.value = false;
 };
 
 const form = useForm({
-    'order_quantity':totalQuantity.value,
-    'latitude':0,
-    'longitude':0,
-    'deliver_price':0,
-    'total_price':totalPrice.value,
-    'user_id':page.props.auth.user.id,
-    'product_id':productsId.value,
-    'date':'',
-    'is_urgent':false,
-    'truck_number':'',
-    'capacity':0,
-    'driver_nrc':''
+    order_quantity: totalQuantity.value,
+    latitude: 0,
+    longitude: 0,
+    deliver_price: 0,
+    total_price: totalPrice.value,
+    user_id: page.props.auth.user.id,
+    product_id: productsId.value,
+    order_items: order_items.value, // is it right here?
+    date: "",
+    is_urgent: false,
+    truck_number: "",
+    capacity: 0,
+    driver_nrc: "",
 });
 
 const makePreorder = () => {
-    if(form.product_id && form.user_id){
-        form.post('/preorders/create',{
-            onSuccess:()=>{
+    if (form.product_id && form.user_id) {
+        form.post("/preorders/create", {
+            onSuccess: () => {
                 localStorage.removeItem(`addToCarts${page.props.auth.user.id}`);
-                router.get(route('dashboard'));
-                useToast().success('create preorder is successful.',{
-                    timeout:2000
+                router.get(route("dashboard"));
+                useToast().success("create preorder is successful.", {
+                    timeout: 2000,
                 });
             },
-            onError:()=>{
-                setTimeout(()=>{
-                    page.props.errors = {}
-                },2500)
+            onError: () => {
+                setTimeout(() => {
+                    page.props.errors = {};
+                }, 2500);
             },
-            preserveScroll:true
+            preserveScroll: true,
         });
-    }else{
-        useToast().error('Your network is not stable!!');
+    } else {
+        useToast().error("Your network is not stable!!");
     }
-}
-
+};
 </script>
 
 <template>
     <Head title="Checkout" />
-    <Map v-on:location="getLocation" @companyLocation="getCompanyLocation"/>
+    <Map v-on:location="getLocation" @companyLocation="getCompanyLocation" />
     <div class="max-w-6xl mx-auto mt-8">
         <div class="space-x-2">
-            <button class="px-3 py-2 bg-slate-200 hover:bg-slate-300 duration-200 text-black rounded-md" :class="{'bg-slate-400 hover:bg-slate-400':pick}" :disabled=pick @click="showDetail">Pick Location</button>
-            <button class="px-3 py-2 bg-slate-200 hover:bg-slate-300 duration-200 text-black rounded-md" :class="{'bg-slate-400 hover:bg-slate-400':pick}" :disabled=pick @click="removeDetail">Remove Location</button>
+            <button
+                class="px-3 py-2 bg-slate-200 hover:bg-slate-300 duration-200 text-black rounded-md"
+                :class="{ 'bg-slate-400 hover:bg-slate-400': pick }"
+                :disabled="pick"
+                @click="showDetail"
+            >
+                Pick Location
+            </button>
+            <button
+                class="px-3 py-2 bg-slate-200 hover:bg-slate-300 duration-200 text-black rounded-md"
+                :class="{ 'bg-slate-400 hover:bg-slate-400': pick }"
+                :disabled="pick"
+                @click="removeDetail"
+            >
+                Remove Location
+            </button>
         </div>
         <div class="text-2xl font-semibold my-3">
             <p>Location : <span ref="loc"></span></p>
@@ -110,7 +135,12 @@ const makePreorder = () => {
         <form @submit.prevent="makePreorder">
             <div class="text-xl text-white">
                 <div class="mb-3">
-                    <input type="checkbox" v-model="form.is_urgent" class="rounded focus:outline-none me-3" @click="confrim = true">
+                    <input
+                        type="checkbox"
+                        v-model="form.is_urgent"
+                        class="rounded focus:outline-none me-3"
+                        @click="confrim = true"
+                    />
                     <span>Is Argent (or) Pick yourself!</span>
                 </div>
                 <div class="space-y-3 text-sm" v-show="form.is_urgent">
@@ -145,14 +175,26 @@ const makePreorder = () => {
                         />
                     </div>
                     <div>
-                        <input ref="date" v-model="form.date" class="bg-stone-800 rounded-md" placeholder="Select a date">
-                        <p v-if="page.props.errors.date" class="text-sm text-red-500 my-1">{{ page.props.errors.date }}</p>
+                        <input
+                            ref="date"
+                            v-model="form.date"
+                            class="bg-stone-800 rounded-md"
+                            placeholder="Select a date"
+                        />
+                        <p
+                            v-if="page.props.errors.date"
+                            class="text-sm text-red-500 my-1"
+                        >
+                            {{ page.props.errors.date }}
+                        </p>
                     </div>
                 </div>
             </div>
-            <div class="max-w-6xl mx-auto text-xl font-bold border-t-2 mt-3 pt-3">
-                <p>Total Quantity : {{totalQuantity}}</p>
-                <p>Total Price : ${{totalPrice}}</p>
+            <div
+                class="max-w-6xl mx-auto text-xl font-bold border-t-2 mt-3 pt-3"
+            >
+                <p>Total Quantity : {{ totalQuantity }}</p>
+                <p>Total Price : ${{ totalPrice }}</p>
             </div>
             <div>
                 <Button
@@ -165,16 +207,14 @@ const makePreorder = () => {
     </div>
 </template>
 
-
 <style scoped>
-.input{
+.input {
     box-sizing: border-box;
     border: none;
     outline: none;
 }
-.input:focus{
+.input:focus {
     box-shadow: none;
     outline: 1px solid #f2f2f2;
 }
-
 </style>

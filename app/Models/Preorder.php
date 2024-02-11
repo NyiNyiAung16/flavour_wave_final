@@ -19,10 +19,12 @@ class Preorder extends Model
     }
 
     public function products(){
-        return $this->belongsToMany(Product::class);
+        return $this->belongsToMany(Product::class)->withPivot("quantity");
     }
 
     public function deliver(){
         return $this->hasMany(Logistic::class);
     }
+
+
 }

@@ -77,6 +77,7 @@ Route::get('/dashboard', [DashboardController::class,'dashboard'])->middleware([
 // customer preorder
 Route::post('preorders/create', [PreorderController::class, 'createPreorder'])->middleware(AuthMiddleware::class);
 
+
 //checkout
 Route::get('/checkout',function(){
     return Inertia::render('Checkout',[
@@ -85,10 +86,14 @@ Route::get('/checkout',function(){
     ]);
 });
 
+Route::get('/hey', [LogisticsController::class, 'test']);
+
+
 //logistics
 Route::middleware(LogisticMiddleware::class)->group(function(){
     Route::get('/logisticsDepartment/dashboard',[LogisticsController::class,'index'])->name('logisticsDepartment.index');
     Route::post('/logisticsDepartment', [LogisticsController::class, 'store'])->name('deliver.store');
+    Route::get('/logisticsDepartment/{proderId}', [LogisticsController::class, "getPreorder"]);
     Route::get('/deliver/count', [LogisticsController::class, 'getCount']);
     Route::post('/logisticsDepartment/driver/store',[DriverController::class,'storeDriver'])->name('driver.store');
     Route::patch('/logisticsDepartment/drivers/{driver}/patch',[DriverController::class,'storeEditData'])->name('driver.patch');

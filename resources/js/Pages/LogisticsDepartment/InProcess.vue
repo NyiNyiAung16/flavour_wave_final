@@ -3,11 +3,10 @@ import { ref } from "vue";
 import ConfrimModal from "@/Components/Modals/ConfrimModal.vue";
 import CancelModal from "@/Components/Modals/CancelModal.vue";
 import TableLayout from "@/Layouts/TableLayout.vue";
-import UrgentOrderModal from "../Modals/UrgentOrderModal.vue";
-import { formatPrice } from "./helper";
+import OrderDetail from "@/Components/Modals/OrderDetail.vue";
 
 defineProps({
-    urgents: {
+    inprocess: {
         type: Array,
     },
     user: {
@@ -16,10 +15,10 @@ defineProps({
 });
 
 const headers = ref([
-    "PreOrder ID",
+    "Preorder ID",
     "Product Names",
-    "Quantity",
-    "Total Price",
+    "Total Quantity",
+    "Delivered Quantity",
     "Preorder Date",
     "Status",
     "Details",
@@ -27,22 +26,22 @@ const headers = ref([
 const confrimation = ref(false);
 const cancelconfrimation = ref(false);
 const preorderID = ref(null);
-const urgentObj = ref(null);
-const urgentConfrimation = ref(false);
+const preorderObj = ref(null);
+const orderDetailCancellation = ref(false);
 
 const showModal = (id) => {
     confrimation.value = true;
     preorderID.value = id;
 };
 
+const showOrderDetails = (preorder) => {
+    orderDetailCancellation.value = true;
+    preorderObj.value = preorder;
+};
+
 const showCancelModal = (id) => {
     cancelconfrimation.value = true;
     preorderID.value = id;
-};
-
-const showUrgentOrderModal = (urgent) => {
-    urgentConfrimation.value = true;
-    urgentObj.value = urgent;
 };
 </script>
 
@@ -55,13 +54,16 @@ const showUrgentOrderModal = (urgent) => {
         <template #tbody>
             <tr
                 class="border-b item"
-                v-for="(urgent, index) in urgents"
-                :key="urgent.id"
+                v-for="(preorder, index) in inprocess"
+                :key="preorder.id"
             >
                 <td class="py-4 px-2">{{ index + 1 }}</td>
-                <td class="py-4 px-2 text-center">{{ urgent.id }}</td>
+                <td class="py-4 px-2 text-center">{{ preorder.id }}</td>
                 <td class="py-3 text-center" style="width: 400px">
-                    <span v-for="product in urgent.products" :key="product.id">
+                    <span
+                        v-for="product in preorder.products"
+                        :key="product.id"
+                    >
                         {{
                             product.name.length > 15
                                 ? product.name.slice(0, 10) + "..."
@@ -71,47 +73,47 @@ const showUrgentOrderModal = (urgent) => {
                 </td>
 
                 <td class="py-4 px-2 text-center">
-                    {{ urgent.order_quantity }}
+                    {{ preorder.order_quantity }}
                 </td>
                 <td class="py-4 px-2 text-center">
-                    {{ formatPrice(urgent.total_price) }}$
+                    {{ preorder.delivered_quantity }}
                 </td>
-                <td class="py-4 px-2 text-center">
-                    {{ new Date(urgent.created_at).toLocaleDateString() }}
+                <td class="py-4 text-center">
+                    {{ new Date(preorder.created_at).toLocaleDateString() }}
                 </td>
                 <td
                     class="py-4 px-2 text-center"
                     :class="{
-                        'text-yellow-400': urgent.status === 'pending',
-                        'text-blue-400': urgent.status === 'order',
-                        'text-green-500': urgent.status === 'deliver',
-                        'text-red-500': urgent.status === 'cancel',
+                        'text-yellow-400': preorder.status === 'pending',
+                        'text-blue-400': preorder.status === 'order',
+                        'text-green-500': preorder.status === 'deliver',
+                        'text-red-500': preorder.status === 'cancel',
+                        'text-teal-500': preorder.status === 'processing',
                     }"
                 >
-                    {{ urgent.status }}
+                    {{ preorder.status }}
                 </td>
                 <td class="py-4 px-2 text-center">
                     <button
                         class="text-blue-500 hover:text-blue-600 hover:underline duration-200 font-semibold"
-                        @click="showUrgentOrderModal(urgent)"
+                        @click="showOrderDetails(preorder)"
                     >
                         See Details
                     </button>
                 </td>
-
                 <td
                     class="py-4 px-2 text-center"
                     v-show="user.isAdmin && user.department?.name === 'SALE'"
                 >
                     <button
                         class="text-blue-500 hover:text-blue-600 hover:underline duration-200 font-semibold"
-                        @click="showModal(urgent.id)"
+                        @click="showModal(preorder.id)"
                     >
                         confrim
                     </button>
                     <button
                         class="text-red-500 hover:text-red-600 hover:underline duration-200 font-semibold ms-2"
-                        @click="showCancelModal(urgent.id)"
+                        @click="showCancelModal(preorder.id)"
                     >
                         cancel
                     </button>
@@ -129,9 +131,9 @@ const showUrgentOrderModal = (urgent) => {
         :cancelconfrimation="cancelconfrimation"
         @cancel-modal="cancelconfrimation = false"
     />
-    <UrgentOrderModal
-        :urgent="urgentObj"
-        :urgentConfrimation="urgentConfrimation"
-        @hide-modal="urgentConfrimation = false"
+    <OrderDetail
+        :preorder="preorderObj"
+        :orderDetailCancellation="orderDetailCancellation"
+        @hide-modal="orderDetailCancellation = false"
     />
 </template>

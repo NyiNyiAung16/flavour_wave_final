@@ -52,10 +52,16 @@ class PreorderController extends Controller
                 $preorderCleanData['driver_nrc'] = $isUrgentData['driver_nrc'];
                 $preorderCleanData['date'] = $isUrgentData['date'];
             }
+            $orderedItem = $request -> validate([
+                "order_items" => "required|array",
+                ]);
+
             $preorderCleanData['preorder_date'] = now();
             $preorder = Preorder::create($preorderCleanData);
-            for($i = 0; $i < count($pId);$i++){
-                $preorder->products()->attach($pId[$i]);
+            for ($i = 0; $i < count($pId); $i++) {
+                $productId = $pId[$i];
+                $quantity = $orderedItem['order_items'][$productId];
+                $preorder->products()->attach($productId, ['quantity' => $quantity]);
             }
         }
     }
@@ -70,4 +76,5 @@ class PreorderController extends Controller
         ]);
 
     }
+
 }

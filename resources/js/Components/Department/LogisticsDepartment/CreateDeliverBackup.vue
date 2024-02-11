@@ -5,6 +5,10 @@ import { useForm } from "@inertiajs/vue3";
 import { ref, watch } from "vue";
 
 const props = defineProps({
+    preorders: {
+        type: Array,
+        default: [],
+    },
     drivers: {
         type: Array,
         default: [],
@@ -149,10 +153,9 @@ const addItemQty = (quantity, productID, maxQty) => {
                 >
                     <p style="width: 400px">{{ product.name }}</p>
                     <BaseInput
-                        key="product.id"
                         type="number"
-                        :error="errors.productId"
                         v-model="orderqty[product.id]"
+                        :error="errors.productId"
                         @change="
                             addItemQty(
                                 orderqty,
