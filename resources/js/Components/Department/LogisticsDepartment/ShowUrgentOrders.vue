@@ -10,7 +10,18 @@ const props = defineProps({
     }
 });
 
-const headers = ref(['Id','Product Names','Quantity','Driver NRC','Truck Number','Truck Capacity','Pickup Date','Total Price','Status','Details']);
+const headers = ref([
+    'Id',
+    'Product Names',
+    'Quantity',
+    'Driver NRC',
+    'Truck Number',
+    'Truck Capacity',
+    'Pickup Date',
+    'Total Price',
+    'Status',
+    'Details'
+]);
 const urgentObj = ref(null);
 const urgentConfrimation = ref(false);
 const search = ref('');
@@ -51,8 +62,8 @@ const showUrgentOrderModal = (urgent) => {
             >
                 <template #tbody>
                         <tr class="border-b item" v-for="(urgent,index) in urgents" :key="urgent.id">
-                            <td class="py-4 px-2 text-center">{{index}}</td>
-                            <td class="py-4 px-2 text-center">{{urgent.id}}</td>
+                            <td class="py-4 px-2 text-center w-[80px]">{{index}}</td>
+                            <td class="py-4 px-2 text-center w-[110px]">{{urgent.id}}</td>
                             <td class="py-4 px-2 flex gap-x-2 flex-wrap">
                                 <span v-for="product in urgent.products" :key="product.id">{{ product.name }},</span>
                             </td>

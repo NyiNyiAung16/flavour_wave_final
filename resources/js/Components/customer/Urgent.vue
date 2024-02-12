@@ -77,14 +77,12 @@ const showUrgentOrderModal = (urgent) => {
                         v-for="(urgent, index) in filteredUrgentOrders"
                         :key="urgent.id"
                     >
-                        <td class="py-4 px-2">{{ index + 1 }}</td>
-                        <td class="py-4 px-2 text-center">{{ urgent.id }}</td>
-                        <td class="py-3 text-center" style="width: 400px">
+                        <td class="py-4 px-2 text-center w-[80px]">{{ index + 1 }}</td>
+                        <td class="py-4 px-2 text-center w-[110px]">{{ urgent.id }}</td>
+                        <td class="py-3" style="width: 400px">
                             <span v-for="product in urgent.products" :key="product.id">
                                 {{
-                                    product.name.length > 15
-                                        ? product.name.slice(0, 10) + "..."
-                                        : product.name
+                                    product.name
                                 }},
                             </span>
                         </td>
