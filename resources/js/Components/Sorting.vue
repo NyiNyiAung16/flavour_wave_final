@@ -57,9 +57,9 @@ const sorting = (sortBy) => {
 function sortByTimeOrId(items,sortBy){
     return items.sort((a,b) => {
         if(direction.value === 'asc'){
-            return a[sortBy] < b[sortBy] ? -1 : 1 ;
-        }else{
             return b[sortBy] < a[sortBy] ? -1 : 1 ;
+        }else{
+            return a[sortBy] < b[sortBy] ? -1 : 1 ;
         }
     });
 }

@@ -19,9 +19,10 @@
 }
 ::-webkit-scrollbar-thumb {
     background: rgba(136, 136, 136, 0.281);
+    transition: all .8s;
 }
 
 /* Handle on hover  */
 ::-webkit-scrollbar-thumb:hover {
-    background: #555;
+    background: #21222e;
 }

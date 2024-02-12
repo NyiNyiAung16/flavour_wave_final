@@ -43,7 +43,7 @@ const cancel = () => {
                 <!-- product name -->
                 <div class="" style="display: flex">
                     <p class="text-md my-2 text-white" style="width: 200px">
-                        Product Names
+                        Product Names & Quantity
                     </p>
                     <p class="text-white my-2 text-md">:</p>
                     <div class="text-md my-2 ml-5 text-white">
@@ -51,22 +51,23 @@ const cancel = () => {
                             v-for="product in urgent.products"
                             :key="product.id"
                         >
-                            {{ product.name }},
+                            {{ product.name }} :
+                            {{ product.pivot.quantity }}
                         </div>
                     </div>
                 </div>
                 <!-- quantity -->
                 <div class="" style="display: flex">
                     <p class="text-md my-2 text-white" style="width: 200px">
-                        Quantity
+                        Total Quantity
                     </p>
                     <p class="text-white my-2 text-md">:</p>
                     <p class="text-md my-2 ml-5 text-white">
                         {{ urgent.order_quantity }}
                     </p>
                 </div>
-                <!-- delivery price -->
-                <div class="" style="display: flex">
+                <!-- delivery price !!! Don't need this --> 
+                <!-- <div class="" style="display: flex">
                     <p class="text-md my-2 text-white" style="width: 200px">
                         Delivery Price
                     </p>
@@ -74,7 +75,7 @@ const cancel = () => {
                     <p class="text-md my-2 ml-5 text-white">
                         {{ urgent.deliver_price }} $
                     </p>
-                </div>
+                </div> -->
                 <!-- total price -->
                 <div class="" style="display: flex">
                     <p class="text-md my-2 text-white" style="width: 200px">
@@ -128,11 +129,11 @@ const cancel = () => {
                 <!-- status -->
                 <div style="display: flex">
                     <p class="text-md my-2 text-white" style="width: 200px">
-                        Urgent Date
+                        Status
                     </p>
                     <p class="text-white my-2 text-md">:</p>
                     <p class="text-md my-2 ml-5 text-white">
-                        {{ urgent.date }}
+                        {{ urgent.status }}
                     </p>
                 </div>
             </div>

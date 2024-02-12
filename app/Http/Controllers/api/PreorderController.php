@@ -56,7 +56,7 @@ class PreorderController extends Controller
             }
             $orderedItem = $request -> validate([
                 "order_items" => "required|array",
-                ]);
+            ]);
 
             $preorder = Preorder::create($cleandata);
             for ($i = 0; $i < count($pId); $i++) {

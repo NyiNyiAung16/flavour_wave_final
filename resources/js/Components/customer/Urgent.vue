@@ -13,8 +13,8 @@ const props = defineProps({
     }
 });
 
-const headers = ref(['Id',
-    "PreOrder ID",
+const headers = ref([
+    "Preorder ID",
     "Product Names",
     "Quantity",
     "Total Price",
@@ -120,7 +120,7 @@ const showUrgentOrderModal = (urgent) => {
 
                         <td
                             class="py-4 px-2 text-center"
-                            v-show="user.isAdmin && user.department?.name === 'SALE'"
+                            v-show="$page.props.auth.user.isAdmin && $page.props.auth.user.department?.name === 'SALE'"
                         >
                             <button
                                 class="text-blue-500 hover:text-blue-600 hover:underline duration-200 font-semibold"

@@ -5,6 +5,7 @@ import Button from '@/Components/Button.vue'
 import { router } from '@inertiajs/vue3'
 import { showEdit, confrim, errors } from '../../../composable/editDeliver'
 import { ref, computed } from 'vue';
+import { filteredById } from '@/composable/search'
 
 const props = defineProps({
     logistics:{

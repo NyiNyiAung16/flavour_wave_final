@@ -75,7 +75,7 @@ const form = useForm({
     order_quantity: totalQuantity.value,
     latitude: 0,
     longitude: 0,
-    'full_location':'',
+    full_location:'',
     deliver_price: 0,
     total_price: totalPrice.value,
     user_id: page.props.auth.user.id,
@@ -89,6 +89,7 @@ const form = useForm({
 });
 
 const makePreorder = () => {
+    console.log(form)
     if (form.product_id && form.user_id) {
         form.post("/preorders/create", {
             onSuccess: () => {

@@ -31,7 +31,7 @@ const deleteProduct = (id) => {
         <div class="flex justify-between items-center">
             <Search 
                 @searching="(val) => search = val" 
-                :howToSearch="'name'" 
+                :howToSearch="'username'" 
                 class="w-3/4"
             />
             <Sorting 

@@ -56,7 +56,7 @@ class LogisticsController extends Controller
             }else{
                 $p->update(['status'=>'processing','delivered_quantity' => $cleanData['quantity']]);
             }
-            Driver::where('id', $cleanData['driver_id'])->update(['isFree' => '0']);
+            Driver::where('id', $cleanData['driver_id'])->update(['isFree' => 0]);
             $products = $p->products;
             foreach ($products as $product) {
                 $warehouse = Warehouse::find($product->id);
@@ -102,7 +102,4 @@ class LogisticsController extends Controller
         }
         return response()->json(['error' => 'Preorder not found'], 404);
     }
-
-
-
 }

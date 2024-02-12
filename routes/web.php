@@ -94,7 +94,7 @@ Route::get('/hey', [LogisticsController::class, 'test']);
 Route::middleware(LogisticMiddleware::class)->group(function(){
     Route::get('/logisticsDepartment/dashboard',[LogisticsController::class,'index'])->name('logisticsDepartment.index');
     Route::post('/logisticsDepartment', [LogisticsController::class, 'store'])->name('deliver.store');
-    Route::get('/logisticsDepartment/{proderId}', [LogisticsController::class, "getPreorder"]);
+    Route::get('/logisticsDepartment/{preoderId}', [LogisticsController::class, "getPreorder"]);
     Route::get('/deliver/count', [LogisticsController::class, 'getCount']);
     Route::post('/logisticsDepartment/driver/store',[DriverController::class,'storeDriver'])->name('driver.store');
     Route::patch('/logisticsDepartment/drivers/{driver}/patch',[DriverController::class,'storeEditData'])->name('driver.patch');

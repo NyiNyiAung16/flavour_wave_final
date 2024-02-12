@@ -62,8 +62,9 @@ const cancel = () => {
                     </p>
                     <p class="text-white my-2 text-md">:</p>
                     <p class="text-md my-2 ml-5 text-white">
-                        Latitide : {{ preorder.latitude }} , Longitude :
-                        {{ preorder.longitude }}
+                        <p>{{ preorder.full_location }}</p>
+                        (Latitide : {{ preorder.latitude }} , Longitude :
+                        {{ preorder.longitude }})
                     </p>
                 </div>
                 <!-- quantity -->

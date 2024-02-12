@@ -89,11 +89,11 @@ const toggle = ref("default");
                         <ShowLogistics :logistics="logistics" />
                     </div>
                     <div v-if="toggle === 'orders'">
-                        <Preorders :preorders="preorders" :user="user" />
+                        <Preorders :preorders="preorders" />
                     </div>
 
                     <div v-if="toggle === 'inprocess'">
-                        <InProcess :inprocess="inprocess" :user="user" />
+                        <InProcess :inprocess="inprocess" />
                     </div>
                     <div v-if="toggle === 'drivers'">
                         <DriversInfo :drivers="drivers" />

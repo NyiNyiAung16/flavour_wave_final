@@ -17,12 +17,12 @@ class UserSeeder extends Seeder
     {
         //$department = array('ADMIN','LOGISTIC','FACTORY','SALE','WAREHOUSE');
          $department = [
-            array("ADMIN", "admin@email.com",1,1, "123456789"),
-            array("LOGISTIC", "logistic@email.com",1,2, "123456789"),
-            array("FACTORY", "factory@email.com",1,3,"123456789"),
-            array("SALE", "sale@email.com",1,4,"123456789"),
-            array("WAREHOUSE", "warehouse@email.com",1,5,"123456789"),
-
+            array("ADMIN", "admin@gmail.com",1,1, "123456789"),
+            array("LOGISTIC", "logistic@gmail.com",1,2, "123456789"),
+            array("FACTORY", "factory@gmail.com",1,3,"123456789"),
+            array("SALE", "sale@gmail.com",1,4,"123456789"),
+            array("WAREHOUSE", "warehouse@gmail.com",1,5,"123456789"),
+            array("Client", "client@gmail.com",0,null,"123456789"),
             ];
 
         foreach($department as $d){

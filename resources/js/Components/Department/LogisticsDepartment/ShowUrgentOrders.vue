@@ -1,5 +1,6 @@
 <script setup>
 import TableLayout from '@/Layouts/TableLayout.vue';
+import UrgentOrderModal from '@/Components/Modals/UrgentOrderModal.vue';
 import { filteredById } from '@/composable/search';
 import { ref, computed } from 'vue';
 
@@ -9,12 +10,19 @@ const props = defineProps({
     }
 });
 
-const headers = ref(['Id','Product Names','Quantity','Driver NRC','Truck Number','Truck Capacity','Pickup Date','Total Price','Status']);
+const headers = ref(['Id','Product Names','Quantity','Driver NRC','Truck Number','Truck Capacity','Pickup Date','Total Price','Status','Details']);
+const urgentObj = ref(null);
+const urgentConfrimation = ref(false);
 const search = ref('');
 
 const filteredUrgentOrders = computed(()=>{
     return filteredById(search.value,props.urgents)
 });
+
+const showUrgentOrderModal = (urgent) => {
+    urgentConfrimation.value = true;
+    urgentObj.value = urgent;
+};
 
 
 </script>
@@ -57,6 +65,14 @@ const filteredUrgentOrders = computed(()=>{
                             <td class="py-4 px-2"
                             :class="{'text-blue-400':urgent.status === 'order','text-green-500':urgent.status === 'deliver','text-red-500':urgent.status === 'cancel'}"
                             >{{urgent.status}}</td>
+                            <td class="py-4 px-2 text-center">
+                            <button
+                                class="text-blue-500 hover:text-blue-600 hover:underline duration-200 font-semibold"
+                                @click="showUrgentOrderModal(urgent)"
+                            >
+                                See Details
+                            </button>
+                        </td>
                         </tr>
                 </template>
             </TableLayout>
@@ -68,4 +84,9 @@ const filteredUrgentOrders = computed(()=>{
     <div v-else>
         <p>Don't have any urgent orders!</p>
     </div>
+    <UrgentOrderModal
+        :urgent="urgentObj"
+        :urgentConfrimation="urgentConfrimation"
+        @hide-modal="urgentConfrimation = false"
+    />
 </template>

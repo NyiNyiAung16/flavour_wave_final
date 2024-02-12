@@ -26,8 +26,8 @@ watch(
     async (newPreorderId, oldPreorderId) => {
         if (newPreorderId && newPreorderId !== oldPreorderId) {
             try {
-                const response = await fetchPreorderData(newPreorderId);
-                modalData.value = response.products;
+                const preorder = await fetchPreorderData(newPreorderId);
+                modalData.value = preorder.products.filter(product => product.pivot.quantity > 0);
                 errors.value.preorder_id = "";
             } catch (error) {
                 console.error("Error fetching preorder data:", error);
