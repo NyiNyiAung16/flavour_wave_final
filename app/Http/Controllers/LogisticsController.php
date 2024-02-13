@@ -24,10 +24,10 @@ class LogisticsController extends Controller
             'logistics' => Logistic::with('received_orders','driver_info')->latest()->get()->map(function($item){
                 return [
                     'id' => $item->id,
-                    'preorder_id' => $item->received_orders->id,
+                    'preorder_id' => $item->received_orders?->id,
                     'driver_id' => $item->driver_info->id,
                     'quantity' => $item->quantity,
-                    'status'=>$item->received_orders->status,
+                    'status'=>$item->received_orders?->status,
                     'created_at' => $item->created_at
                 ];
             }),
@@ -48,15 +48,20 @@ class LogisticsController extends Controller
                         ->where('is_urgent',false)
                         ->where('order_quantity','>=',$cleanData['quantity'])
                         ->first();
+        //dd($cleanData['quantity'] == ($p['order_quantity'] - $p['delivered_quantity']));
         if($p){
-            if ($cleanData['quantity'] == ($p->order_quantity - $p->delivered_quantity)) {
-                $newDeliveredQuantity = $p->delivered_quantity + $cleanData['quantity'];
-                $p->update(['status' => 'deliver', 'delivered_quantity' => $newDeliveredQuantity]);
+            if ($cleanData['quantity'] == ($p['order_quantity'] - $p['delivered_quantity'])) {
+                $newDeliveredQuantity = $p['delivered_quantity'] + $cleanData['quantity'];
+                $p->update(['status' => 'deliver']);
+                $p->update(['delivered_quantity'=> $newDeliveredQuantity]);
                 Logistic::create($cleanData);
+
             } else {
-                $newDeliveredQuantity = $p->delivered_quantity + $cleanData['quantity'];
-                $p->update(['status' => 'processing', 'delivered_quantity' => $newDeliveredQuantity]);
+                $newDeliveredQuantity = $p['delivered_quantity'] + $cleanData['quantity'];
+                $p->update(["status" => "processing"]);
+                $p->update(["delivered_quantity" => $newDeliveredQuantity]);
             }
+
             Driver::where('id', $cleanData['driver_id'])->update(['isFree' => '0']);
             $products = $p->products;
             foreach ($products as $product) {

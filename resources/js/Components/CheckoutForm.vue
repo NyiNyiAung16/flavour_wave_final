@@ -74,14 +74,14 @@ const removeDetail = () => {
 };
 
 const form = useForm({
-    order_quantity:0,
+    order_quantity: 0,
     latitude: 0,
     longitude: 0,
     full_location: "",
     deliver_price: 0,
     total_price: 0,
     user_id: 0,
-    product_id:0,
+    product_id: 0,
     order_items: {}, // is it right here?
     date: "",
     is_urgent: false,
@@ -91,11 +91,8 @@ const form = useForm({
 });
 
 const makePreorder = () => {
-<<<<<<< HEAD
-=======
     addDataIntoForm(form);
     //post
->>>>>>> 17e2d5ce69bbdba05273427fe2c69e3a1000d079
     if (form.product_id && form.user_id) {
         form.post("/preorders/create", {
             onSuccess: () => {
@@ -117,14 +114,13 @@ const makePreorder = () => {
     }
 };
 
-function addDataIntoForm(form){
+function addDataIntoForm(form) {
     form.order_quantity = totalQuantity.value;
     form.order_items = order_items.value;
     form.total_price = totalPrice.value;
     form.user_id = page.props.auth.user.id;
-    form.product_id =  productsId.value;
+    form.product_id = productsId.value;
 }
-
 </script>
 
 <template>

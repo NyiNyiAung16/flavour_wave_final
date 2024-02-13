@@ -12,7 +12,6 @@ const props = defineProps({
 });
 
 const headers = ref([
-<<<<<<< HEAD
     "Id",
     "Product Names",
     "Quantity",
@@ -22,18 +21,6 @@ const headers = ref([
     "Total Price",
     "Status",
     "Details",
-=======
-    'Id',
-    'Product Names',
-    'Quantity',
-    'Driver NRC',
-    'Truck Number',
-    'Truck Capacity',
-    'Pickup Date',
-    'Total Price',
-    'Status',
-    'Details'
->>>>>>> 17e2d5ce69bbdba05273427fe2c69e3a1000d079
 ]);
 const urgentObj = ref(null);
 const urgentConfrimation = ref(false);
@@ -75,7 +62,6 @@ const showUrgentOrderModal = (urgent) => {
                 v-if="filteredUrgentOrders.length > 0"
             >
                 <template #tbody>
-<<<<<<< HEAD
                     <tr
                         class="border-b item"
                         v-for="(urgent, index) in urgents"
@@ -118,33 +104,68 @@ const showUrgentOrderModal = (urgent) => {
                             {{ urgent.status }}
                         </td>
                         <td class="py-4 px-2 text-center">
-=======
-                        <tr class="border-b item" v-for="(urgent,index) in urgents" :key="urgent.id">
-                            <td class="py-4 px-2 text-center w-[80px]">{{index}}</td>
-                            <td class="py-4 px-2 text-center w-[110px]">{{urgent.id}}</td>
-                            <td class="py-4 px-2 flex gap-x-2 flex-wrap">
-                                <span v-for="product in urgent.products" :key="product.id">{{ product.name }},</span>
-                            </td>
-                            <td class="py-4 px-2 text-center">{{urgent.order_quantity}}</td>
-                            <td class="py-4 px-2">{{urgent.driver_nrc}}</td>
-                            <td class="py-4 px-2 text-center">{{urgent.truck_number}}</td>
-                            <td class="py-4 px-2 text-center">{{urgent.capacity}}</td>
-                            <td class="py-4 px-2">{{urgent.date}}</td>
-                            <td class="py-4 px-2">{{urgent.total_price}}$</td>
-                            <td class="py-4 px-2"
-                            :class="{'text-blue-400':urgent.status === 'order','text-green-500':urgent.status === 'deliver','text-red-500':urgent.status === 'cancel'}"
-                            >{{urgent.status}}</td>
-                            <td class="py-4 px-2 text-center">
->>>>>>> 17e2d5ce69bbdba05273427fe2c69e3a1000d079
-                            <button
-                                class="text-blue-500 hover:text-blue-600 hover:underline duration-200 font-semibold"
-                                @click="showUrgentOrderModal(urgent)"
+                            =======
+                            <tr
+                                class="border-b item"
+                                v-for="(urgent, index) in urgents"
+                                :key="urgent.id"
                             >
-                                See Details
-                            </button>
+                                <td class="py-4 px-2 text-center w-[80px]">
+                                    {{ index }}
+                                </td>
+                                <td class="py-4 px-2 text-center w-[110px]">
+                                    {{ urgent.id }}
+                                </td>
+                                <td class="py-4 px-2 flex gap-x-2 flex-wrap">
+                                    <span
+                                        v-for="product in urgent.products"
+                                        :key="product.id"
+                                        >{{ product.name }},</span
+                                    >
+                                </td>
+                                <td class="py-4 px-2 text-center">
+                                    {{ urgent.order_quantity }}
+                                </td>
+                                <td class="py-4 px-2">
+                                    {{ urgent.driver_nrc }}
+                                </td>
+                                <td class="py-4 px-2 text-center">
+                                    {{ urgent.truck_number }}
+                                </td>
+                                <td class="py-4 px-2 text-center">
+                                    {{ urgent.capacity }}
+                                </td>
+                                <td class="py-4 px-2">{{ urgent.date }}</td>
+                                <td class="py-4 px-2">
+                                    {{ urgent.total_price }}$
+                                </td>
+                                <td
+                                    class="py-4 px-2"
+                                    :class="{
+                                        'text-blue-400':
+                                            urgent.status === 'order',
+                                        'text-green-500':
+                                            urgent.status === 'deliver',
+                                        'text-red-500':
+                                            urgent.status === 'cancel',
+                                    }"
+                                >
+                                    {{ urgent.status }}
+                                </td>
+                                <td class="py-4 px-2 text-center">
+                                    >>>>>>>
+                                    17e2d5ce69bbdba05273427fe2c69e3a1000d079
+                                    <button
+                                        class="text-blue-500 hover:text-blue-600 hover:underline duration-200 font-semibold"
+                                        @click="showUrgentOrderModal(urgent)"
+                                    >
+                                        See Details
+                                    </button>
+                                </td>
+                            </tr>
                         </td>
-                    </tr>
-                </template>
+                    </tr></template
+                >
             </TableLayout>
             <template v-else>
                 <NoResults />
