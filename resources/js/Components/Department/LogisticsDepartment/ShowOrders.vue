@@ -68,15 +68,13 @@ const showOrderDetails = (preorder) => {
                         <td class="py-4 px-2">{{ index + 1 }}</td>
                         <td class="py-4 px-2 text-center">{{ preorder.id }}</td>
 
-                        <td class="py-3 text-center" style="width: 400px">
+                        <td class="py-3" style="width: 400px">
                             <span
                                 v-for="product in preorder.products"
                                 :key="product.id"
                             >
                                 {{
-                                    product.name.length > 15
-                                        ? product.name.slice(0, 10) + "..."
-                                        : product.name
+                                    product.name
                                 }},
                             </span>
                         </td>

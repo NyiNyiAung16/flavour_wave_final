@@ -25,22 +25,22 @@ const sorting = (sortBy) => {
         case 'name':
             shallowItems.value = shallowItems.value.sort((a,b) => {
                 if(direction.value === 'asc'){
-                    return a[props.sortBy].localeCompare(b[props.sortBy]);
+                    return a[sortBy].localeCompare(b[sortBy]);
                 }else{
-                    return b[props.sortBy].localeCompare(a[props.sortBy]);
+                    return b[sortBy].localeCompare(a[sortBy]);
                 }
             });
         break;
         case 'created_at':
             if(directionForTime.value === 'asc'){
-                directionForTime.value = 'desc' 
+                directionForTime.value = 'desc';
             }else{
                 directionForTime.value = 'asc';
             }
-            shallowItems.value = sortByTimeOrId(shallowItems.value,props.sortBy);
+            shallowItems.value = sortByTimeOrId(shallowItems.value,sortBy);
         break;
         default:
-            shallowItems.value = sortByTimeOrId(shallowItems.value,props.sortBy);
+            shallowItems.value = sortByTimeOrId(shallowItems.value,sortBy);
         break;
     }
 

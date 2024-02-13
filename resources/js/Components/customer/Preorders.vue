@@ -83,9 +83,15 @@ const showCancelModal = (id) => {
                         v-for="(preorder, index) in preorders"
                         :key="preorder.id"
                     >
+<<<<<<< HEAD
                         <td class="py-4 px-2">{{ index + 1 }}</td>
                         <td class="py-4 px-2 text-center">{{ preorder.id }}</td>
                         <td class="py-3 text-center" style="width: 300px">
+=======
+                        <td class="py-4 px-2 w-[80px] text-center">{{ index + 1 }}</td>
+                        <td class="py-4 px-2 text-center w-[110px]">{{ preorder.id }}</td>
+                        <td class="py-3" style="width: 400px">
+>>>>>>> 17e2d5ce69bbdba05273427fe2c69e3a1000d079
                             <span
                                 v-for="product in preorder.products"
                                 :key="product.id"
