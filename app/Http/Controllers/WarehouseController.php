@@ -122,7 +122,10 @@ class WarehouseController extends Controller
             $oldAvailability = $warehouse -> availability;
             $newAvailability = $oldAvailability + $quantity;
             $warehouse->update(["availability" => $newAvailability]);
-            $factory -> update(["stored" => true]);
+            $oldReceived = $warehouse -> received;
+            $newReceived = $oldReceived + $quantity;
+            $warehouse->update(["received" => $newReceived]);
+            $factory->update(["stored" => true]);
         }
         return back()->with('message',[
             'content' => 'Product is successfully added to Warehouse.',
