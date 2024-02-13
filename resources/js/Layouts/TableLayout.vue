@@ -16,16 +16,45 @@ defineProps({
 </script>
 
 <template>
-    <table class="min-w-[1400px] bg-white dark:bg-gray-800 sm:rounded-lg">
-        <thead>
-            <tr class="border-b head">
-                <th class="py-3 pe-2">No.</th>
-                <th class="py-3 text-center" v-for="(header,index) in headers" :key="index">{{ header }}</th>
-                <th class="py-3 text-center" v-if="isAdmin && isDepartment">Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            <slot name="tbody"/>
-        </tbody>
-    </table>
+    <div class="table-container">
+        <table class="min-w-[100%] bg-white dark:bg-gray-800 sm:rounded-lg">
+            <thead>
+                <tr class="border-b head">
+                    <th class="py-3 pe-2">No.</th>
+                    <th
+                        class="py-3 text-center"
+                        v-for="(header, index) in headers"
+                        :key="index"
+                    >
+                        {{ header }}
+                    </th>
+                    <th
+                        class="py-3 text-center"
+                        v-if="!isAdmin && !isDepartment"
+                    >
+                        Status
+                    </th>
+                    <th class="py-3 text-center" v-if="isAdmin && isDepartment">
+                        Action
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <slot name="tbody" />
+            </tbody>
+        </table>
+    </div>
 </template>
+<style scoped>
+.table-container {
+    max-height: 470px;
+    overflow-y: auto;
+}
+
+table thead tr {
+    position: sticky;
+    top: 0;
+    background-color: #1f2937;
+    z-index: 1;
+}
+</style>

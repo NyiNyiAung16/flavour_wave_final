@@ -1,113 +1,119 @@
 <script setup>
-import TableLayout from '@/Layouts/TableLayout.vue';
-import Button from '@/Components/Button.vue';
-import Body from '@/Components/Table/Body.vue';
-import { ref,computed } from 'vue';
-import { router } from '@inertiajs/vue3'
-import { showEdit, confrim,errors } from '../../../composable/editReceipe'
-import { filteredById } from '@/composable/search';
+import TableLayout from "@/Layouts/TableLayout.vue";
+import { ref, computed, defineProps } from "vue";
+import { filteredByName } from "@/composable/search";
+import Search from "@/Components/Search.vue";
+import Sorting from "@/Components/Sorting.vue";
 
 const props = defineProps({
-    receipes:{
-        type:Array
-    }
+    receipes: {
+        type: Array,
+    },
 });
 
-const headers = ref(['Ingredient ID','Product ID','Amount Grams','Created_at']);
-const search = ref('');
+const headers = ref(["Product Name", "Ingredients' Names", "Created_at"]);
+const search = ref("");
 
-const filteredReceipes = computed(()=>{
-    return filteredById(search.value,props.receipes)
+const filteredReceipes = computed(() => {
+    return filteredByName(search.value, filterDataByProduct(props.receipes));
 });
+function filterDataByProduct(data) {
+    const result = {};
+    data.forEach((item) => {
+        const {
+            product_id,
+            product_name,
+            ingredient_id,
+            ingredient_name,
+            amount_grams,
+            created_at,
+        } = item;
 
-const deleteReceipe = (id) => {
-    router.delete(route('receipe.destroy',id),{
-        preserveScroll:true
+        if (!result[product_id]) {
+            result[product_id] = {
+                name: product_name,
+                created_at: created_at,
+                ingredients: [],
+            };
+        }
+
+        // Check if the ingredient is already present for this product
+        const existingIngredient = result[product_id].ingredients.find(
+            (ingredient) => ingredient.ingredient_id === ingredient_id
+        );
+
+        if (!existingIngredient) {
+            result[product_id].ingredients.push({
+                ingredient_id: ingredient_id,
+                ingredient_name: ingredient_name,
+                amount_grams: amount_grams,
+            });
+        }
     });
+    return Object.values(result);
 }
-
-const edit = (e,receipe,index) => {
-    showEdit(e,receipe,index);
-};
-
-const confrimData = (index,receipe) => {
-    confrim(index,receipe);
-}
-
 </script>
-
 
 <template>
     <div v-if="receipes.length > 0">
         <div class="flex justify-between items-center">
-            <Search 
-                @searching="(val) => search = val" 
-                :howToSearch="'ingredient ID'" 
+            <Search
+                @searching="(val) => (search = val)"
+                :howToSearch="'Product Name'"
                 class="w-3/4"
             />
-            <Sorting 
-                :items="filteredReceipes" 
-                sort-by="ingredient_id" 
-                @sorted="(val) => receipes = val"
+            <Sorting
+                :items="filteredReceipes"
+                sort-by="name"
+                @sorted="(val) => (receipes = val)"
                 class="w-[370px]"
             />
         </div>
-        <div class="sm:rounded-lg" :class="{'overflow-x-scroll': filteredReceipes.length > 0}">
+        <div
+            class="sm:rounded-lg"
+            :class="{ 'overflow-x-scroll': filteredReceipes.length > 0 }"
+        >
             <TableLayout
                 :headers="headers"
-                :is-admin="$page.props.auth.user.isAdmin" 
-                :is-department="$page.props.auth.user.department.name === 'FACTORY'"
+                :is-admin="$page.props.auth.user.isAdmin"
+                :is-department="
+                    $page.props.auth.user.department.name === 'FACTORY'
+                "
                 v-if="filteredReceipes.length > 0"
             >
                 <template #tbody>
-                        <tr class="border-b item" v-for="(receipe,index) in filteredReceipes" :key="receipe.id">
-                            <td class="py-4 text-center">{{index}}</td>
-                            <Body
-                                :text-id="`ingredientID${index}`"
-                                :error-id="`errorIngredientId${index}`"
-                                :value="receipe.ingredient_id"
-                                :error="errors.ingredient_id"
-                            />
-                            <Body
-                                :text-id="`productID${index}`"
-                                :error-id="`errorProductId${index}`"
-                                :value="receipe.product_id"
-                                :error="errors.product_id"
-                            />
-                            <Body
-                                :text-id="`amountGrams${index}`"
-                                :error-id="`errorGramsId${index}`"
-                                :value="receipe.amount_grams"
-                                :error="errors.amount_grams"
-                            />
-                            <td class="py-4 text-center">{{new Date(receipe.created_at).toLocaleDateString()}}</td>
-                            <td class="py-4 space-x-3 text-center">
-                                <Button
-                                    type="button"
-                                    text="Edit"
-                                    :id="`editBtn${index}`"
-                                    class=" text-blue-500 hover:text-blue-600 duration-150 font-bold hover:underline"
-                                    @click="edit($event,receipe,index)"
-                                />
-                                <Button
-                                    type="button"
-                                    text="Confrim"
-                                    :id="`confirmBtn${index}`"
-                                    class="hidden text-blue-500 hover:text-blue-600 duration-150 font-bold hover:underline"
-                                    @click="confrimData(index,receipe)"
-                                />
-                                <Button
-                                    type="button"
-                                    text="Delete"
-                                    class="text-red-500 hover:text-red-600 duration-150 font-bold hover:underline"
-                                    @click="deleteReceipe(receipe.id)"
-                                />
-                            </td>
-                        </tr>
+                    <tr
+                        class="border-b item"
+                        v-for="(receipe, index) in filteredReceipes"
+                        :key="receipe.id"
+                    >
+                        <td class="py-4 text-center">{{ index + 1 }}</td>
+                        <td class="py-4 text-center">
+                            {{ receipe.name }}
+                        </td>
+                        <td class="py-4 text-center">
+                            <ul>
+                                <li
+                                    v-for="ingredient in receipe.ingredients"
+                                    :key="ingredient.ingredient_id"
+                                >
+                                    {{ ingredient.ingredient_name }} -
+                                    {{ ingredient.amount_grams }} grams
+                                </li>
+                            </ul>
+                        </td>
+                        <td class="py-4 text-center">
+                            {{
+                                new Date(
+                                    receipe.created_at
+                                ).toLocaleDateString()
+                            }}
+                        </td>
+                    </tr>
                 </template>
             </TableLayout>
             <template v-else>
-                <NoResults/>
+                <NoResults />
             </template>
         </div>
     </div>
@@ -115,4 +121,3 @@ const confrimData = (index,receipe) => {
         <p>Don't have any receipes!</p>
     </div>
 </template>
-

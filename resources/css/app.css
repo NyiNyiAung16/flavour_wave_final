@@ -19,7 +19,7 @@
 }
 ::-webkit-scrollbar-thumb {
     background: rgba(136, 136, 136, 0.281);
-    transition: all .8s;
+    transition: all 0.8s;
 }
 
 /* Handle on hover  */

@@ -11,6 +11,7 @@ use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
+use PDO;
 
 class FactoryController extends Controller
 {
@@ -23,7 +24,7 @@ class FactoryController extends Controller
                     'actual' => $item->actual,
                     'product_id' => $item->product?->id,
                     'product_name' => $item->product?->name,
-                    'isStore' => $item->product?->inventory ? true : false,
+                    'isStore' => $item->stored == 1 ? true : false,
                     'created_at'=>$item->created_at
                 ];
             }),
@@ -33,11 +34,32 @@ class FactoryController extends Controller
                 return [
                     'id' => $item->id,
                     'ingredient_id' => $item->ingredient?->id,
+                    'ingredient_name' => $item->ingredient?->name,
                     'product_id' => $item->product?->id,
+                    'product_name' => $item->product?->name,
                     'amount_grams' => $item->amount_grams,
-                    'created_at' => $item->created_at
+                    'created_at' => $item->product?->created_at,
                 ];
             })
+        ]);
+    }
+
+    public function getFactoryProduct()
+    {
+        $factories = Factory::with('product')->get();
+        $transformedData = $factories->map(function ($factory) {
+        return [
+            'id' => $factory->id,
+            'product_id' => $factory->product_id,
+            'product_name' => $factory->product->name,
+            'expected' => $factory->expected,
+            'actual' => $factory->actual,
+            'stored' => $factory->stored,
+            'created_at' => $factory->created_at,
+            ];
+        });
+        return response()->json([
+            'factories' => $transformedData,
         ]);
     }
 
@@ -90,7 +112,7 @@ class FactoryController extends Controller
     public function editProduct(Product $product){
         return Inertia::render('FactoryDepartment/EditFactory',compact('product'));
     }
-    
+
     public function editFactory(Request $request){
         $productCleanData = $request->validate([
             'name' => 'required',

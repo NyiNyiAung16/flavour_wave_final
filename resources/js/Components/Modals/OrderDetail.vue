@@ -50,8 +50,9 @@ const cancel = () => {
                             v-for="product in preorder.products"
                             :key="product.id"
                         >
-                            {{ product.name }} :
-                            {{ product.pivot.quantity }}
+                            <div v-if="product.pivot.quantity > 0">
+                                {{ product.name }} : {{ product.pivot.quantity }}
+                            </div>
                         </div>
                     </div>
                 </div>

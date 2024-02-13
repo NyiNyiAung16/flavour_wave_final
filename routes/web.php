@@ -87,7 +87,7 @@ Route::get('/checkout',function(){
     ]);
 });
 
-Route::get('/hey', [LogisticsController::class, 'test']);
+
 
 
 //logistics
@@ -113,9 +113,13 @@ Route::middleware(WarehouseMiddleware::class)->group(function(){
     Route::post('/warehouse', [WarehouseController::class, 'store'])->name('warehouse.store');
     Route::post('order/chart', [PreorderCountController::class, 'preorderCountChart']);
     Route::patch('warehouseDepartment/{warehouse}/patch',[WarehouseController::class,'storeWarehouseEdit'])->name('warehouse.patch');
+    Route::post('warehouseDepartment/updateDamage', [WarehouseController::class, 'updateDamage'])->name('warehouse.updateDamage');
+    Route::post('warehouseDepartment/updateSaleReturn', [WarehouseController::class, 'saleReturn'])->name('warehouse.saleReturn');
+    Route::patch('warehouseDepartment/updateAvailability', [WarehouseController::class, 'updateAvailability'])->name('warehouse.updateAvailability');;
 });
 
 //factory department
+Route::get("/factoryDepartment/getAllProducts",[FactoryController::class, "getFactoryProduct"])->name("FactoryProduct"); // for warehouse data
 Route::middleware(FactoryMiddleware::class)->group(function(){
     Route::get('/factoryDepartment/dashboard',[FactoryController::class,'index'])->name('factoryDepartment.index');
     Route::get('/factoryDepartment/productsDetail/{factory}/edit',[FactoryController::class,'editPage']);

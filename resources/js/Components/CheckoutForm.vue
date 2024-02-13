@@ -16,11 +16,11 @@ import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.css";
 import "flatpickr/dist/themes/dark.css";
 import { calculateDistance } from "@/composable/getDistance";
-import { geocoding } from '@maptiler/sdk'
+import { geocoding } from "@maptiler/sdk";
 
 const pick = ref(true);
 const location = ref(null);
-const fullLocation = ref('');
+const fullLocation = ref("");
 const companyLocation = ref(null);
 const loc = ref(null);
 const delPrice = ref(null);
@@ -42,7 +42,7 @@ const getCompanyLocation = (val) => {
     companyLocation.value = val;
 };
 
-const getLocation = async(val) => {
+const getLocation = async (val) => {
     location.value = val;
     pick.value = false;
     const res = calculateDistance(
@@ -52,7 +52,9 @@ const getLocation = async(val) => {
         location.value.lng
     );
     distance.value = parseInt(res);
-    fullLocation.value = (await geocoding.reverse([val.lng,val.lat])).features[0].place_name;
+    fullLocation.value = (
+        await geocoding.reverse([val.lng, val.lat])
+    ).features[0].place_name;
 };
 
 const showDetail = () => {
@@ -75,7 +77,7 @@ const form = useForm({
     order_quantity: totalQuantity.value,
     latitude: 0,
     longitude: 0,
-    full_location:'',
+    full_location: "",
     deliver_price: 0,
     total_price: totalPrice.value,
     user_id: page.props.auth.user.id,
@@ -89,7 +91,6 @@ const form = useForm({
 });
 
 const makePreorder = () => {
-    console.log(form)
     if (form.product_id && form.user_id) {
         form.post("/preorders/create", {
             onSuccess: () => {

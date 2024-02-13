@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\WarehouseRequest;
+use App\Models\Factory;
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -27,6 +28,7 @@ class WarehouseController extends Controller
                     'created_at'=>$item->created_at
                 ];
             }),
+            'factoryProduct' => Factory::with('product')->latest()->get(),
             'products' => Warehouse::all()->load('product')->map(function ($item){
                 return [
                     'id'=>$item->product->id ?? null,
@@ -75,4 +77,58 @@ class WarehouseController extends Controller
             'type' => 'success'
         ]);
     }
+
+    public function updateDamage(Request $request){
+        $product_id = $request -> product_id;
+        $damage_qty = $request -> damage_qty;
+        $warehouse = Warehouse::find($product_id);
+        if($warehouse){
+            $oldDamage_qty = $warehouse->damage;
+            $newDamage_qty = $oldDamage_qty + $damage_qty;
+            $oldAvailability = $warehouse->availability;
+            $newAvailability = $oldAvailability - $damage_qty;
+            $warehouse -> update(["availability" => $newAvailability]);
+            $warehouse->update(["damage" => $newDamage_qty]);
+        }
+        return back()->with('message',[
+            'content' => 'Edit Warehouse is successful.',
+            'type' => 'success'
+        ]);
+    }
+
+    public function saleReturn(Request $request){
+        $product_id = $request -> product_id;
+        $sale_return = $request -> sale_return;
+        $warehouse = Warehouse::find($product_id);
+        if($warehouse){
+            $oldSale_return = $warehouse->sales_return;
+            $newSale_return = $oldSale_return + $sale_return;
+            $warehouse->update(["sales_return" => $newSale_return]);
+        }
+        return back()->with('message',[
+            'content' => 'Edit Warehouse is successful.',
+            'type' => 'success'
+        ]);
+    }
+
+
+    public function updateAvailability(Request $request){
+        $id = $request['id'];
+        $productID = $request['productID'];
+        $quantity = $request['quantity'];
+        $warehouse = Warehouse::find($productID);
+        $factory = Factory::where('id', $id)->first();
+        if($warehouse && $factory){
+            $oldAvailability = $warehouse -> availability;
+            $newAvailability = $oldAvailability + $quantity;
+            $warehouse->update(["availability" => $newAvailability]);
+            $factory -> update(["stored" => true]);
+        }
+        return back()->with('message',[
+            'content' => 'Product is successfully added to Warehouse.',
+            'type' => 'success'
+        ]);
+    }
+
 }
+

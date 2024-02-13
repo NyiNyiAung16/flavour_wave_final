@@ -39,7 +39,6 @@ class LogisticsController extends Controller
 
     public function store(LogisticsStoreRequest $request)
     {
-
         $cleanData = $request -> validated();
         $itemQuantity = $cleanData['item_quantity'];
         if (isset($cleanData['item_quantity'])) {
@@ -50,22 +49,37 @@ class LogisticsController extends Controller
                         ->where('order_quantity','>=',$cleanData['quantity'])
                         ->first();
         if($p){
-            if($cleanData['quantity'] == ($p->order_quantity - $p->delivered_quantity)){
-                $p->update(['status'=>'deliver','delivered_quantity' => $cleanData['quantity']]);
+            if ($cleanData['quantity'] == ($p->order_quantity - $p->delivered_quantity)) {
+                $newDeliveredQuantity = $p->delivered_quantity + $cleanData['quantity'];
+                $p->update(['status' => 'deliver', 'delivered_quantity' => $newDeliveredQuantity]);
                 Logistic::create($cleanData);
-            }else{
-                $p->update(['status'=>'processing','delivered_quantity' => $cleanData['quantity']]);
+            } else {
+                $newDeliveredQuantity = $p->delivered_quantity + $cleanData['quantity'];
+                $p->update(['status' => 'processing', 'delivered_quantity' => $newDeliveredQuantity]);
             }
-            Driver::where('id', $cleanData['driver_id'])->update(['isFree' => 0]);
+            Driver::where('id', $cleanData['driver_id'])->update(['isFree' => '0']);
             $products = $p->products;
             foreach ($products as $product) {
                 $warehouse = Warehouse::find($product->id);
                 if ($warehouse) {
-                    $newAvailability = max(0, $warehouse->availability - $itemQuantity[$product->id]);
-                    $warehouse->update(['availability' => $newAvailability]);
+                    $oldSale = $warehouse->sales_issue;
+                    // Check if $itemQuantity[$product->id] is set and not empty
+                    if (isset($itemQuantity[$product->id]) && !empty($itemQuantity[$product->id])) {
+                        $newSale = $oldSale + $itemQuantity[$product->id];
+                        $warehouse->update(['sales_issue' => $newSale]);
+                        $newAvailability = max(0, $warehouse->availability - $itemQuantity[$product->id]);
+                        // Update availability only if $itemQuantity[$product->id] is not null or empty
+                        $warehouse->update(['availability' => $newAvailability]);
+                    }
                 }
-                $left_qty = $product->pivot->quantity - $itemQuantity[$product->id];
-                $product -> pivot -> update(['quantity' => $left_qty]);
+                $left_qty = $product->pivot->quantity;
+                // Check if $itemQuantity[$product->id] is set and not empty
+                if (isset($itemQuantity[$product->id]) && !empty($itemQuantity[$product->id])) {
+                    $left_qty -= $itemQuantity[$product->id];
+                }
+                // Ensure $left_qty is not negative
+                $left_qty = max(0, $left_qty);
+                $product->pivot->update(['quantity' => $left_qty]);
             }
             return back()->with('message',[
                 'content' => 'Create Deliver is successful.',

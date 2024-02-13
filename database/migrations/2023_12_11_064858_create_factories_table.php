@@ -16,6 +16,7 @@ return new class extends Migration
             $table->unsignedBigInteger('product_id');
             $table->integer('expected');
             $table->integer('actual');
+            $table->boolean('stored')->default(false);
             $table->timestamps();
         });
     }

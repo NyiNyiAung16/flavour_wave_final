@@ -1,70 +1,63 @@
 <script setup>
 import TableLayout from "@/Layouts/TableLayout.vue";
-import Body from "@/Components/Table/Body.vue";
 import Button from "@/Components/Button.vue";
+import Body from "@/Components/Table/Body.vue";
 import { ref, computed } from "vue";
 import { router } from "@inertiajs/vue3";
-import {
-    showEdit,
-    confrim,
-    errors,
-} from "../../../composable/editProductDetail";
+import { showEdit, confrim, errors } from "../../../composable/editReceipe";
 import { filteredById } from "@/composable/search";
 
 const props = defineProps({
-    factories: {
+    receipes: {
         type: Array,
-        required: true,
     },
 });
 
 const headers = ref([
-    "Product Name",
-    "Expected",
-    "Actual",
-    "Store To Warehouse",
+    "Ingredient ID",
+    "Product ID",
+    "Amount Grams",
     "Created_at",
 ]);
-
 const search = ref("");
 
-const filteredFactories = computed(() => {
-    return filteredById(search.value, props.factories);
+const filteredReceipes = computed(() => {
+    return filteredById(search.value, props.receipes);
 });
 
-const deleteFactory = (id) => {
-    router.delete(route("factory.destroy", id), {
+const deleteReceipe = (id) => {
+    router.delete(route("receipe.destroy", id), {
         preserveScroll: true,
     });
 };
 
-const edit = (e, factory, index) => {
-    showEdit(e, factory, index);
+const edit = (e, receipe, index) => {
+    showEdit(e, receipe, index);
 };
 
-const confrimData = (index, factory) => {
-    confrim(index, factory);
+const confrimData = (index, receipe) => {
+    confrim(index, receipe);
 };
 </script>
 
 <template>
-    <div v-if="factories.length > 0">
+    <div v-if="receipes.length > 0">
         <div class="flex justify-between items-center">
             <Search
                 @searching="(val) => (search = val)"
-                :howToSearch="'product ID'"
+                :howToSearch="'ingredient ID'"
                 class="w-3/4"
             />
             <Sorting
-                :items="filteredFactories"
-                sort-by="product_id"
-                @sorted="(val) => (factories = val)"
+                :items="filteredReceipes"
+                sort-by="ingredient_id"
+                @sorted="(val) => (receipes = val)"
                 class="w-[370px]"
             />
         </div>
         <div
             class="sm:rounded-lg"
-            :class="{ 'overflow-x-scroll': filteredFactories.length > 0 }"
+            :class="{ 'overflow-x-scroll': filteredReceipes.length > 0 }"
         >
             <TableLayout
                 :headers="headers"
@@ -72,38 +65,37 @@ const confrimData = (index, factory) => {
                 :is-department="
                     $page.props.auth.user.department.name === 'FACTORY'
                 "
-                v-if="filteredFactories.length > 0"
+                v-if="filteredReceipes.length > 0"
             >
                 <template #tbody>
                     <tr
                         class="border-b item"
-                        v-for="(factory, index) in filteredFactories"
-                        :key="factory.id"
+                        v-for="(receipe, index) in filteredReceipes"
+                        :key="receipe.id"
                     >
-                        <td class="py-4 text-center">{{ index + 1 }}</td>
+                        <td class="py-4 text-center">{{ index }}</td>
+                        <Body
+                            :text-id="`ingredientID${index}`"
+                            :error-id="`errorIngredientId${index}`"
+                            :value="receipe.ingredient_id"
+                            :error="errors.ingredient_id"
+                        />
                         <Body
                             :text-id="`productID${index}`"
-                            :error-id="`errorid${index}`"
-                            :value="factory.product_name"
+                            :error-id="`errorProductId${index}`"
+                            :value="receipe.product_id"
                             :error="errors.product_id"
                         />
                         <Body
-                            :text-id="`expected${index}`"
-                            :error-id="`errorexpected${index}`"
-                            :value="factory.expected"
-                            :error="errors.expected"
+                            :text-id="`amountGrams${index}`"
+                            :error-id="`errorGramsId${index}`"
+                            :value="receipe.amount_grams"
+                            :error="errors.amount_grams"
                         />
-                        <Body
-                            :text-id="`actual${index}`"
-                            :error-id="`erroractual${index}`"
-                            :value="factory.actual"
-                            :error="errors.actual"
-                        />
-                        <td class="py-4 text-center">{{ factory.isStore }}</td>
                         <td class="py-4 text-center">
                             {{
                                 new Date(
-                                    factory.created_at
+                                    receipe.created_at
                                 ).toLocaleDateString()
                             }}
                         </td>
@@ -113,20 +105,20 @@ const confrimData = (index, factory) => {
                                 text="Edit"
                                 :id="`editBtn${index}`"
                                 class="text-blue-500 hover:text-blue-600 duration-150 font-bold hover:underline"
-                                @click="edit($event, factory, index)"
+                                @click="edit($event, receipe, index)"
                             />
                             <Button
                                 type="button"
                                 text="Confrim"
                                 :id="`confirmBtn${index}`"
                                 class="hidden text-blue-500 hover:text-blue-600 duration-150 font-bold hover:underline"
-                                @click="confrimData(index, factory)"
+                                @click="confrimData(index, receipe)"
                             />
                             <Button
                                 type="button"
                                 text="Delete"
                                 class="text-red-500 hover:text-red-600 duration-150 font-bold hover:underline"
-                                @click="deleteFactory(factory.id)"
+                                @click="deleteReceipe(receipe.id)"
                             />
                         </td>
                     </tr>
@@ -138,6 +130,6 @@ const confrimData = (index, factory) => {
         </div>
     </div>
     <div v-else>
-        <p>Don't have any products details!</p>
+        <p>Don't have any receipes!</p>
     </div>
 </template>

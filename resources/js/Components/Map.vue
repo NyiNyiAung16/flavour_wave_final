@@ -9,7 +9,7 @@ import { Map, MapStyle, Marker, config, geolocation } from "@maptiler/sdk";
 import { shallowRef, onMounted, onUnmounted, markRaw } from "vue";
 import "@maptiler/sdk/dist/maptiler-sdk.css";
 
-const emits = defineEmits(['location','companyLocation']);
+const emits = defineEmits(["location", "companyLocation"]);
 const mapContainer = shallowRef(null);
 const map = shallowRef(null);
 
