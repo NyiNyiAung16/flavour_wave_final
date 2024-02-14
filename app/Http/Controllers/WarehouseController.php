@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\WarehouseRequest;
 use App\Models\Factory;
+use App\Models\Preorder;
+use App\Models\SaleReturn;
 use App\Models\Warehouse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -28,7 +30,11 @@ class WarehouseController extends Controller
                     'created_at'=>$item->created_at
                 ];
             }),
+            'preorders' => Preorder::whereIn('status', ['processing', 'deliver'])
+                        ->where('is_urgent', false)
+                        ->get(),
             'factoryProduct' => Factory::with('product')->latest()->get(),
+            'sales_return' =>SaleReturn::with("product")->latest()->get(),
             'products' => Warehouse::all()->load('product')->map(function ($item){
                 return [
                     'id'=>$item->product->id ?? null,
@@ -97,13 +103,17 @@ class WarehouseController extends Controller
     }
 
     public function saleReturn(Request $request){
-        $product_id = $request -> product_id;
-        $sale_return = $request -> sale_return;
-        $warehouse = Warehouse::find($product_id);
-        if($warehouse){
-            $oldSale_return = $warehouse->sales_return;
-            $newSale_return = $oldSale_return + $sale_return;
-            $warehouse->update(["sales_return" => $newSale_return]);
+        $saleRetunData = $this->filterData($request->return_item,$request->preorder_id);
+        foreach($saleRetunData as $saleReturn){
+            SaleReturn::create($saleReturn);
+            $product_id = $saleReturn['product_id'];
+            $sale_return = $saleReturn['return_qty'];
+            $warehouse = Warehouse::find($product_id);
+            if($warehouse){
+                $oldSale_return = $warehouse->sales_return;
+                $newSale_return = $oldSale_return + $sale_return;
+                $warehouse->update(["sales_return" => $newSale_return]);
+            }
         }
         return back()->with('message',[
             'content' => 'Edit Warehouse is successful.',
@@ -111,6 +121,17 @@ class WarehouseController extends Controller
         ]);
     }
 
+    private function filterData($data, $preorderId){
+        $resultArray = [];
+        foreach ($data as $productId => $quantity) {
+            $resultArray[] = [
+                'preorder_id' => $preorderId,
+                'product_id' => $productId,
+                'return_qty' => $quantity
+            ];
+        }
+        return $resultArray;
+    }
 
     public function updateAvailability(Request $request){
         $id = $request['id'];

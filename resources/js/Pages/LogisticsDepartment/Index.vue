@@ -48,7 +48,7 @@ const toggle = ref("default");
                     :class="{ 'active-sideBar': toggle === 'orders' }"
                     @click="toggle = 'orders'"
                 >
-                    Orders
+                    New Orders
                 </h2>
                 <h2
                     class="sideBar"
@@ -82,14 +82,12 @@ const toggle = ref("default");
         </template>
         <div class="py-8">
             <div class="max-w-8xl mx-auto sm:px-6 lg:px-8 text-white">
-                <div 
-                    class="sm:rounded-lg"
-                >
+                <div class="sm:rounded-lg">
                     <div v-if="toggle === 'default'">
                         <ShowLogistics :logistics="logistics" />
                     </div>
                     <div v-if="toggle === 'orders'">
-                        <Preorders :preorders="preorders" />
+                        <Preorders :preorders="preorders" :user="user" />
                     </div>
 
                     <div v-if="toggle === 'inprocess'">

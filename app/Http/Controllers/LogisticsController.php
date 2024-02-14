@@ -48,7 +48,6 @@ class LogisticsController extends Controller
                         ->where('is_urgent',false)
                         ->where('order_quantity','>=',$cleanData['quantity'])
                         ->first();
-        //dd($cleanData['quantity'] == ($p['order_quantity'] - $p['delivered_quantity']));
         if($p){
             if ($cleanData['quantity'] == ($p['order_quantity'] - $p['delivered_quantity'])) {
                 $newDeliveredQuantity = $p['delivered_quantity'] + $cleanData['quantity'];

@@ -25,6 +25,9 @@ class Preorder extends Model
     public function deliver(){
         return $this->hasMany(Logistic::class);
     }
+    public function saleReturn(){
+        return $this->hasMany((SaleReturn::class));
+    }
 
 
 }

@@ -11,8 +11,10 @@ const props = defineProps({
     preorders: {
         type: Array,
     },
+    user: {
+        type: Array,
+    },
 });
-
 const headers = ref([
     "Preorder ID",
     "Product Names",
@@ -22,6 +24,17 @@ const headers = ref([
     "Preorder Date",
     "Details",
 ]);
+
+if (
+    props.user &&
+    props.user.name !== "LOGISTIC" &&
+    props.user.name !== "SALE"
+) {
+    headers.value.push("Status");
+}
+if (props.user && props.user.name === "SALE") {
+    headers.value.push("Action");
+}
 
 const confrimation = ref(false);
 const cancelconfrimation = ref(false);

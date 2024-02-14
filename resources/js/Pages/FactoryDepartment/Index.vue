@@ -131,7 +131,10 @@ const toggleChild = ref("index");
                                 <CreateIngredient />
                             </div>
                             <div v-if="toggleChild === 'createReceipe'">
-                                <CreateReceipe />
+                                <CreateReceipe
+                                    :products="products"
+                                    :ingredients="ingredients"
+                                />
                             </div>
                         </div>
                     </div>

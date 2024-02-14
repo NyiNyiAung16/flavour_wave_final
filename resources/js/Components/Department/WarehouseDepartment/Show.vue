@@ -1,11 +1,9 @@
 <script setup>
 import Body from "@/Components/Table/Body.vue";
-import Button from "@/Components/Button.vue";
 import { ref, computed } from "vue";
-import { router } from "@inertiajs/vue3";
-import { showEdit, confrim, errors } from "../../../composable/editWarehouse";
+import { errors } from "../../../composable/editWarehouse";
 import TableLayout from "@/Layouts/TableLayout.vue";
-import { filteredById } from "@/composable/search";
+import { filteredByName } from "@/composable/search";
 
 const props = defineProps({
     warehouses: {
@@ -25,20 +23,20 @@ const headers = ref([
 const search = ref("");
 
 const filteredWarehouses = computed(() => {
-    return filteredById(search.value, props.warehouses);
+    return filteredByName(search.value, props.warehouses);
 });
 
-const deleteWarehouse = (id) => {
-    router.delete(route("warehouse.destroy", id));
-};
+// const deleteWarehouse = (id) => {
+//     router.delete(route("warehouse.destroy", id));
+// };
 
-const edit = (e, warehouse, index) => {
-    showEdit(e, warehouse, index);
-};
+// const edit = (e, warehouse, index) => {
+//     showEdit(e, warehouse, index);
+// };
 
-const confrimData = (index, warehouse) => {
-    confrim(index, warehouse);
-};
+// const confrimData = (index, warehouse) => {
+//     confrim(index, warehouse);
+// };
 </script>
 
 <template>
@@ -46,12 +44,12 @@ const confrimData = (index, warehouse) => {
         <div class="flex justify-between items-center">
             <Search
                 @searching="(val) => (search = val)"
-                :howToSearch="'product ID'"
+                :howToSearch="'Product Name'"
                 class="w-3/4"
             />
             <Sorting
                 :items="filteredWarehouses"
-                sort-by="product_id"
+                sort-by="product_name"
                 @sorted="(val) => (warehouses = val)"
                 class="w-[370px]"
             />
@@ -114,28 +112,28 @@ const confrimData = (index, warehouse) => {
                             :value="warehouse.damage"
                             :error="errors.damage"
                         />
-                        <td class="py-4 space-x-3 text-center">
-                            <Button
-                                type="button"
-                                text="Edit"
-                                :id="`editBtn${index}`"
-                                class="text-blue-500 hover:text-blue-600 duration-150 font-bold hover:underline"
-                                @click="edit($event, warehouse, index)"
-                            />
-                            <Button
-                                type="button"
-                                text="Confrim"
-                                :id="`confirmBtn${index}`"
-                                class="hidden text-blue-500 hover:text-blue-600 duration-150 font-bold hover:underline"
-                                @click="confrimData(index, warehouse)"
-                            />
-                            <Button
-                                type="button"
-                                text="Delete"
-                                class="text-red-500 hover:text-red-600 duration-150 font-bold hover:underline"
-                                @click="deleteWarehouse(warehouse.id)"
-                            />
-                        </td>
+                        <!-- <td class="py-4 space-x-3 text-center">
+                                <Button
+                                    type="button"
+                                    text="Edit"
+                                    :id="`editBtn${index}`"
+                                    class="text-blue-500 hover:text-blue-600 duration-150 font-bold hover:underline"
+                                    @click="edit($event, warehouse, index)"
+                                />
+                                <Button
+                                    type="button"
+                                    text="Confrim"
+                                    :id="`confirmBtn${index}`"
+                                    class="hidden text-blue-500 hover:text-blue-600 duration-150 font-bold hover:underline"
+                                    @click="confrimData(index, warehouse)"
+                                />
+                                <Button
+                                    type="button"
+                                    text="Delete"
+                                    class="text-red-500 hover:text-red-600 duration-150 font-bold hover:underline"
+                                    @click="deleteWarehouse(warehouse.id)"
+                                />
+                            </td> -->
                     </tr>
                 </template>
             </TableLayout>

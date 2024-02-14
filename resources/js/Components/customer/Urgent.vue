@@ -5,12 +5,15 @@ import CancelModal from "@/Components/Modals/CancelModal.vue";
 import TableLayout from "@/Layouts/TableLayout.vue";
 import UrgentOrderModal from "../Modals/UrgentOrderModal.vue";
 import { formatPrice } from "./helper";
-import { filteredById } from '@/composable/search';
+import { filteredById } from "@/composable/search";
 
 const props = defineProps({
-    urgents:{
-        type:Array
-    }
+    urgents: {
+        type: Array,
+    },
+    user: {
+        type: Array,
+    },
 });
 
 const headers = ref([
@@ -19,16 +22,20 @@ const headers = ref([
     "Quantity",
     "Total Price",
     "Preorder Date",
-    "Status",
     "Details",
+    "Status",
 ]);
+
+if (props.user && props.user.name === "SALE") {
+    headers.value.push("Action");
+}
 const confrimation = ref(false);
 const cancelconfrimation = ref(false);
 const preorderID = ref(null);
-const search = ref('');
+const search = ref("");
 
-const filteredUrgentOrders = computed(()=>{
-    return filteredById(search.value,props.urgents)
+const filteredUrgentOrders = computed(() => {
+    return filteredById(search.value, props.urgents);
 });
 const urgentObj = ref(null);
 const urgentConfrimation = ref(false);
@@ -52,23 +59,28 @@ const showUrgentOrderModal = (urgent) => {
 <template>
     <div v-if="urgents.length > 0">
         <div class="flex justify-between items-center">
-            <Search 
-                @searching="(val) => search = val" 
-                :howToSearch="'Id'" 
+            <Search
+                @searching="(val) => (search = val)"
+                :howToSearch="'Id'"
                 class="w-3/4"
             />
-            <Sorting 
-                :items="filteredUrgentOrders" 
-                sort-by="id" 
-                @sorted="(val) => urgents = val"
+            <Sorting
+                :items="filteredUrgentOrders"
+                sort-by="id"
+                @sorted="(val) => (urgents = val)"
                 class="w-[370px]"
             />
         </div>
-        <div class="sm:rounded-lg" :class="{'overflow-x-scroll': filteredUrgentOrders.length > 0}">
+        <div
+            class="sm:rounded-lg"
+            :class="{ 'overflow-x-scroll': filteredUrgentOrders.length > 0 }"
+        >
             <TableLayout
                 :headers="headers"
                 :is-admin="$page.props.auth.user.isAdmin"
-                :is-department="$page.props.auth.user.department?.name === 'SALE'"
+                :is-department="
+                    $page.props.auth.user.department?.name === 'SALE'
+                "
                 v-if="filteredUrgentOrders.length > 0"
             >
                 <template #tbody>
@@ -77,16 +89,24 @@ const showUrgentOrderModal = (urgent) => {
                         v-for="(urgent, index) in filteredUrgentOrders"
                         :key="urgent.id"
                     >
-                        <td class="py-4 px-2 text-center w-[80px]">{{ index + 1 }}</td>
-                        <td class="py-4 px-2 text-center w-[110px]">{{ urgent.id }}</td>
-                        <td class="py-3" style="width: 400px">
-                            <span v-for="product in urgent.products" :key="product.id">
+                        <td class="py-4 px-2 text-center w-[80px]">
+                            {{ index + 1 }}
+                        </td>
+                        <td class="py-4 px-2 text-center w-[110px]">
+                            {{ urgent.id }}
+                        </td>
+                        <td class="py-3 text-center" style="width: 300px">
+                            <span
+                                v-for="product in urgent.products"
+                                :key="product.id"
+                            >
                                 {{
-                                    product.name
+                                    product.name.length > 15
+                                        ? product.name.slice(0, 10) + "..."
+                                        : product.name
                                 }},
                             </span>
                         </td>
-
                         <td class="py-4 px-2 text-center">
                             {{ urgent.order_quantity }}
                         </td>
@@ -94,7 +114,17 @@ const showUrgentOrderModal = (urgent) => {
                             {{ formatPrice(urgent.total_price) }}$
                         </td>
                         <td class="py-4 px-2 text-center">
-                            {{ new Date(urgent.created_at).toLocaleDateString() }}
+                            {{
+                                new Date(urgent.created_at).toLocaleDateString()
+                            }}
+                        </td>
+                        <td class="py-4 px-2 text-center">
+                            <button
+                                class="text-blue-500 hover:text-blue-600 hover:underline duration-200 font-semibold"
+                                @click="showUrgentOrderModal(urgent)"
+                            >
+                                See Details
+                            </button>
                         </td>
                         <td
                             class="py-4 px-2 text-center"
@@ -107,18 +137,14 @@ const showUrgentOrderModal = (urgent) => {
                         >
                             {{ urgent.status }}
                         </td>
-                        <td class="py-4 px-2 text-center">
-                            <button
-                                class="text-blue-500 hover:text-blue-600 hover:underline duration-200 font-semibold"
-                                @click="showUrgentOrderModal(urgent)"
-                            >
-                                See Details
-                            </button>
-                        </td>
 
                         <td
                             class="py-4 px-2 text-center"
-                            v-show="$page.props.auth.user.isAdmin && $page.props.auth.user.department?.name === 'SALE'"
+                            v-show="
+                                $page.props.auth.user.isAdmin &&
+                                $page.props.auth.user.department?.name ===
+                                    'SALE'
+                            "
                         >
                             <button
                                 class="text-blue-500 hover:text-blue-600 hover:underline duration-200 font-semibold"
@@ -137,7 +163,7 @@ const showUrgentOrderModal = (urgent) => {
                 </template>
             </TableLayout>
             <template v-else>
-                <NoResults/>
+                <NoResults />
             </template>
         </div>
     </div>

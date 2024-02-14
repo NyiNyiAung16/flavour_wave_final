@@ -28,15 +28,6 @@ defineProps({
                     >
                         {{ header }}
                     </th>
-                    <th
-                        class="py-3 text-center"
-                        v-if="!isAdmin && !isDepartment"
-                    >
-                        Status
-                    </th>
-                    <th class="py-3 text-center" v-if="isAdmin && isDepartment">
-                        Action
-                    </th>
                 </tr>
             </thead>
             <tbody>
@@ -47,10 +38,13 @@ defineProps({
 </template>
 <style scoped>
 .table-container {
-    max-height: 470px;
+    /* max-height: 470px; */
+    max-height: var(--table-container-max-height, 470px);
     overflow-y: auto;
 }
-
+/* .isAdmin .isDepartment-FACTORY .table-container {
+    --table-container-max-height: 450px;
+} */
 table thead tr {
     position: sticky;
     top: 0;

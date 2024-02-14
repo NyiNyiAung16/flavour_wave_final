@@ -8,6 +8,7 @@ import Create from "@/Components/Department/WarehouseDepartment/Create.vue";
 import AddDamageProduct from "@/Components/Department/WarehouseDepartment/AddDamageProduct.vue";
 import SalesReturn from "@/Components/Department/WarehouseDepartment/SalesReturn.vue";
 import ReceiveProduct from "@/Components/Department/WarehouseDepartment/ReceiveProduct.vue";
+import SaleReturnList from "@/Components/Department/WarehouseDepartment/SaleReturnList.vue";
 
 defineProps({
     warehouses: {
@@ -17,6 +18,12 @@ defineProps({
         type: Array,
     },
     factoryProduct: {
+        type: Array,
+    },
+    preorders: {
+        type: Array,
+    },
+    sales_return: {
         type: Array,
     },
 });
@@ -54,7 +61,14 @@ const toggle = ref("default");
                     :class="{ 'active-sideBar': toggle === 'saleReturn' }"
                     @click="toggle = 'saleReturn'"
                 >
-                    Sales Return
+                    Add Sales Return
+                </h2>
+                <h2
+                    class="sideBar"
+                    :class="{ 'active-sideBar': toggle === 'saleReturnList' }"
+                    @click="toggle = 'saleReturnList'"
+                >
+                    Sales Return List
                 </h2>
                 <h2
                     class="sideBar"
@@ -89,7 +103,17 @@ const toggle = ref("default");
                         <AddDamageProduct :warehouses="warehouses" />
                     </div>
                     <div v-if="toggle === 'saleReturn'">
-                        <SalesReturn :warehouses="warehouses" />
+                        <SalesReturn
+                            :warehouses="warehouses"
+                            :preorders="preorders"
+                        />
+                    </div>
+                    <div v-if="toggle === 'saleReturnList'">
+                        <SaleReturnList
+                            :warehouses="warehouses"
+                            :preorders="preorders"
+                            :sales_return="sales_return"
+                        />
                     </div>
                     <div v-if="toggle === 'receive'">
                         <ReceiveProduct :factoryProduct="factoryProduct" />

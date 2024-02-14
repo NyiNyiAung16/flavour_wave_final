@@ -26,9 +26,11 @@ use App\Http\Middleware\FactoryMiddleware;
 use App\Http\Middleware\LogisticMiddleware;
 use App\Http\Middleware\SaleMiddleware;
 use App\Http\Middleware\WarehouseMiddleware;
+use App\Mail\HelloMail;
 use App\Models\Preorder;
 use App\Models\Product;
 use App\Models\User;
+use Illuminate\Support\Facades\Mail;
 
 /*
 |--------------------------------------------------------------------------
@@ -41,6 +43,7 @@ use App\Models\User;
 |
 */
 
+
 // Welcome page
 Route::get('/', function () {
     return Inertia::render('Welcome', [
@@ -50,6 +53,11 @@ Route::get('/', function () {
         'user_id' => auth()->id()
     ]);
 })->name('welcome');
+
+
+Route::get('/test/mail', function(){
+    Mail::to("ymyo44277@gmail.com")->send(new HelloMail());
+});
 
 // product
 Route::get('/products',[ProductController::class,'all']);

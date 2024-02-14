@@ -1,22 +1,21 @@
 <script setup>
-import TableLayout from '@/Layouts/TableLayout.vue';
-import { filteredById } from '@/composable/search';
+import TableLayout from "@/Layouts/TableLayout.vue";
+import { filteredById } from "@/composable/search";
 import OrderDetail from "@/Components/Modals/OrderDetail.vue";
 import { formatPrice } from "@/Components/customer/helper";
-import { ref, computed } from 'vue';
+import { ref, computed } from "vue";
 
 const props = defineProps({
-    preorders:{
-        type:Array
-    }
+    preorders: {
+        type: Array,
+    },
 });
 
-const search = ref('');
+const search = ref("");
 
-const filteredConfirmOrders = computed(()=>{
-    return filteredById(search.value,props.preorders)
+const filteredConfirmOrders = computed(() => {
+    return filteredById(search.value, props.preorders);
 });
-
 
 const headers = ref([
     "Preorder ID",
@@ -40,19 +39,22 @@ const showOrderDetails = (preorder) => {
 <template>
     <div v-if="preorders.length > 0">
         <div class="flex justify-between items-center">
-            <Search 
-                @searching="(val) => search = val" 
-                :howToSearch="'Id'" 
+            <Search
+                @searching="(val) => (search = val)"
+                :howToSearch="'Id'"
                 class="w-3/4"
             />
-            <Sorting 
-                :items="filteredConfirmOrders" 
-                sort-by="id" 
-                @sorted="(val) => preorders = val"
+            <Sorting
+                :items="filteredConfirmOrders"
+                sort-by="id"
+                @sorted="(val) => (preorders = val)"
                 class="w-[370px]"
             />
         </div>
-        <div class="sm:rounded-lg" :class="{'overflow-x-scroll': filteredConfirmOrders.length > 0}">
+        <div
+            class="sm:rounded-lg"
+            :class="{ 'overflow-x-scroll': filteredConfirmOrders.length > 0 }"
+        >
             <TableLayout
                 :headers="headers"
                 :is-admin="$page.props.auth.user.isAdmin"
@@ -67,14 +69,15 @@ const showOrderDetails = (preorder) => {
                     >
                         <td class="py-4 px-2">{{ index + 1 }}</td>
                         <td class="py-4 px-2 text-center">{{ preorder.id }}</td>
-
-                        <td class="py-3" style="width: 400px">
+                        <td class="py-3 text-center" style="width: 300px">
                             <span
                                 v-for="product in preorder.products"
                                 :key="product.id"
                             >
                                 {{
-                                    product.name
+                                    product.name.length > 15
+                                        ? product.name.slice(0, 10) + "..."
+                                        : product.name
                                 }},
                             </span>
                         </td>
@@ -85,16 +88,22 @@ const showOrderDetails = (preorder) => {
                             {{ formatPrice(preorder.total_price) }} $
                         </td>
                         <td class="py-4 text-center">
-                            {{ new Date(preorder.created_at).toLocaleDateString() }}
+                            {{
+                                new Date(
+                                    preorder.created_at
+                                ).toLocaleDateString()
+                            }}
                         </td>
                         <td
                             class="py-4 px-2 text-center"
                             :class="{
-                                'text-yellow-400': preorder.status === 'pending',
+                                'text-yellow-400':
+                                    preorder.status === 'pending',
                                 'text-blue-400': preorder.status === 'order',
                                 'text-green-500': preorder.status === 'deliver',
                                 'text-red-500': preorder.status === 'cancel',
-                                'text-teal-500': preorder.status === 'processing',
+                                'text-teal-500':
+                                    preorder.status === 'processing',
                             }"
                         >
                             {{ preorder.status }}
@@ -111,7 +120,7 @@ const showOrderDetails = (preorder) => {
                 </template>
             </TableLayout>
             <template v-else>
-                <NoResults/>
+                <NoResults />
             </template>
         </div>
     </div>

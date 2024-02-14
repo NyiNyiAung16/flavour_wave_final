@@ -15,6 +15,7 @@ const headers = ref([
     "Product Name",
     "Imported Quantity",
     "Produced Date",
+    "Action",
 ]);
 const search = ref("");
 const filteredOrders = computed(() => {

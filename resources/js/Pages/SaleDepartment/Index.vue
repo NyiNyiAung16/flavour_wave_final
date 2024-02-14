@@ -67,10 +67,10 @@ const toggle = ref("default");
             <div class="max-w-8xl mx-auto sm:px-6 lg:px-8 text-white">
                 <div class="sm:rounded-lg">
                     <div v-if="toggle === 'default'">
-                        <Preorders :preorders="preorders"/>
+                        <Preorders :preorders="preorders" :user="user" />
                     </div>
                     <div v-if="toggle === 'urgents'">
-                        <Urgent :urgents="urgents"/>
+                        <Urgent :urgents="urgents" :user="user" />
                     </div>
                     <div v-if="toggle === 'orders'">
                         <ShowOrders :preorders="confrim_preorders" />

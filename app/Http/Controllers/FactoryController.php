@@ -17,7 +17,7 @@ class FactoryController extends Controller
 {
     public function index(){
         return Inertia::render('FactoryDepartment/Index',[
-            'factories' => Factory::all()->load('product')->map(function ($item){
+            'factories' => Factory::with('product')->get()->map(function ($item){
                 return [
                     'id'=>$item->id,
                     'expected' => $item->expected,
@@ -30,7 +30,7 @@ class FactoryController extends Controller
             }),
             'products' => Product::latest()->get(),
             'ingredients' => Ingredient::latest()->get(),
-            'receipes' => Receipe::all()->load('product','ingredient')->map(function($item){
+            'receipes' => Receipe::with('product','ingredient')->get()->map(function($item){
                 return [
                     'id' => $item->id,
                     'ingredient_id' => $item->ingredient?->id,
@@ -96,11 +96,15 @@ class FactoryController extends Controller
     public function storeReceipe(Request $request){
         $cleanData = $request->validate([
             'ingredient_id' => ['required',Rule::exists('ingredients','id')],
-            'product_id' => ['required',Rule::exists('receipes','id')],
-            'amount_grams' => 'required|numeric|min:1',
+            'product_id' => ['required'],
+            'amount_grams' => 'required',
         ]);
 
-        Receipe::create($cleanData);
+        foreach($cleanData['ingredient_id'] as $i){
+            $newArray = ['product_id' => $cleanData['product_id'],'ingredient_id' => (int) $i, 'amount_grams'=> $cleanData['amount_grams'][$i]];
+            Receipe::create($newArray);
+        }
+
     }
 
     public function editPage(Factory $factory){
@@ -111,6 +115,15 @@ class FactoryController extends Controller
 
     public function editProduct(Product $product){
         return Inertia::render('FactoryDepartment/EditFactory',compact('product'));
+    }
+
+    public function editReceipe($id){
+        return Inertia::render('FactoryDepartment/EditReceipe',[
+            'product_id' => (int) $id,
+            'receipe' => Receipe::where('product_id',$id)->get(),
+            'products' => Product::select(['id','name'])->get(),
+            'ingredients' => Ingredient::select(['id','name'])->get()
+        ]);
     }
 
     public function editFactory(Request $request){

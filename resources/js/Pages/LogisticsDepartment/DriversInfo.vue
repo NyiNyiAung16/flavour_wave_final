@@ -21,6 +21,7 @@ const headers = ref([
     "Vehicle Number",
     "IsFree",
     "Created_at",
+    "Action",
 ]);
 const search = ref("");
 

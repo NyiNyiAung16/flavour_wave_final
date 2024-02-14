@@ -57,10 +57,10 @@ const toggle = ref("preorders");
                 <div class="overflow-hidden sm:rounded-lg">
                     <div v-if="!user.isAdmin">
                         <div v-if="toggle === 'preorders'">
-                            <Preorders :preorders="preorders"/>
+                            <Preorders :preorders="preorders" :user="user" />
                         </div>
                         <div v-if="toggle === 'urgent'">
-                            <Urgent :urgents="urgents"/>
+                            <Urgent :urgents="urgents" :user="user" />
                         </div>
                         <div v-if="toggle === 'cancel'">
                             <CancelOrders :cancel-orders="cancelOrders" />

@@ -24,6 +24,7 @@ const headers = ref([
     "Actual",
     "Store To Warehouse",
     "Created_at",
+    "Action",
 ]);
 
 const search = ref("");

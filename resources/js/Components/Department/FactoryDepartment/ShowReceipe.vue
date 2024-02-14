@@ -17,6 +17,7 @@ const search = ref("");
 const filteredReceipes = computed(() => {
     return filteredByName(search.value, filterDataByProduct(props.receipes));
 });
+
 function filterDataByProduct(data) {
     const result = {};
     data.forEach((item) => {

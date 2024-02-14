@@ -19,6 +19,7 @@ const headers = ref([
     "Amount",
     "Unit Price",
     "Purchased_Date",
+    "Action",
 ]);
 
 const search = ref("");
@@ -70,7 +71,7 @@ const confrimData = (index, ingredient) => {
             >
                 <template #tbody>
                     <tr
-                        class="border-b item"
+                        class="border-b item px-5"
                         v-for="(ingredient, index) in filteredIngredients"
                         :key="ingredient.id"
                     >
