@@ -132,6 +132,7 @@ Route::middleware(FactoryMiddleware::class)->group(function(){
     Route::get('/factoryDepartment/dashboard',[FactoryController::class,'index'])->name('factoryDepartment.index');
     Route::get('/factoryDepartment/productsDetail/{factory}/edit',[FactoryController::class,'editPage']);
     Route::get('/factoryDepartment/products/{product}/edit',[FactoryController::class,'editProduct'])->name('product.edit');
+    Route::get('/factoryDepartment/receipes/{id}/edit',[FactoryController::class,'editReceipe'])->name('receipe.edit');
     Route::post('/factoryDepartment/createProduct',[FactoryController::class,'storeProduct'])->name('factory.product.store');
     Route::post('/factoryDepartment/createProductDetails',[FactoryController::class,'storeProductDetails'])->name('factory.productDetails.store');
     Route::post('/factoryDepartment/ingredient/store',[FactoryController::class,'storeIngredient'])->name('ingredient.store');

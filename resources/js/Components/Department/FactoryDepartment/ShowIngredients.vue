@@ -48,7 +48,7 @@ const confrimData = (index, ingredient) => {
         <div class="flex justify-between items-center">
             <Search
                 @searching="(val) => (search = val)"
-                :howToSearch="'name'"
+                :howToSearch="'ingredient name'"
                 class="w-3/4"
             />
             <Sorting

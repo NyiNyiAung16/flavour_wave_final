@@ -38,8 +38,8 @@ defineProps({
 </template>
 <style scoped>
 .table-container {
-    /* max-height: 470px; */
-    max-height: var(--table-container-max-height, 470px);
+    max-height: 530px;
+    height: 100%;
     overflow-y: auto;
 }
 /* .isAdmin .isDepartment-FACTORY .table-container {

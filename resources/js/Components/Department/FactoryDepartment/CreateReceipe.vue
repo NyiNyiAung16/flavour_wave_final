@@ -17,6 +17,25 @@ const props = defineProps({
 
 const ingredientsWithGrams = ref([]);
 const gramsArray = ref([]);
+import BaseSelect from '@/Components/BaseSelect.vue';
+import PrimaryButton from '@/Components/PrimaryButton.vue'
+import { useForm } from '@inertiajs/vue3';
+import { computed, ref } from 'vue';
+import BaseInput from '@/Components/BaseInput.vue';
+import { useToast } from 'vue-toastification';
+
+const props = defineProps({
+    products:{
+        type:Array
+    },
+    ingredients:{
+        type:Array
+    }
+});
+
+
+const ingredientsWithGrams = ref([]);
+const gramsArray = ref([]);
 
 const form = useForm({
     product_id: 0,
@@ -33,17 +52,34 @@ const productsOptions = computed(() => {
 const toggleGrams = () => {
     gramsArray.value = [];
 };
+    product_id:0,
+    ingredient_id:[],
+    amount_grams:[]
+});
+
+const productsOptions = computed(()=>{
+    return props.products.map((product) => {
+        return { label: product.name, value: product.id };
+    })
+});
+
+
+const toggleGrams = () => {
+    gramsArray.value = [];
+}
 
 const createReceipe = () => {
     form.ingredient_id = ingredientsWithGrams.value.map((i) => i.id);
     form.amount_grams = gramsArray.value;
-    dd(form);
     form.post(route("receipe.store"), {
         onSuccess: () => {
             form.reset();
             ingredientsWithGrams.value = [];
             gramsArray.value = [];
             useToast().success("Create Receipe is successful.");
+            ingredientsWithGrams.value = [];
+            gramsArray.value = [];
+            useToast().success('Create Receipe is successful.')
         },
         onError: () => {
             setTimeout(() => {
@@ -52,7 +88,10 @@ const createReceipe = () => {
         },
     });
 };
+}
+
 </script>
+
 
 <template>
     <div class="py-8">
@@ -118,7 +157,7 @@ const createReceipe = () => {
                                     >
                                 </p>
                                 <BaseInput
-                                    type="Number"
+                                    type="number"
                                     v-model="gramsArray[ingredient.id]"
                                     :error="form.errors.amount_grams"
                                     class="w-full bg-gray-700 border-none p-2 rounded outline-none"
@@ -132,5 +171,7 @@ const createReceipe = () => {
                 </form>
             </div>
         </div>
+        </div>
     </div>
 </template>
+
