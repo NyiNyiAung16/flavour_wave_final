@@ -14,16 +14,21 @@ const props = defineProps({
     },
 });
 
-const headers = ref(["Product Name", "Ingredients' Names", "Created_at"]);
+const headers = ref([
+    "Product Name",
+    "Ingredients' Names",
+    "Created_at",
+    "Action",
+]);
 const search = ref("");
 const shallowReceipes = ref([]);
 
-onMounted(async()=>{
+onMounted(async () => {
     shallowReceipes.value = await filterDataByProduct(props.receipes);
-})
+});
 
 const filteredReceipes = computed(() => {
-    return filteredByName(search.value, shallowReceipes.value,'product_name');
+    return filteredByName(search.value, shallowReceipes.value, "product_name");
 });
 
 function filterDataByProduct(data) {
@@ -41,8 +46,8 @@ function filterDataByProduct(data) {
 
         if (!result[product_id]) {
             result[product_id] = {
-                id:id,
-                product_id:product_id,
+                id: id,
+                product_id: product_id,
                 product_name: product_name,
                 created_at: created_at,
                 ingredients: [],
@@ -66,12 +71,10 @@ function filterDataByProduct(data) {
 }
 
 const deleteReceipe = (id) => {
-    router.delete(route('receipe.destroy',id),{
-        preserveScroll:true
+    router.delete(route("receipe.destroy", id), {
+        preserveScroll: true,
     });
-}
-
-
+};
 </script>
 
 <template>
@@ -85,7 +88,7 @@ const deleteReceipe = (id) => {
             <Sorting
                 :items="filteredReceipes"
                 sort-by="product_name"
-                @sorted="(val) => ( shallowReceipes = val)"
+                @sorted="(val) => (shallowReceipes = val)"
                 class="w-[390px]"
             />
         </div>
@@ -131,7 +134,9 @@ const deleteReceipe = (id) => {
                         </td>
                         <td class="py-4 space-x-3 text-center">
                             <Link
-                                :href="route('receipe.edit',receipe.product_id)"
+                                :href="
+                                    route('receipe.edit', receipe.product_id)
+                                "
                                 class="text-blue-500 hover:text-blue-600 duration-150 font-bold hover:underline"
                             >
                                 Edit

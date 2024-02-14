@@ -26,6 +26,9 @@ defineProps({
     sales_return: {
         type: Array,
     },
+    user: {
+        type: Array,
+    },
 });
 const toggle = ref("default");
 </script>
@@ -97,7 +100,7 @@ const toggle = ref("default");
                         <Show :warehouses="warehouses" />
                     </div>
                     <div v-if="toggle === 'storeProducts'">
-                        <Products :products="products" />
+                        <Products :products="products" :user="user" />
                     </div>
                     <div v-if="toggle === 'addDamage'">
                         <AddDamageProduct :warehouses="warehouses" />

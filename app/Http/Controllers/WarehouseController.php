@@ -35,6 +35,7 @@ class WarehouseController extends Controller
                         ->get(),
             'factoryProduct' => Factory::with('product')->latest()->get(),
             'sales_return' =>SaleReturn::with("product")->latest()->get(),
+            'user' => auth()->user(),
             'products' => Warehouse::all()->load('product')->map(function ($item){
                 return [
                     'id'=>$item->product->id ?? null,

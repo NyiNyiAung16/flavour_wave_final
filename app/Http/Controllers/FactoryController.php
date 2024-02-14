@@ -28,6 +28,7 @@ class FactoryController extends Controller
                     'created_at'=>$item->created_at
                 ];
             }),
+            'user' => auth()->user(),
             'products' => Product::latest()->get(),
             'ingredients' => Ingredient::latest()->get(),
             'receipes' => Receipe::with('product','ingredient')->get()->map(function($item){

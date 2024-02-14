@@ -8,6 +8,9 @@ const props = defineProps({
     products: {
         type: Array,
     },
+    user: {
+        type: Array,
+    },
 });
 
 const emits = defineEmits(["set-products"]);
@@ -21,6 +24,11 @@ const headers = ref([
     "Quantity Per Box",
     "Created_at",
 ]);
+
+if (props.user && props.user.name === "FACTORY") {
+    headers.value.push("Action");
+}
+
 const search = ref("");
 
 const filteredProducts = computed(() => {

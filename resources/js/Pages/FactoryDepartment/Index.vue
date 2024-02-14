@@ -24,6 +24,9 @@ const props = defineProps({
     receipes: {
         type: Array,
     },
+    user: {
+        type: Array,
+    },
 });
 
 const passDataToForm = ref({});
@@ -108,7 +111,7 @@ const toggleChild = ref("index");
                     <div>
                         <div v-if="factories">
                             <div v-if="toggleChild === 'index'">
-                                <Products :products="products" />
+                                <Products :products="products" :user="user" />
                             </div>
                             <div v-if="toggleChild === 'show'">
                                 <ProductDetail :factories="factories" />
