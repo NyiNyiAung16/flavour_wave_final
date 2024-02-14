@@ -16,6 +16,7 @@ class ReceipesController extends Controller
     }
 
     public function storeEditReceipe(Request $request){
+    public function storeEditReceipe(Request $request){
         $cleanData = $request->validate([
             'product_id' => ['required'],
             'ingredient_id' => ['required'],

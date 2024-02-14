@@ -85,6 +85,7 @@ const editReceipe = () => {
 </script>
 
 <template>
+    <Head title="Edit Receipe" />
     <AuthenticatedLayout>
         <template #header>
             <div class="flex flex-col gap-3">

@@ -96,8 +96,8 @@ class FactoryController extends Controller
 
     public function storeReceipe(Request $request){
         $cleanData = $request->validate([
-            'ingredient_id' => ['required',Rule::exists('ingredients','id')],
-            'product_id' => ['required'],
+            'product_id' => ['required',Rule::exists('products','id')],
+            'ingredient_id' => ['required'],
             'amount_grams' => 'required',
         ]);
 
@@ -105,7 +105,6 @@ class FactoryController extends Controller
             $newArray = ['product_id' => $cleanData['product_id'],'ingredient_id' => (int) $i, 'amount_grams'=> $cleanData['amount_grams'][$i]];
             Receipe::create($newArray);
         }
-
     }
 
     public function editPage(Factory $factory){
