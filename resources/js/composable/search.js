@@ -1,18 +1,18 @@
 
-const filteredById = (search,items)=>{
+const filteredById = (search,items,searchId = 'id')=>{
     if(search){
         return items.filter((item) =>{
-            return parseInt(item.id) === parseInt(search);
+            return parseInt(item[searchId]) === parseInt(search);
         });
     }else{
         return items;
     }
 };
 
-const filteredByName = (search,items)=>{
+const filteredByName = (search,items,searchName = 'name')=>{
     if(search){
         return items.filter((item) =>{
-            return item.name.toLowerCase().includes(search.toLocaleLowerCase().trim());
+            return item[searchName].toLowerCase().includes(search.toLocaleLowerCase().trim());
         });
     }else{
         return items;

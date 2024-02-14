@@ -9,7 +9,7 @@ import {
     confrim,
     errors,
 } from "../../../composable/editProductDetail";
-import { filteredById } from "@/composable/search";
+import { filteredByName } from "@/composable/search";
 
 const props = defineProps({
     factories: {
@@ -29,7 +29,7 @@ const headers = ref([
 const search = ref("");
 
 const filteredFactories = computed(() => {
-    return filteredById(search.value, props.factories);
+    return filteredByName(search.value, props.factories,'product_name');
 });
 
 const deleteFactory = (id) => {
@@ -52,14 +52,14 @@ const confrimData = (index, factory) => {
         <div class="flex justify-between items-center">
             <Search
                 @searching="(val) => (search = val)"
-                :howToSearch="'product ID'"
+                :howToSearch="'product name'"
                 class="w-3/4"
             />
             <Sorting
                 :items="filteredFactories"
-                sort-by="product_id"
+                sort-by="product_name"
                 @sorted="(val) => (factories = val)"
-                class="w-[370px]"
+                class="w-[390px]"
             />
         </div>
         <div
@@ -74,7 +74,7 @@ const confrimData = (index, factory) => {
                 "
                 v-if="filteredFactories.length > 0"
             >
-                <template #tbody>
+            <template #tbody>
                     <tr
                         class="border-b item"
                         v-for="(factory, index) in filteredFactories"

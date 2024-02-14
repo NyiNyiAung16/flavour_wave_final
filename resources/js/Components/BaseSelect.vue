@@ -6,7 +6,7 @@ defineProps({
         default:''
     },
     modelValue:{
-        type:[String,Number],
+        type:[String,Number,Array],
         required:true,
         default:''
     },
@@ -17,6 +17,10 @@ defineProps({
     error:{
         type:String,
         default:''
+    },
+    defaultName:{
+        type:String,
+        default:"Department"
     }
 });
 
@@ -31,10 +35,11 @@ defineProps({
         @change="$emit('update:modelValue',$event.target.value)"
     >
     
-        <option value="default" disabled selected>Choose a department</option>
+        <option value="default" disabled selected>Choose a {{ defaultName }}</option>
         <option
             v-for="(option,index) in options" :key="index"
-            :value="option.value"
+            :value="parseInt(option.value)"
+            class="py-2"
         >
         {{ option.label }}
         </option>

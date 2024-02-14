@@ -17,14 +17,16 @@ class ReceipesController extends Controller
 
     public function storeEditReceipe(Receipe $receipe,Request $request){
         $cleanData = $request->validate([
-            'product_id' => ['required',Rule::exists('products','id')],
-            'ingredient_id' => ['required',Rule::exists('ingredients','id')],
-            'amount_grams' => ['required','min:0']
+            'product_id' => ['required'],
+            'ingredient_id' => ['required'],
+            'amount_grams' => ['required']
         ]);
-        $receipe->update($cleanData);
-        return back()->with('message',[
-            'content' => 'Edit Receipe is successful.',
-            'type' => 'success'
-        ]);
+
+        $collectedIngredients = collect($cleanData['ingredient_id']);
+
+        $collectedIngredients->each(function($i) use($cleanData,$receipe) {
+            $newArray = ['product_id' => $cleanData['product_id'],'ingredient_id' => (int) $i, 'amount_grams'=> $cleanData['amount_grams'][$i]];
+            $receipe->update($newArray);
+        });
     }
 }

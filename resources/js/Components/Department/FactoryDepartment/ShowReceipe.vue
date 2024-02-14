@@ -4,6 +4,9 @@ import { ref, computed, defineProps } from "vue";
 import { filteredByName } from "@/composable/search";
 import Search from "@/Components/Search.vue";
 import Sorting from "@/Components/Sorting.vue";
+import { Link, router } from "@inertiajs/vue3";
+import Button from "@/Components/Button.vue";
+import { onMounted } from "vue";
 
 const props = defineProps({
     receipes: {
@@ -13,14 +16,21 @@ const props = defineProps({
 
 const headers = ref(["Product Name", "Ingredients' Names", "Created_at"]);
 const search = ref("");
+const shallowReceipes = ref([]);
+
+onMounted(async()=>{
+    shallowReceipes.value = await filterDataByProduct(props.receipes);
+})
 
 const filteredReceipes = computed(() => {
-    return filteredByName(search.value, filterDataByProduct(props.receipes));
+    return filteredByName(search.value, shallowReceipes.value,'product_name');
 });
+
 function filterDataByProduct(data) {
     const result = {};
     data.forEach((item) => {
         const {
+            id,
             product_id,
             product_name,
             ingredient_id,
@@ -31,7 +41,9 @@ function filterDataByProduct(data) {
 
         if (!result[product_id]) {
             result[product_id] = {
-                name: product_name,
+                id:id,
+                product_id:product_id,
+                product_name: product_name,
                 created_at: created_at,
                 ingredients: [],
             };
@@ -52,6 +64,14 @@ function filterDataByProduct(data) {
     });
     return Object.values(result);
 }
+
+const deleteReceipe = (id) => {
+    router.delete(route('receipe.destroy',id),{
+        preserveScroll:true
+    });
+}
+
+
 </script>
 
 <template>
@@ -64,9 +84,9 @@ function filterDataByProduct(data) {
             />
             <Sorting
                 :items="filteredReceipes"
-                sort-by="name"
-                @sorted="(val) => (receipes = val)"
-                class="w-[370px]"
+                sort-by="product_name"
+                @sorted="(val) => ( shallowReceipes = val)"
+                class="w-[390px]"
             />
         </div>
         <div
@@ -89,7 +109,7 @@ function filterDataByProduct(data) {
                     >
                         <td class="py-4 text-center">{{ index + 1 }}</td>
                         <td class="py-4 text-center">
-                            {{ receipe.name }}
+                            {{ receipe.product_name }}
                         </td>
                         <td class="py-4 text-center">
                             <ul>
@@ -108,6 +128,20 @@ function filterDataByProduct(data) {
                                     receipe.created_at
                                 ).toLocaleDateString()
                             }}
+                        </td>
+                        <td class="py-4 space-x-3 text-center">
+                            <Link
+                                :href="route('receipe.edit',receipe.product_id)"
+                                class="text-blue-500 hover:text-blue-600 duration-150 font-bold hover:underline"
+                            >
+                                Edit
+                            </Link>
+                            <Button
+                                type="button"
+                                text="Delete"
+                                class="text-red-500 hover:text-red-600 duration-150 font-bold hover:underline"
+                                @click="deleteReceipe(receipe.id)"
+                            />
                         </td>
                     </tr>
                 </template>

@@ -20,9 +20,8 @@ const shallowItems = ref([...props.items]);
 
 
 const sorting = (sortBy) => {
-
     switch(sortBy){
-        case 'name':
+        case 'name' || 'product_name':
             shallowItems.value = shallowItems.value.sort((a,b) => {
                 if(direction.value === 'asc'){
                     return a[sortBy].localeCompare(b[sortBy]);
@@ -49,7 +48,7 @@ const sorting = (sortBy) => {
     }else{
         direction.value = 'asc';
     }
-
+    console.log(shallowItems.value)
     emits('sorted',shallowItems.value);
 }
 
