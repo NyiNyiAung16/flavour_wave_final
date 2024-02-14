@@ -3,7 +3,7 @@ import NavLink from '@/Components/NavLink.vue'
 import BaseSelect from '@/Components/BaseSelect.vue';
 import PrimaryButton from '@/Components/PrimaryButton.vue'
 import AuthenticatedLayout from '../../Layouts/AuthenticatedLayout.vue'
-import { useForm, router } from '@inertiajs/vue3';
+import { useForm, router, Head } from '@inertiajs/vue3';
 import { computed, ref, onMounted } from 'vue';
 import BaseInput from '@/Components/BaseInput.vue';
 import { useToast } from 'vue-toastification';
@@ -67,12 +67,13 @@ const editReceipe = () => {
     form.ingredient_id = ingredientsWithGrams.value.map(i => i.id);
     form.amount_grams = gramsArray.value;
     console.log(form)
-    form.patch(route('receipe.patch',props.receipe[0].id),{
+    form.patch(route('receipe.patch'),{
         onSuccess:()=>{
             router.get(route('factoryDepartment.index'));
             useToast().success('Edit Receipe is successful')
         },  
         onError:()=>{
+            if(form.product_id === 'default' || form.product_id === 0) form.errors.product_id = 'You need to choose at least one product.'
             setTimeout(()=>{
                 form.errors = {};
             },2000);    
@@ -85,6 +86,7 @@ const editReceipe = () => {
 
 
 <template>
+    <Head title="Edit Receipe" />
     <AuthenticatedLayout>
         <template #header>
             <div class="flex flex-col gap-3">

@@ -20,7 +20,7 @@ const ingredientsWithGrams = ref([]);
 const gramsArray = ref([]);
 
 const form = useForm({
-    product_id:0,
+    product_id:'default',
     ingredient_id:[],
     amount_grams:[]
 });
@@ -37,6 +37,7 @@ const toggleGrams = () => {
 }
 
 const createReceipe = () => {
+    
     form.ingredient_id = ingredientsWithGrams.value.map(i => i.id);
     form.amount_grams = gramsArray.value;
     form.post(route('receipe.store'),{
@@ -47,6 +48,7 @@ const createReceipe = () => {
             useToast().success('Create Receipe is successful.')
         },
         onError:()=>{
+            if(form.product_id === 'default') form.errors.product_id = 'You need to choose at least one product.';
             setTimeout(() => {
                 form.clearErrors();
             }, 2000);
@@ -91,7 +93,7 @@ const createReceipe = () => {
                                 {{ ingredient.name }}
                                 </option>
                             </select>
-                            <p class="text-sm text-red-500 my-1" v-if="form.ingredient_id.error">{{ form.ingredient_id.error }}</p>
+                            <p class="text-sm text-red-500 my-1" v-if="form.errors.ingredient_id">{{ form.errors.ingredient_id }}</p>
                         </div>
                         <div>
                             <div 

@@ -15,7 +15,7 @@ class ReceipesController extends Controller
         return response()->json(['message'=>'Create receipe for product is successful.']);
     }
 
-    public function storeEditReceipe(Receipe $receipe,Request $request){
+    public function storeEditReceipe(Request $request){
         $cleanData = $request->validate([
             'product_id' => ['required'],
             'ingredient_id' => ['required'],
@@ -24,9 +24,12 @@ class ReceipesController extends Controller
 
         $collectedIngredients = collect($cleanData['ingredient_id']);
 
-        $collectedIngredients->each(function($i) use($cleanData,$receipe) {
+        $collectedIngredients->each(function($i) use($cleanData) {
             $newArray = ['product_id' => $cleanData['product_id'],'ingredient_id' => (int) $i, 'amount_grams'=> $cleanData['amount_grams'][$i]];
-            $receipe->update($newArray);
+            Receipe::without('ingredient','product')
+                                    ->where('ingredient_id',$i)
+                                    ->where('product_id',$cleanData['product_id'])
+                                    ->update($newArray);
         });
     }
 }

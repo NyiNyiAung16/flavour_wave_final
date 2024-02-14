@@ -131,7 +131,7 @@ Route::middleware(FactoryMiddleware::class)->group(function(){
     Route::post('/factoryDepartment/receipe/store',[FactoryController::class,'storeReceipe'])->name('receipe.store');
     Route::put('/factoryDepartment/edit',[FactoryController::class,'editFactory'])->name('factory.edit');
     Route::patch('/factoryDepartment/ingredients/{ingredient}/patch',[FactoryController::class,'storeEditIngredient'])->name('ingredient.patch');
-    Route::patch('/factoryDepartment/receipes/{receipe}/patch',[ReceipesController::class,'storeEditReceipe'])->name('receipe.patch');
+    Route::patch('/factoryDepartment/receipes/patch',[ReceipesController::class,'storeEditReceipe'])->name('receipe.patch');
     Route::patch('/factoryDepartment/productDetail/{factory}/patch',[FactoryController::class,'storeFactoryEdit'])->name('factory.patch');
     Route::patch('/factoryDepartment/products/{product}/patch',[ProductController::class,'storeProductEdit'])->name('product.patch');
     Route::delete('/factoryDepartment/products/{product}/destroy',[FactoryController::class,'deleteProduct'])->name('product.destroy');
